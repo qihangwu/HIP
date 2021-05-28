@@ -1,6 +1,6 @@
 # notes to self
 
-### research questions
+## research questions
 
 remember that our objective is to answer the 2 research questions:
 
@@ -10,17 +10,15 @@ jobs in the industrial park?
 decisions for high-skill and low-skill workers?
 
 
-### variables
+## variables
 
 keep in mind question of which variables are relevant!
 
-3 categories:
+### 1. background information for workers
 
-1. background information for workers
+### 2. information of jobs
 
-2. information of jobs
-
-OA data dictionary
+#### OA data dictionary
 
 | code | name             | type    | meaning                                                                   | question                                                                                                                                |
 |------|------------------|---------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
@@ -48,7 +46,7 @@ OA data dictionary
 | OA8n | minimal_salary_n | logical | 0 = no, 1 = yes                                                           | What if the monthly salary is 1900 birr?                                                                                                |
 | OA8o | minimal_salary_o | logical | 0 = no, 1 = yes                                                           | What if the monthly salary is 2000 birr?                                                                                                |
 
-OB data dictionary
+#### OB data dictionary
 
 | code |           name          |   type  |                meaning               |                                                                               question                                                                              |
 |------|-------------------------|---------|--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -58,7 +56,7 @@ OB data dictionary
 | OB4  | guess_out_salary_super  | integer | monthly salary in birr               | For an average worker, what would be the monthly salary if she gets promoted into a higher position after 6 months and less than 2 years?                           |
 | OB4c | guess_out_promote_com   | factor  | 0 = no, 1 = yes, 100 = not sure      | Is it common outside the industrial park that you have a chance to be promoted after a few months or a year?                                                        |
 
-OC data dictionary
+#### OC data dictionary
 
 | code | name                   | type      | meaning                                                                                                                                                                                                                                                                                                                                                    | question                                                                            |
 |------|------------------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
@@ -69,9 +67,70 @@ OC data dictionary
 | OC1  | jobaspect_third        | factor    | 10 = salary as an entry-level worker in the first month, 11 = salary as an entry-level worker after 6 months, 12 =  chance of promotion to a higher level after 6 months, 13 = salary in the higher level, 2 = provide good work benefit, 3 = reasonable work hours, 4 = the task is interesting, 5 = skill development, 6 = good management, 100 = others | What are the three most important job aspects you care about a job? (third)         |
 | OC1  | jobaspect_third_other  | character | other job aspect                                                                                                                                                                                                                                                                                                                                           | What are the three most important job aspects you care about a job? (third, other)  |
 
-3. additional questions
+**note:** the questionnaire lists both 'Incentives and bonuses from work' and 'Provide good work benefit' as options, but they seem to have been merged into just 'Provide good work benefit'
+
+#### IA data dictionary
+
+| code | name                    | type      | meaning                                                                                 | question                                                                                                                     |
+|------|-------------------------|-----------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| IA1  | guess_hip_task          | factor    | 0 = sewing, 1 = quality check, 2 = team leaders, 3 = supervisors, 100 = others          | What task do you expect to be assigned?                                                                                      |
+| IA1o | guess_hip_task_other    | character | other task                                                                              | What task do you expect to be assigned? (other)                                                                              |
+| IA2  | hip_knowppl             | integer   | number of people                                                                        | How many people do you know have worked in this industrial park before?                                                      |
+| IA3  | hip_knowppl_like        | factor    | 0 = almost all of them, 1 = some of them, 2 = very few of them, 3 = almost none of them | Among these people you know, how many of them like this job?                                                                 |
+| IA5  | guess_hip_turnover      | integer   | number of people                                                                        | Out of 100 people who start working with you, how many of those will be still working in this industrial park after 1 month? |
+| IA5s | guess_hip_turnover_sure | factor    | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all            | How sure are you about your answer above?                                                                                    |
+
+#### IB data dictionary
+
+| code | name                  | type    | meaning                                                                      | question                                                                                                              |
+|------|-----------------------|---------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| IB1  | guess_hip_hour        | integer | hours per day                                                                | How many hours per day on average are all workers supposed to work?                                                   |
+| IB1s | guess_hip_hour_sure   | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                     |
+| IB2  | guess_hip_day         | integer | days per week                                                                | How many days per week on average are all workers supposed to work?                                                   |
+| IB2s | guess_hip_day_sure    | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                     |
+| IB3  | guess_hip_extra       | integer | overtime hours per week                                                      | How many overtime hours per week on average do workers work?                                                          |
+| IB3s | guess_hip_extra_sure  | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                     |
+| IB4  | guess_hip_night       | integer | night shifts per month                                                       | How many night shifts per month do workers work on average?                                                           |
+| IB4s | guess_hip_night_sure  | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                     |
+| IB5  | guess_hip_transp      | integer | firms out of 22                                                              | Out of 22 firms in the industrial park, how many of them provide free transportation every day?                       |
+| IB5s | guess_hip_transp_sure | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                     |
+| IB6  | guess_hip_lunch       | integer | firms out of 22                                                              | Out of 22 firms in the industrial park, how many of them provide free breakfast or lunch every day?                   |
+| IB6s | guess_hip_lunch_sure  | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                     |
+| IB7  | guess_hip_attend      | integer | firms out of 22                                                              | Out of 22 firms in the industrial park, how many of them provide additional income if you don't miss any day of work? |
+| IB7s | guess_hip_attend_sure | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                     |
+
+#### IC data dictionary
+
+| code | name                       | type    | meaning                                                                      | question                                                                                                    |
+|------|----------------------------|---------|------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| IC1  | guess_entry_salary         | integer | monthly salary in birr                                                       | What is the average monthly salary for an entry-level operator in the first month?                          |
+| IC1s | guess_entry_salary_sure    | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                           |
+| IC2  | guess_entry_salary_6m      | integer | monthly salary in birr                                                       | What is the average monthly salary for an entry-level operator after 6 months and less than 2 years?        |
+| IC2s | guess_entry_salary_6m_sure | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                           |
+| IC3  | guess_entry_pct            | integer | entry-level workers assigned per 100                                         | We have 100 new workers today. How many of them will be assigned as entry-level operators at the beginning? |
+| IC3s | guess_entry_pct_sure       | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                           |
+| IC4  | guess_entry_pct_you        | factor  | 0 = likely, 1 = somewhat likely, 2 = somewhat unlikely, 3 = very unlikely    | How likely do you think you will be an entry-level operator in the first month?                             |
+| IC5  | guess_you_salary_1m        | integer | monthly salary in birr                                                       | What is the salary you expect to earn in the first month?                                                   |
+
+#### ID data dictionary
+
+| code | name                      | type    | meaning                                                                      | question                                                                                                                                                                                                |
+|------|---------------------------|---------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ID1  | guess_promote_medium      | integer | entry-level workers promoted per 100                                         | Out of 100 entry-level workers who stay in the industrial park for more than 6 months but less than 2 years, how many of those will be promoted to a medium position (quality control or team leaders)? |
+| ID1s | guess_promote_medium_sure | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                                                                                                       |
+| ID2  | guess_promote_sp          | integer | entry-level workers promoted per 100                                         | Out of 100 entry-level workers who stay in the industrial park for more than 6 months but less than 2 years, how many of those will be promoted to a high position, supervisors?                        |
+| ID2s | guess_promote_sp_sure     | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                                                                                                       |
+| ID3  | guess_salary_medium       | integer | monthly salary in birr                                                       | What is the average monthly salary in a medium position (quality control or team leaders after 6 months and less than 2 years?                                                                          |
+| ID3s | guess_salary_medium_sure  | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                                                                                                       |
+| ID4  | guess_salary_sp           | integer | monthly salary in birr                                                       | What is the average monthly salary of a high position, supervisor after 6 months and less than 2 years?                                                                                                 |
+| ID4s | guess_salary_sp_sure      | factor  | 0 = very sure, 1 = slightly sure, 2 = slightly not sure, 3 = not sure at all | How sure are you?                                                                                                                                                                                       |
+| ID5  | guess_you_promote_medium  | factor  | 0 = likely, 1 = somewhat likely, 2 = somewhat unlikely, 3 = very unlikely    | How likely do you think you will be promoted to a medium position (quality control or team leaders) after 6 months and within 2 years?                                                                  |
+| ID6  | guess_you_promote_sp      | factor  | 0 = likely, 1 = somewhat likely, 2 = somewhat unlikely, 3 = very unlikely    | How likely do you think you will be promoted to the highest position, supervisor after 6 months and within 2 years?                                                                                     |
+| ID7  | guess_you_salary_6m       | integer | monthly salary in birr                                                       | What is the monthly salary you expect to earn after 6 months and within 2 years?                                                                                                                        |
+
+### 3. additional questions
 
 
-### miscellaneous notes
+## miscellaneous notes
 
 - how best to store data for multiple-select questions?
