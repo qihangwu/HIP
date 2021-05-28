@@ -40,28 +40,36 @@ hip_OA <- hip %>%
                                  `3` = 'very unlikely')))
 
 ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_salary), binwidth = 500)
+  geom_histogram(aes(x = guess_out_salary), binwidth = 500) +
+  ggsave('figures/OA1.png')
 
 ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_hour), binwidth = 1)
+  geom_histogram(aes(x = guess_out_hour), binwidth = 1) +
+  ggsave('figures/OA2.png')
 
 ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_day), binwidth = 1)
+  geom_histogram(aes(x = guess_out_day), binwidth = 1) +
+  ggsave('figures/OA3.png')
 
 ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_extra), binwidth = 1)
+  geom_histogram(aes(x = guess_out_extra), binwidth = 1) +
+  ggsave('figures/OA4.png')
 
 ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_night), binwidth = 1)
+  geom_histogram(aes(x = guess_out_night), binwidth = 1) +
+  ggsave('figures/OA4b.png')
 
 ggplot(data = hip_OA) +
-  geom_bar(aes(x = guess_out_transp))
+  geom_bar(aes(x = guess_out_transp)) +
+  ggsave('figures/OA5.png')
 
 ggplot(data = hip_OA) +
-  geom_bar(aes(x = guess_out_lunch))
+  geom_bar(aes(x = guess_out_lunch)) +
+  ggsave('figures/OA6.png')
 
 ggplot(data = hip_OA) +
-  geom_bar(aes(x = guess_out_attend))
+  geom_bar(aes(x = guess_out_attend)) +
+  ggsave('figures/OA7.png')
 
 
 
