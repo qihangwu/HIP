@@ -128,6 +128,23 @@ keep in mind question of which variables are relevant!
 | ID6  | guess_you_promote_sp      | factor  | 0 = likely, 1 = somewhat likely, 2 = somewhat unlikely, 3 = very unlikely    | How likely do you think you will be promoted to the highest position, supervisor after 6 months and within 2 years?                                                                                     |
 | ID7  | guess_you_salary_6m       | integer | monthly salary in birr                                                       | What is the monthly salary you expect to earn after 6 months and within 2 years?                                                                                                                        |
 
+#### IT data dictionary
+
+| code | name                 | type    | meaning                                                                      | question                                                                  |
+|------|----------------------|---------|------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| IT1a | info_entry_choice1   | logical | 0 = information about average salary for entry-level operators, 1 = 10 birr  | If you are offered the following two options, which one would you choose? |
+| IT1b | info_entry_choice2   | logical | 0 = information about average salary for entry-level operators, 1 = 20 birr  | If you are offered the following two options, which one would you choose? |
+| IT1c | info_entry_choice3   | logical | 0 = information about average salary for entry-level operators, 1 = 40 birr  | If you are offered the following two options, which one would you choose? |
+| IT1d | info_entry_choice4   | logical | 0 = information about average salary for entry-level operators, 1 = 80 birr  | If you are offered the following two options, which one would you choose? |
+| IT1e | info_entry_choice5   | logical | 0 = information about average salary for entry-level operators, 1 = 160 birr | If you are offered the following two options, which one would you choose? |
+| IT2a | info_promote_choice1 | logical | 0 = information about promotion, 1 = 10 birr                                 | If you are offered the following two options, which one would you choose? |
+| IT2b | info_promote_choice2 | logical | 0 = information about promotion, 1 = 20 birr                                 | If you are offered the following two options, which one would you choose? |
+| IT2c | info_promote_choice3 | logical | 0 = information about promotion, 1 = 40 birr                                 | If you are offered the following two options, which one would you choose? |
+| IT2d | info_promote_choice4 | logical | 0 = information about promotion, 1 = 80 birr                                 | If you are offered the following two options, which one would you choose? |
+| IT2e | info_promote_choice5 | logical | 0 = information about promotion, 1 = 160 birr                                | If you are offered the following two options, which one would you choose? |
+
+####
+
 ### 3. additional questions
 
 
