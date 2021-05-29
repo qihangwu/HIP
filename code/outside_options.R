@@ -5,6 +5,8 @@ setwd('C:/Users/myzha/Documents/GitHub/HIP')
 
 hip <- read_excel('data/weekdayend_all.xlsx')
 
+#### OA ####
+
 OA <- c('guess_out_salary',
         'guess_out_hour',
         'guess_out_day',
@@ -72,8 +74,42 @@ ggplot(data = hip_OA) +
   ggsave('figures/OA7.png')
 
 
+#### OB ####
 
+OB <- c('guess_out_salary_1y',
+        'guess_out_salary_1y_com',
+        'guess_out_promote',
+        'guess_out_salary_super',
+        'guess_out_promote_com')
 
+hip_OB <- hip %>%
+  select(all_of(OB)) %>%
+  mutate(across(OB[c(1, 3, 4)], as.integer)) %>%
+  mutate(across(OB[c(2, 5)], as.factor)) %>%
+  mutate(across(OB[c(2, 5)], ~recode(.,
+                                     `0` = 'no',
+                                     `1` = 'yes',
+                                     `100` = 'not sure')))
+
+ggplot(data = hip_OB) +
+  geom_histogram(aes(x = guess_out_salary_1y), binwidth = 500) +
+  ggsave('figures/OB2.png')
+
+ggplot(data = hip_OB) +
+  geom_bar(aes(x = guess_out_salary_1y_com)) +
+  ggsave('figures/OB2c.png')
+
+ggplot(data = hip_OB) +
+  geom_histogram(aes(x = guess_out_promote), binwidth = 10) +
+  ggsave('figures/OB3.png')
+
+ggplot(data = hip_OB) +
+  geom_histogram(aes(x = guess_out_salary_super), binwidth = 500) +
+  ggsave('figures/OB4.png')
+
+ggplot(data = hip_OB) +
+  geom_bar(aes(x = guess_out_promote_com)) +
+  ggsave('figures/OB4c.png')
 
 
 
