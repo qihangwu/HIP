@@ -143,8 +143,61 @@ ggplot(data = hip_IB) +
 
 #### IC ####
 
+IC <- c('guess_entry_salary',
+        'guess_entry_salary_sure',
+        'guess_entry_salary_6m',
+        'guess_entry_salary_6m_sure',
+        'guess_entry_pct',
+        'guess_entry_pct_sure',
+        'guess_entry_pct_you',
+        'guess_you_salary_1m')
 
+hip_IC <- hip %>%
+  select(all_of(IC)) %>%
+  mutate(across(IC[c(1, 3, 5, 8)], as.integer)) %>%
+  mutate(across(IC[c(2, 4, 6, 7)], as.factor)) %>%
+  mutate(across(IC[c(2, 4, 6)], ~recode(.,
+                                        `0` = 'very sure',
+                                        `1` = 'slightly sure',
+                                        `2` = 'slightly not sure',
+                                        `3` = 'not sure at all'))) %>%
+  mutate(guess_entry_pct_you = recode(guess_entry_pct_you,
+                                      `0` = 'likely',
+                                      `1` = 'somewhat likely',
+                                      `2` = 'somewhat unlikely',
+                                      `3` = 'very unlikely'))
 
+ggplot(data = hip_IC) +
+  geom_histogram(aes(x = guess_entry_salary), binwidth = 500) +
+  ggsave('figures/jobs_in_HIP/IC1.png')
+
+ggplot(data = hip_IC) +
+  geom_bar(aes(x = guess_entry_salary_sure)) +
+  ggsave('figures/jobs_in_HIP/IC1s.png')
+
+ggplot(data = hip_IC) +
+  geom_histogram(aes(x = guess_entry_salary_6m), binwidth = 500) +
+  ggsave('figures/jobs_in_HIP/IC2.png')
+
+ggplot(data = hip_IC) +
+  geom_bar(aes(x = guess_entry_salary_6m_sure)) +
+  ggsave('figures/jobs_in_HIP/IC2s.png')
+
+ggplot(data = hip_IC) +
+  geom_histogram(aes(x = guess_entry_pct), binwidth = 10) +
+  ggsave('figures/jobs_in_HIP/IC3.png')
+
+ggplot(data = hip_IC) +
+  geom_bar(aes(x = guess_entry_pct_sure)) +
+  ggsave('figures/jobs_in_HIP/IC3s.png')
+
+ggplot(data = hip_IC) +
+  geom_bar(aes(x = guess_entry_pct_you)) +
+  ggsave('figures/jobs_in_HIP/IC4.png')
+
+ggplot(data = hip_IC) +
+  geom_histogram(aes(x = guess_you_salary_1m), binwidth = 500) +
+  ggsave('figures/jobs_in_HIP/IC5.png')
 
 #### ID ####
 
