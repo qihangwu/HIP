@@ -112,6 +112,42 @@ ggplot(data = hip_OB) +
   ggsave('figures/OB4c.png')
 
 
+#### OC ####
+
+OC <- c('jobaspect_first',
+        'jobaspect_first_other',
+        'jobaspect_second',
+        'jobaspect_second_other',
+        'jobaspect_third',
+        'jobaspect_third_other')
+
+hip_OC <- hip %>%
+  select(all_of(OC)) %>%
+  mutate(across(OC[c(1, 3, 5)], as.factor)) %>%
+  mutate(across(OC[c(1, 3, 5)], ~recode(.,
+                                        `10` = 'salary as an entry-level worker in the first month',
+                                        `11` = 'salary as an entry-level worker after 6 months',
+                                        `12` = 'chance of promotion to a higher level after 6 months',
+                                        `13` = 'salary in the higher level',
+                                        `2` = 'provide good work benefit',
+                                        `3` = 'reasonable work hours',
+                                        `4` = 'the task is interesting',
+                                        `5` = 'skill development',
+                                        `6` = 'good management'#, `100` = 'others'
+                                        ))) %>%
+  mutate(across(OC[c(1, 3, 5)], ~fct_relevel(.,
+                                             'salary as an entry-level worker in the first month',
+                                             'salary as an entry-level worker after 6 months',
+                                             'chance of promotion to a higher level after 6 months',
+                                             'salary in the higher level',
+                                             'provide good work benefit',
+                                             'reasonable work hours',
+                                             'the task is interesting',
+                                             'skill development',
+                                             'good management'#, 'others'
+                                             ))) %>%
+  mutate(across(OC[c(2, 4, 6)], as.character))
+
 
 
 
