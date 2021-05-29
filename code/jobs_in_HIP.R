@@ -201,6 +201,105 @@ ggplot(data = hip_IC) +
 
 #### ID ####
 
+ID <- c('guess_promote_medium',
+        'guess_promote_medium_sure',
+        'guess_promote_sp',
+        'guess_promote_sp_sure',
+        'guess_salary_medium',
+        'guess_salary_medium_sure',
+        'guess_salary_sp',
+        'guess_salary_sp_sure',
+        'guess_you_promote_medium',
+        'guess_you_promote_sp',
+        'guess_you_salary_6m')
+
+hip_ID <- hip %>%
+  select(all_of(ID)) %>%
+  mutate(across(ID[c(1, 3, 5, 7, 11)], as.integer)) %>%
+  mutate(across(ID[c(2, 4, 6, 8, 9, 10)], as.factor)) %>%
+  mutate(across(ID[c(2, 4, 6, 8)], ~recode(.,
+                                           `0` = 'very sure',
+                                           `1` = 'slightly sure',
+                                           `2` = 'slightly not sure',
+                                           `3` = 'not sure at all'))) %>%
+  mutate(across(ID[9:10], ~recode(.,
+                                  `0` = 'likely',
+                                  `1` = 'somewhat likely',
+                                  `2` = 'somewhat unlikely',
+                                  `3` = 'very unlikely')))
+
+ggplot(data = hip_ID) +
+  geom_histogram(aes(x = guess_promote_medium), binwidth = 10) +
+  ggsave('figures/jobs_in_HIP/ID1.png')
+
+ggplot(data = hip_ID) +
+  geom_bar(aes(x = guess_promote_medium_sure)) +
+  ggsave('figures/jobs_in_HIP/ID1s.png')
+
+ggplot(data = hip_ID) +
+  geom_histogram(aes(x = guess_promote_sp), binwidth = 10) +
+  ggsave('figures/jobs_in_HIP/ID2.png')
+
+ggplot(data = hip_ID) +
+  geom_bar(aes(x = guess_promote_sp_sure)) +
+  ggsave('figures/jobs_in_HIP/ID2s.png')
+
+ggplot(data = hip_ID) +
+  geom_histogram(aes(x = guess_salary_medium), binwidth = 500) +
+  ggsave('figures/jobs_in_HIP/ID3.png')
+
+ggplot(data = hip_ID) +
+  geom_bar(aes(x = guess_salary_medium_sure)) +
+  ggsave('figures/jobs_in_HIP/ID3s.png')
+
+ggplot(data = hip_ID) +
+  geom_histogram(aes(x = guess_salary_sp), binwidth = 500) +
+  ggsave('figures/jobs_in_HIP/ID4.png')
+
+ggplot(data = hip_ID) +
+  geom_bar(aes(x = guess_salary_sp_sure)) +
+  ggsave('figures/jobs_in_HIP/ID4s.png')
+
+ggplot(data = hip_ID) +
+  geom_bar(aes(x = guess_you_promote_medium)) +
+  ggsave('figures/jobs_in_HIP/ID5.png')
+
+ggplot(data = hip_ID) +
+  geom_bar(aes(x = guess_you_promote_sp)) +
+  ggsave('figures/jobs_in_HIP/ID6.png')
+
+ggplot(data = hip_ID) +
+  geom_histogram(aes(x = guess_you_salary_6m), binwidth = 500) +
+  ggsave('figures/jobs_in_HIP/ID7.png')
+
+
+#### IT ####
+
+IT <- c('info_entry_choice1',
+        'info_entry_choice2',
+        'info_entry_choice3',
+        'info_entry_choice4',
+        'info_entry_choice5',
+        'info_promote_choice1',
+        'info_promote_choice2',
+        'info_promote_choice3',
+        'info_promote_choice4',
+        'info_promote_choice5')
+
+hip_IT <- hip %>%
+  select(all_of(IT)) %>%
+  mutate(across(all_of(IT), as.logical))
+
+IT_codes <- c('IT1a', 'IT1b', 'IT1c', 'IT1d', 'IT1e', 'IT2a', 'IT2b', 'IT2c', 'IT2d', 'IT2e')
+
+for (i in 1:10) {
+  temp <- ggplot(data = hip_IT) +
+    geom_bar(aes_string(x = IT[i]))
+  
+  ggsave(plot = temp, file = paste0('figures/jobs_in_hip/', IT_codes[i], '.png'))
+}
+
+
 
 
 
