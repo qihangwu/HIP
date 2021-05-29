@@ -38,22 +38,22 @@ hip_IA <- hip %>%
 
 ggplot(data = hip_IA) +
   geom_bar(aes(x = guess_hip_task)) +
-  ggsave('figures/IA1.png')
+  ggsave('figures/jobs_in_hip/IA1.png')
 
 ggplot(data = hip_IA) +
   geom_histogram(aes(x = hip_knowppl), binwidth = 5) +
-  ggsave('figures/IA2.png')
+  ggsave('figures/jobs_in_hip/IA2.png')
 
 ggplot(data = hip_IA) +
   geom_bar(aes(x = hip_knowppl_like)) +
-  ggsave('figures/IA3.png')
+  ggsave('figures/jobs_in_hip/IA3.png')
 
 ggplot(data = hip_IA) +
   geom_histogram(aes(x = guess_hip_turnover), binwidth = 5) +
-  ggsave('figures/IA5.png')
+  ggsave('figures/jobs_in_hip/IA5.png')
 
 ggplot(data = hip_IA) +
   geom_bar(aes(x = guess_hip_turnover_sure)) +
-  ggsave('figures/IA5s.png')
+  ggsave('figures/jobs_in_hip/IA5s.png')
 
 
