@@ -148,6 +148,30 @@ hip_OC <- hip %>%
                                              ))) %>%
   mutate(across(OC[c(2, 4, 6)], as.character))
 
+ggplot(data = hip_OC) +
+  geom_bar(aes(x = jobaspect_first)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
+  ggsave('figures/OC1i.png')
+
+ggplot(data = hip_OC) +
+  geom_bar(aes(x = jobaspect_second)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
+  ggsave('figures/OC1ii.png')
+
+ggplot(data = hip_OC) +
+  geom_bar(aes(x = jobaspect_third)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
+  ggsave('figures/OC1iii.png')
+
+
+
+
+
+
+
+
+
+
 
 
 
