@@ -43,35 +43,35 @@ hip_OA <- hip %>%
 
 ggplot(data = hip_OA) +
   geom_histogram(aes(x = guess_out_salary), binwidth = 500) +
-  ggsave('figures/OA1.png')
+  ggsave('figures/outside_options/OA1.png')
 
 ggplot(data = hip_OA) +
   geom_histogram(aes(x = guess_out_hour), binwidth = 1) +
-  ggsave('figures/OA2.png')
+  ggsave('figures/outside_options/OA2.png')
 
 ggplot(data = hip_OA) +
   geom_histogram(aes(x = guess_out_day), binwidth = 1) +
-  ggsave('figures/OA3.png')
+  ggsave('figures/outside_options/OA3.png')
 
 ggplot(data = hip_OA) +
   geom_histogram(aes(x = guess_out_extra), binwidth = 1) +
-  ggsave('figures/OA4.png')
+  ggsave('figures/outside_options/OA4.png')
 
 ggplot(data = hip_OA) +
   geom_histogram(aes(x = guess_out_night), binwidth = 1) +
-  ggsave('figures/OA4b.png')
+  ggsave('figures/outside_options/OA4b.png')
 
 ggplot(data = hip_OA) +
   geom_bar(aes(x = guess_out_transp)) +
-  ggsave('figures/OA5.png')
+  ggsave('figures/outside_options/OA5.png')
 
 ggplot(data = hip_OA) +
   geom_bar(aes(x = guess_out_lunch)) +
-  ggsave('figures/OA6.png')
+  ggsave('figures/outside_options/OA6.png')
 
 ggplot(data = hip_OA) +
   geom_bar(aes(x = guess_out_attend)) +
-  ggsave('figures/OA7.png')
+  ggsave('figures/outside_options/OA7.png')
 
 
 #### OB ####
@@ -93,23 +93,23 @@ hip_OB <- hip %>%
 
 ggplot(data = hip_OB) +
   geom_histogram(aes(x = guess_out_salary_1y), binwidth = 500) +
-  ggsave('figures/OB2.png')
+  ggsave('figures/outside_options/OB2.png')
 
 ggplot(data = hip_OB) +
   geom_bar(aes(x = guess_out_salary_1y_com)) +
-  ggsave('figures/OB2c.png')
+  ggsave('figures/outside_options/OB2c.png')
 
 ggplot(data = hip_OB) +
   geom_histogram(aes(x = guess_out_promote), binwidth = 10) +
-  ggsave('figures/OB3.png')
+  ggsave('figures/outside_options/OB3.png')
 
 ggplot(data = hip_OB) +
   geom_histogram(aes(x = guess_out_salary_super), binwidth = 500) +
-  ggsave('figures/OB4.png')
+  ggsave('figures/outside_options/OB4.png')
 
 ggplot(data = hip_OB) +
   geom_bar(aes(x = guess_out_promote_com)) +
-  ggsave('figures/OB4c.png')
+  ggsave('figures/outside_options/OB4c.png')
 
 
 #### OC ####
@@ -151,17 +151,17 @@ hip_OC <- hip %>%
 ggplot(data = hip_OC) +
   geom_bar(aes(x = jobaspect_first)) +
   scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
-  ggsave('figures/OC1i.png')
+  ggsave('figures/outside_options/OC1i.png')
 
 ggplot(data = hip_OC) +
   geom_bar(aes(x = jobaspect_second)) +
   scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
-  ggsave('figures/OC1ii.png')
+  ggsave('figures/outside_options/OC1ii.png')
 
 ggplot(data = hip_OC) +
   geom_bar(aes(x = jobaspect_third)) +
   scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
-  ggsave('figures/OC1iii.png')
+  ggsave('figures/outside_options/OC1iii.png')
 
 
 
