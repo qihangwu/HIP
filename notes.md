@@ -21,4 +21,4 @@ keep in mind question of which variables are relevant!
 
 ## miscellaneous notes
 
-- how best to store data for multiple-select questions?
+- for minimum salary variable: recode TRUE into salary value, get min for row (exclude NAs) and store in new column
