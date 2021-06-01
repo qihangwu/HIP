@@ -22,3 +22,7 @@ keep in mind question of which variables are relevant!
 ## miscellaneous notes
 
 - for minimum salary variable: recode TRUE into salary value, get min for row (exclude NAs) and store in new column
+  - look thru indivs that have 1 followed by 0
+- tag indivs that are outliers and decide on how to deal w/ outliers
+- best way to summarize jobaspect? ranked choice variable
+- work out github collaboration
