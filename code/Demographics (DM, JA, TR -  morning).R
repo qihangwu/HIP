@@ -22,7 +22,7 @@ DM_m = c('age',
 
 data_DM = data %>%
   select(all_of(DM_m)) %>%
-  mutate(across(DM_m[c(2)], as.integer)) %>%
+  mutate(across(DM_m[c(1, 2)], as.integer)) %>%
   mutate(across(DM_m[c(3, 4, 5, 7)], as.factor)) %>%
   mutate(married = recode(married,
                           `0` = 'Single',
