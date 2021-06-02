@@ -58,6 +58,10 @@ ggplot(data = data_DM) +
   ggsave('DM1a.png')
 
 ggplot(data = data_DM) +
+  geom_histogram(aes(x = month_birth), binwidth=1) + 
+  ggsave('DM1b.png')
+
+ggplot(data = data_DM) +
   geom_bar(aes(x = married), binwidth=1) +
   ggsave('DM2.png')
 
