@@ -108,11 +108,11 @@ str(data_WF)
 
 ggplot(data = data_WF) +
   geom_bar(aes(x = search_job_way_5)) +
-  ggsave('WF1-5.png')
+  ggsave('WF1_5.png')
 
 ggplot(data = data_WF) +
   geom_bar(aes(x = search_job_way_6)) +
-  ggsave('WF1-6.png')
+  ggsave('WF1_6.png')
 
 ggplot(data = data_WF) +
   geom_histogram(aes(x = search_job_day), binwidth = 1) +
