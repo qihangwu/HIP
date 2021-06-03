@@ -11,6 +11,7 @@ data = read_excel('weekdayend_all.xlsx')
 ## and school_name & school_diploma_other as character. In addition, change the values (recode) for those that are factors.  
 
 DM_m = c('age',
+         'year_birth',
         'month_birth',
         'married',
         'educ',
@@ -22,8 +23,8 @@ DM_m = c('age',
 
 data_DM = data %>%
   select(all_of(DM_m)) %>%
-  mutate(across(DM_m[c(1, 2)], as.integer)) %>%
-  mutate(across(DM_m[c(3, 4, 5, 7)], as.factor)) %>%
+  mutate(across(DM_m[c(1, 2, 3)], as.integer)) %>%
+  mutate(across(DM_m[c(4, 5, 6, 8)], as.factor)) %>%
   mutate(married = recode(married,
                           `0` = 'Single',
                           `1` = 'Married',
@@ -55,6 +56,10 @@ str(DM_m)
 ggplot(data = data_DM) +
   geom_histogram(aes(x = age), binwidth=1) +
   xlim(15,30) + 
+  ggsave('DM1.png')
+
+ggplot(data = data_DM) +
+  geom_histogram(aes(x = year_birth), binwidth=1) +
   ggsave('DM1a.png')
 
 ggplot(data = data_DM) +
@@ -108,10 +113,10 @@ JA_m = c('reason_salary',
 
 data_JA = data %>%
   select(all_of(JA_m)) %>%
-  mutate(across(JA_m[c(1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 17)], as.factor)) %>%
-  mutate(across(JA_m[c(9, 10, 11, 12)], as.integer)) %>%
+  mutate(across(JA_m[c(1:8, 13, 14, 15, 17)], as.factor)) %>%
+  mutate(across(JA_m[c(9:12)], as.integer)) %>%
   mutate(across(JA_m[c(16, 18)], as.character)) %>%
-  mutate(across(JA_m[c(1, 2, 3, 4, 5, 6, 7, 8, 14, 15)], ~recode(.,
+  mutate(across(JA_m[c(1:8, 14, 15)], ~recode(.,
                                            `0` = 'No',
                                            `1` = 'Yes',
                                            `100` = 'Not Sure'))) %>%
