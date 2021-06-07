@@ -14,22 +14,23 @@ OA <- c('guess_out_salary',
         'guess_out_night',
         'guess_out_transp',
         'guess_out_lunch',
-        'guess_out_attend',
-        'minimal_salary_a',
-        'minimal_salary_b',
-        'minimal_salary_c',
-        'minimal_salary_d',
-        'minimal_salary_e',
-        'minimal_salary_f',
-        'minimal_salary_g',
-        'minimal_salary_h',
-        'minimal_salary_i',
-        'minimal_salary_j',
-        'minimal_salary_k',
-        'minimal_salary_l',
-        'minimal_salary_m',
-        'minimal_salary_n',
-        'minimal_salary_o')
+        'guess_out_attend')
+
+OA_ms <- c('minimal_salary_a',
+           'minimal_salary_b',
+           'minimal_salary_c',
+           'minimal_salary_d',
+           'minimal_salary_e',
+           'minimal_salary_f',
+           'minimal_salary_g',
+           'minimal_salary_h',
+           'minimal_salary_i',
+           'minimal_salary_j',
+           'minimal_salary_k',
+           'minimal_salary_l',
+           'minimal_salary_m',
+           'minimal_salary_n',
+           'minimal_salary_o')
 
 hip_OA <- hip %>% 
   select(all_of(OA)) %>% 
@@ -40,6 +41,17 @@ hip_OA <- hip %>%
                                  `1` = 'somewhat likely',
                                  `2` = 'somewhat unlikely',
                                  `3` = 'very unlikely')))
+
+hip_OA_ms <- hip %>%
+  select(all_of(OA_ms))
+
+for (i in 1:15) {
+  hip_OA_ms <- hip_OA_ms %>% 
+    mutate(!!sym(OA_ms[i]) := recode(!!sym(OA_ms[i]),
+                                  `NA` = 0,
+                                  `1` = (i + 5) * 100))
+}
+
 
 ggplot(data = hip_OA) +
   geom_histogram(aes(x = guess_out_salary), binwidth = 500) +
