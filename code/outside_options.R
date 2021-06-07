@@ -32,8 +32,8 @@ OA_ms <- c('minimal_salary_a',
            'minimal_salary_n',
            'minimal_salary_o')
 
-hip_OA <- hip %>% 
-  select(all_of(OA)) %>% 
+hip_OA <- hip %>%
+  select(all_of(OA)) %>%
   mutate(across(OA[1:5], as.integer)) %>%
   mutate(across(OA[6:8], as.factor)) %>%
   mutate(across(OA[6:8], ~recode(.,
@@ -46,11 +46,16 @@ hip_OA_ms <- hip %>%
   select(all_of(OA_ms))
 
 for (i in 1:15) {
-  hip_OA_ms <- hip_OA_ms %>% 
+  hip_OA_ms <- hip_OA_ms %>%
     mutate(!!sym(OA_ms[i]) := recode(!!sym(OA_ms[i]),
-                                  `NA` = 0,
+                                  `0` = NA_real_,
                                   `1` = (i + 5) * 100))
 }
+
+hip_OA_ms <- hip_OA_ms %>%
+  rowwise() %>%
+  mutate(minimal_salary = min(across(all_of(OA_ms)), na.rm = TRUE))
+  
 
 
 ggplot(data = hip_OA) +
