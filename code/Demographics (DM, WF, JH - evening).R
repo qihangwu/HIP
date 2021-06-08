@@ -8,19 +8,13 @@ data = read_excel('weekdayend_all.xlsx')
 #### DM_e (Evening) ####
 ### Generate two variables of Amharic and Sidamaigna and 3rd variable of non-Amharic 
 
-DM_e = c('language_0',
-         'language_1',
-         'language_2',
-         'language_3',
-         'language_4',
-         'language_5',
-         'language_6',
-         'language_7',
-         'language_8',
-         'language_9',
-         'language_10',
-         'language_11',
-         'language_100',
+data$lang_sidama = ifelse(data$language_0, "1", "0")
+data$lang_amhar = ifelse(data$language_5, "1", "0")
+data$lang_other = 
+
+
+DM_e = c('lang_sidama',
+         'lang_amhar',
          'language_other',
          'religion',
          'religion_other',
@@ -33,11 +27,10 @@ DM_e = c('language_0',
          'origin_woreda',
          'origin_kebele')
 
-
 data_DM = data %>%
   select(all_of(DM_e)) %>%
-  mutate(across(DM_e[c(1:13, 15)], as.factor)) %>%
-  mutate(across(DM_e[c(14, 16:23)], as.character)) %>%
+  mutate(across(DM_e[c(1:4)], as.factor)) %>%
+  mutate(across(DM_e[c(5:13)], as.character)) %>%
   mutate(across(DM_e[c(1:13)], ~recode(.,
                      `0` = 'No',
                      `1` = 'Yes'))) %>%
@@ -49,7 +42,6 @@ data_DM = data %>%
                                `4` = 'Traditional religions',
                                `100` = 'Others')) 
 str(data_DM)
-
 
 ggplot(data = data_DM) +
   geom_bar(aes(x = language_0)) +
