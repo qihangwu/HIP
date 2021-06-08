@@ -29,8 +29,8 @@ DM_e = c('lang_sidama',
 
 data_DM = data %>%
   select(all_of(DM_e)) %>%
-  mutate(across(DM_e[c(1:5)], as.factor)) %>%
-  mutate(across(DM_e[c()], as.character)) %>%
+  mutate(across(DM_e[c(1:4)], as.factor)) %>%
+  mutate(across(DM_e[c(5:13)], as.character)) %>%
   mutate(across(DM_e[c(1:13)], ~recode(.,
                      `0` = 'No',
                      `1` = 'Yes'))) %>%
