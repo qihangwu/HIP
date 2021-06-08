@@ -90,6 +90,10 @@ ggplot(data = hip_OA) +
   geom_bar(aes(x = guess_out_attend)) +
   ggsave('figures/outside_options/OA7.png')
 
+# constructed variable
+ggplot(data = hip_OA_ms) +
+  geom_histogram(aes(x = minimal_salary), binwidth = 100) +
+  ggsave('figures/outside_options/OA8.png')
 
 #### OB ####
 
