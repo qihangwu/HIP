@@ -10,12 +10,18 @@ data = read_excel('weekdayend_all.xlsx')
 
 data$lang_sidama = ifelse(data$language_0, "1", "0")
 data$lang_amhar = ifelse(data$language_5, "1", "0")
-data$lang_other = 
+data$lang_other = ifelse(data$language_1 | data$language_2 | data$language_3 | data$language_4 | data$language_6 | 
+                           data$language_7 | data$language_8 | data$language_9 | data$language_10 | data$language_11 
+                         | data$language_100, "1", "0")
+data$langu_other = is.na(data$language_other)
+
+data$langu_other = ifelse(data$langu_other, "0", "1")
+
 
 
 DM_e = c('lang_sidama',
          'lang_amhar',
-         'language_other',
+         'lang_other',
          'religion',
          'religion_other',
          'current_live_region',
@@ -31,7 +37,7 @@ data_DM = data %>%
   select(all_of(DM_e)) %>%
   mutate(across(DM_e[c(1:4)], as.factor)) %>%
   mutate(across(DM_e[c(5:13)], as.character)) %>%
-  mutate(across(DM_e[c(1:13)], ~recode(.,
+  mutate(across(DM_e[c(1:4)], ~recode(.,
                      `0` = 'No',
                      `1` = 'Yes'))) %>%
   mutate(religion = recode(religion,
@@ -44,12 +50,16 @@ data_DM = data %>%
 str(data_DM)
 
 ggplot(data = data_DM) +
-  geom_bar(aes(x = language_0)) +
+  geom_bar(aes(x = lang_amhar)) +
   ggsave('DM4a.png')
 
 ggplot(data = data_DM) +
-  geom_bar(aes(x = language_5)) +
+  geom_bar(aes(x = lang_sidama)) +
   ggsave('DM4b.png')
+
+ggplot(data = data_DM) +
+  geom_bar(aes(x = lang_other)) +
+  ggsave('DM4c.png')
 
 ggplot(data = data_DM) +
   geom_bar(aes(x = religion)) +
@@ -60,16 +70,15 @@ ggplot(data = data_DM) +
 
 ## Job way, pick most important ones and create around 3 or more main variables like the language variable
 
-WF = c('search_job_way_0',
-         'search_job_way_1',
-         'search_job_way_2',
-         'search_job_way_3',
-         'search_job_way_4',
-         'search_job_way_5',
-         'search_job_way_6',
-         'search_job_way_7',
-         'search_job_way_8',
-         'search_job_way_other',
+data$family_told_job = ifelse(data$search_job_way_5, "1", "0")
+data$friend_told_job = ifelse(data$search_job_way_6, "1", "0")
+
+data$search_job_other = ifelse(data$search_job_way_0 | data$search_job_way_1 | data$search_job_way_2 | data$search_job_way_3 | 
+                                 data$search_job_way_4 | data$search_job_way_7 | data$search_job_way_8, "1", "0")
+
+WF = c('family_told_job',
+         'friend_told_job',
+         'search_job_other',
          'search_job_day',
          'search_job_hour',
          'search_job_min',
@@ -86,9 +95,9 @@ WF = c('search_job_way_0',
 
 data_WF = data %>%
   select(all_of(WF)) %>%
-  mutate(across(WF[c(1:10, 17, 22, 23 )], as.factor)) %>%
-  mutate(across(WF[c(11:13)], as.integer)) %>%
-  mutate(across(WF[c(1:10, 22, 23)], ~recode(.,
+  mutate(across(WF[c(1:3, 10, 15, 16 )], as.factor)) %>%
+  mutate(across(WF[c(4:5)], as.integer)) %>%
+  mutate(across(WF[c(1:3, 15, 16)], ~recode(.,
                                        `0` = 'No',
                                        `1` = 'Yes'))) %>%
   mutate(income_to_family = recode(income_to_family,
@@ -99,12 +108,16 @@ data_WF = data %>%
 str(data_WF)
 
 ggplot(data = data_WF) +
-  geom_bar(aes(x = search_job_way_5)) +
-  ggsave('WF1_5.png')
+  geom_bar(aes(x = family_told_job)) +
+  ggsave('WF1fa.png')
 
 ggplot(data = data_WF) +
-  geom_bar(aes(x = search_job_way_6)) +
-  ggsave('WF1_6.png')
+  geom_bar(aes(x = friend_told_job)) +
+  ggsave('WF1fr.png')
+
+ggplot(data = data_WF) +
+  geom_bar(aes(x = search_job_other)) +
+  ggsave('WF1o.png')
 
 ggplot(data = data_WF) +
   geom_histogram(aes(x = search_job_day), binwidth = 1) +
@@ -216,5 +229,3 @@ ggplot(data = data_JH) +
 ggplot(data = data_JH) +
   geom_bar(aes(x = history_quitreason)) +
   ggsave('JH7.png')
-
-

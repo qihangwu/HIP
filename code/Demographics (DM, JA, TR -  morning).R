@@ -10,8 +10,11 @@ data = read_excel('weekdayend_all.xlsx')
 ## Description, keep age and school fee as.numeric,  make married, educ, school_yesno, and school_diploma as factor,
 ## and school_name & school_diploma_other as character. In addition, change the values (recode) for those that are factors.  
 
+data$new_age = 2013 - data$year_birth
+
 DM_m = c('age',
          'year_birth',
+         'new_age',
         'month_birth',
         'married',
         'educ',
@@ -23,8 +26,8 @@ DM_m = c('age',
 
 data_DM = data %>%
   select(all_of(DM_m)) %>%
-  mutate(across(DM_m[c(1, 2, 3)], as.integer)) %>%
-  mutate(across(DM_m[c(4, 5, 6, 8)], as.factor)) %>%
+  mutate(across(DM_m[c(1, 2, 3, 4)], as.integer)) %>%
+  mutate(across(DM_m[c(5, 6, 7, 9)], as.factor)) %>%
   mutate(married = recode(married,
                           `0` = 'Single',
                           `1` = 'Married',
@@ -57,6 +60,11 @@ ggplot(data = data_DM) +
   geom_histogram(aes(x = age), binwidth=1) +
   xlim(15,30) + 
   ggsave('DM1.png')
+
+ggplot(data = data_DM) +
+  geom_histogram(aes(x = new_age), binwidth=1) +
+  xlim(15,30) + 
+  ggsave('DM1newage.png')
 
 ggplot(data = data_DM) +
   geom_histogram(aes(x = year_birth), binwidth=1) +
