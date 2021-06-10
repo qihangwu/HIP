@@ -1,12 +1,16 @@
+
+# Setup -------------------------------------------------------------------
+
 library(tidyverse)
 library(readxl)
 
-setwd('C:/Users/myzha/Documents/GitHub/HIP')
+# setwd('')   # unnecessary to set working directory if you opened `HIP.Rproj`
 
-hip <- read_excel('data/weekdayend_all.xlsx')
-hip2 <- read_excel('data/weekdayend_all2.xlsx')
+hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
+hip2 <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
 
-#### OA ####
+
+# OA (morning) ------------------------------------------------------------
 
 OA <- c('guess_out_salary',
         'guess_out_hour',
@@ -56,7 +60,7 @@ for (i in 1:15) {
 hip_OA_ms <- hip_OA_ms %>%
   rowwise() %>%
   mutate(minimal_salary = min(across(all_of(OA_ms)), na.rm = TRUE))
-  
+
 
 
 ggplot(data = hip_OA) +
@@ -96,7 +100,8 @@ ggplot(data = hip_OA_ms) +
   geom_histogram(aes(x = minimal_salary), binwidth = 100) +
   ggsave('figures/outside_options/OA8.png')
 
-#### OB ####
+
+# OB (morning) ------------------------------------------------------------
 
 OB <- c('guess_out_salary_1y',
         'guess_out_salary_1y_com',
@@ -134,7 +139,7 @@ ggplot(data = hip_OB) +
   ggsave('figures/outside_options/OB4c.png')
 
 
-#### OC ####
+# OC (morning) ------------------------------------------------------------
 
 OC <- c('jobaspect_first',
         'jobaspect_first_other',
@@ -184,13 +189,6 @@ ggplot(data = hip_OC) +
   geom_bar(aes(x = jobaspect_third)) +
   scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
   ggsave('figures/outside_options/OC1iii.png')
-
-
-
-
-
-
-
 
 
 
