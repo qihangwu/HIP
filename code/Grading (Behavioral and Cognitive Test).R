@@ -76,7 +76,7 @@ ggplot(data = data_AT) +
 #### WM (Evening) ####
 
 # Question regarding series21_yesno - series37_yesno
-WM = c('series11_yesno',
+WM1 = c('series11_yesno',
        'series12_yesno',
        'series13_yesno',
        'series14_yesno',
@@ -84,39 +84,125 @@ WM = c('series11_yesno',
        'series16_yesno',
        'series17_yesno')
 
-data_WM = data %>%
-  select(all_of(WM)) %>%
-  mutate(across(WM[c(1:7)], as.factor)) %>%
-  mutate(across(WM[c(1:7)], ~recode(.,
+data_WM1 = data %>%
+  select(all_of(WM1)) %>%
+  mutate(across(WM1[c(1:7)], as.factor)) %>%
+  mutate(across(WM1[c(1:7)], ~recode(.,
                                      `0` = 'Incorrect',
-                                     `1` = 'Correct'))) Wm
+                                     `1` = 'Correct'))) 
 
-str(data_WM) 
+str(data_WM1) 
 
-ggplot(data = data_WM) +
+ggplot(data = data_WM1) +
   geom_bar(aes(x = series11_yesno)) +
   ggsave('WM1.png')
 
-ggplot(data = data_WM) +
+ggplot(data = data_WM1) +
   geom_bar(aes(x = series12_yesno)) +
   ggsave('WM2.png')
 
-ggplot(data = data_WM) +
+ggplot(data = data_WM1) +
   geom_bar(aes(x = series13_yesno)) +
   ggsave('WM3.png')
 
-ggplot(data = data_WM) +
+ggplot(data = data_WM1) +
   geom_bar(aes(x = series14_yesno)) +
   ggsave('WM4.png')
 
-ggplot(data = data_WM) +
+ggplot(data = data_WM1) +
   geom_bar(aes(x = series15_yesno)) +
   ggsave('WM5.png')
 
-ggplot(data = data_WM) +
+ggplot(data = data_WM1) +
   geom_bar(aes(x = series16_yesno)) +
   ggsave('WM6.png')
 
-ggplot(data = data_WM) +
+ggplot(data = data_WM1) +
   geom_bar(aes(x = series17_yesno)) +
   ggsave('WM7.png')
+
+WM2 = c('series21_yesno',
+       'series22_yesno',
+       'series23_yesno',
+       'series24_yesno',
+       'series25_yesno',
+       'series26_yesno',
+       'series27_yesno')
+
+data_WM2 = data %>%
+  select(all_of(WM2)) %>%
+  mutate(across(WM2[c(1:7)], as.factor)) %>%
+  mutate(across(WM2[c(1:7)], ~recode(.,
+                                    `0` = 'Incorrect',
+                                    `1` = 'Correct'))) 
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series21_yesno)) +
+  ggsave('WM21.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series22_yesno)) +
+  ggsave('WM22.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series23_yesno)) +
+  ggsave('WM23.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series24_yesno)) +
+  ggsave('WM24.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series25_yesno)) +
+  ggsave('WM25.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series26_yesno)) +
+  ggsave('WM26.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series27_yesno)) +
+  ggsave('WM27.png')
+
+WM3 = c('series31_yesno',
+       'series32_yesno',
+       'series33_yesno',
+       'series34_yesno',
+       'series35_yesno',
+       'series36_yesno',
+       'series37_yesno')
+
+data_WM3 = data %>%
+  select(all_of(WM3)) %>%
+  mutate(across(WM3[c(1:7)], as.factor)) %>%
+  mutate(across(WM3[c(1:7)], ~recode(.,
+                                    `0` = 'Incorrect',
+                                    `1` = 'Correct'))) 
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series31_yesno)) +
+  ggsave('WM31.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series32_yesno)) +
+  ggsave('WM32.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series33_yesno)) +
+  ggsave('WM33.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series34_yesno)) +
+  ggsave('WM34.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series35_yesno)) +
+  ggsave('WM35.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series36_yesno)) +
+  ggsave('WM36.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series37_yesno)) +
+  ggsave('WM37.png')
