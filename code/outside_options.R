@@ -6,9 +6,9 @@ library(readxl)
 
 # setwd('')   # unnecessary to set working directory if you opened `HIP.Rproj`
 
-hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
+# hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
 
-# hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
+hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
 
 
 # OA (morning) ------------------------------------------------------------
@@ -50,8 +50,7 @@ hip_OA <- hip %>%
                                  `0` = 'Likely',
                                  `1` = 'Somewhat likely',
                                  `2` = 'Somewhat unlikely',
-                                 `3` = 'Very unlikely')
-                ))
+                                 `3` = 'Very unlikely')))
 
 ### `minimal_salary_*` ----------------------------------------------------
 
@@ -73,7 +72,6 @@ for (i in 1:15) {
 hip_OA_ms <- hip_OA_ms %>%
   rowwise() %>%
   mutate(minimal_salary = min(across(all_of(OA_ms)), na.rm = TRUE))
-
 
 ## Figures ----------------------------------------------------------------
 
