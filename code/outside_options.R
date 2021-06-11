@@ -132,6 +132,13 @@ hip_OB <- hip %>%
                                      `1` = 'Yes',
                                      `100` = 'Not sure')))
 
+### Trim outliers ---------------------------------------------------------
+
+hip_OB <- hip_OB %>%
+  mutate(guess_out_promote = replace(guess_out_promote,
+                                     which(guess_out_promote > 100L),
+                                     NA))
+
 ## Figures ----------------------------------------------------------------
 
 ggplot(data = hip_OB) +
