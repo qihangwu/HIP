@@ -1,12 +1,17 @@
+
+# Setup -------------------------------------------------------------------
+
 library(tidyverse)
 library(readxl)
 
-setwd('C:/Users/myzha/Documents/GitHub/HIP')
+# setwd('')   # unnecessary to set working directory if you opened `HIP.Rproj`
 
-hip <- read_excel('data/weekdayend_all.xlsx')
-hip2 <- read_excel('data/weekdayend_all2.xlsx')
+# hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
 
-#### IA ####
+hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
+
+
+# IA (morning) ------------------------------------------------------------
 
 IA <- c('guess_hip_task',
         'guess_hip_task_other',
@@ -14,6 +19,8 @@ IA <- c('guess_hip_task',
         'hip_knowppl_like',
         'guess_hip_turnover',
         'guess_hip_turnover_sure')
+
+## Initial cleaning -------------------------------------------------------
 
 hip_IA <- hip %>%
   select(all_of(IA)) %>%
@@ -37,6 +44,8 @@ hip_IA <- hip %>%
   mutate(guess_hip_task_other = as.character(guess_hip_task_other)) %>%
   mutate(across(IA[c(3, 5)], as.integer))
 
+# Figures -----------------------------------------------------------------
+
 ggplot(data = hip_IA) +
   geom_bar(aes(x = guess_hip_task)) +
   ggsave('figures/jobs_in_hip/IA1.png')
@@ -58,7 +67,7 @@ ggplot(data = hip_IA) +
   ggsave('figures/jobs_in_hip/IA5s.png')
 
 
-#### IB ####
+# IB (morning) ------------------------------------------------------------
 
 IB <- c('guess_hip_hour',
         'guess_hip_hour_sure',
@@ -75,6 +84,8 @@ IB <- c('guess_hip_hour',
         'guess_hip_attend',
         'guess_hip_attend_sure')
 
+# Initial cleaning --------------------------------------------------------
+
 hip_IB <- hip %>%
   select(all_of(IB)) %>%
   mutate(across(IB[seq(1, 13, 2)], as.integer)) %>%
@@ -84,6 +95,8 @@ hip_IB <- hip %>%
                                            `1` = 'slightly sure',
                                            `2` = 'slightly not sure',
                                            `3` = 'not sure at all')))
+
+# Figures -----------------------------------------------------------------
 
 ggplot(data = hip_IB) +
   geom_histogram(aes(x = guess_hip_hour), binwidth = 1) +
@@ -142,7 +155,7 @@ ggplot(data = hip_IB) +
   ggsave('figures/jobs_in_HIP/IB7s.png')
 
 
-#### IC ####
+# IC (morning) ------------------------------------------------------------
 
 IC <- c('guess_entry_salary',
         'guess_entry_salary_sure',
@@ -152,6 +165,8 @@ IC <- c('guess_entry_salary',
         'guess_entry_pct_sure',
         'guess_entry_pct_you',
         'guess_you_salary_1m')
+
+## Initial cleaning -------------------------------------------------------
 
 hip_IC <- hip %>%
   select(all_of(IC)) %>%
@@ -167,6 +182,8 @@ hip_IC <- hip %>%
                                       `1` = 'somewhat likely',
                                       `2` = 'somewhat unlikely',
                                       `3` = 'very unlikely'))
+
+# Figures -----------------------------------------------------------------
 
 ggplot(data = hip_IC) +
   geom_histogram(aes(x = guess_entry_salary), binwidth = 500) +
@@ -200,7 +217,8 @@ ggplot(data = hip_IC) +
   geom_histogram(aes(x = guess_you_salary_1m), binwidth = 500) +
   ggsave('figures/jobs_in_HIP/IC5.png')
 
-#### ID ####
+
+# ID (morning) ------------------------------------------------------------
 
 ID <- c('guess_promote_medium',
         'guess_promote_medium_sure',
@@ -213,6 +231,8 @@ ID <- c('guess_promote_medium',
         'guess_you_promote_medium',
         'guess_you_promote_sp',
         'guess_you_salary_6m')
+
+## Initial cleaning -------------------------------------------------------
 
 hip_ID <- hip %>%
   select(all_of(ID)) %>%
@@ -228,6 +248,8 @@ hip_ID <- hip %>%
                                   `1` = 'somewhat likely',
                                   `2` = 'somewhat unlikely',
                                   `3` = 'very unlikely')))
+
+# Figures -----------------------------------------------------------------
 
 ggplot(data = hip_ID) +
   geom_histogram(aes(x = guess_promote_medium), binwidth = 10) +
@@ -274,7 +296,7 @@ ggplot(data = hip_ID) +
   ggsave('figures/jobs_in_HIP/ID7.png')
 
 
-#### IT ####
+# IT (morning) ------------------------------------------------------------
 
 IT <- c('info_entry_choice1',
         'info_entry_choice2',
@@ -287,16 +309,20 @@ IT <- c('info_entry_choice1',
         'info_promote_choice4',
         'info_promote_choice5')
 
+## Initial cleaning -------------------------------------------------------
+
 hip_IT <- hip %>%
   select(all_of(IT)) %>%
   mutate(across(all_of(IT), as.logical))
+
+# Figures -----------------------------------------------------------------
 
 IT_codes <- c('IT1a', 'IT1b', 'IT1c', 'IT1d', 'IT1e', 'IT2a', 'IT2b', 'IT2c', 'IT2d', 'IT2e')
 
 for (i in 1:10) {
   temp <- ggplot(data = hip_IT) +
     geom_bar(aes_string(x = IT[i]))
-  
+
   ggsave(plot = temp, file = paste0('figures/jobs_in_hip/', IT_codes[i], '.png'))
 }
 
