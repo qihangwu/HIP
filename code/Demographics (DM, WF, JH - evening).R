@@ -18,7 +18,6 @@ data$langu_other = is.na(data$language_other)
 data$langu_other = ifelse(data$langu_other, "0", "1")
 
 
-
 DM_e = c('lang_sidama',
          'lang_amhar',
          'lang_other',
@@ -40,6 +39,15 @@ data_DM = data %>%
   mutate(across(DM_e[c(1:4)], ~recode(.,
                      `0` = 'No',
                      `1` = 'Yes'))) %>%
+  mutate(current_live_region = replace(current_live_region, current_live_region == 'Sidaama', 'Sidama')) %>%
+  mutate(current_live_region = replace(current_live_region, current_live_region == 'Debub', 'Sidama')) %>%
+  mutate(current_live_region = replace(current_live_region, current_live_region == 'Sidamma', 'Sidama')) %>%
+  mutate(current_live_region = replace(current_live_region, current_live_region == 'Sidams', 'Sidama')) %>%
+  mutate(current_live_region = replace(current_live_region, current_live_region == 'S', 'Sidama')) %>%
+  mutate(current_live_region = replace(current_live_region, current_live_region == 'Oromiys', 'Oromia')) %>%
+  mutate(current_live_city = replace(current_live_city, current_live_city == 'Sidama', 'Hawassa')) %>%
+  mutate(current_live_city = replace(current_live_city, current_live_city == 'Hawasa', 'Hawassa')) %>%
+  mutate(current_live_city = replace(current_live_city, current_live_city == 'Hawasa', 'Hawassa')) %>%  
   mutate(religion = recode(religion,
                                `0` = 'Protestant',
                                `1` = 'Orthodox',
@@ -229,3 +237,4 @@ ggplot(data = data_JH) +
 ggplot(data = data_JH) +
   geom_bar(aes(x = history_quitreason)) +
   ggsave('JH7.png')
+
