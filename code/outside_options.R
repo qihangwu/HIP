@@ -131,7 +131,7 @@ hip_OB <- hip %>%
                                      `1` = 'Yes',
                                      `100` = 'Not sure')))
 
-### Trim outliers ---------------------------------------------------------
+### Trim errors -----------------------------------------------------------
 
 hip_OB <- hip_OB %>%
   mutate(guess_out_promote = replace(guess_out_promote,
