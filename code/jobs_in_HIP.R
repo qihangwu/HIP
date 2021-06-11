@@ -44,7 +44,7 @@ hip_IA <- hip %>%
   mutate(guess_hip_task_other = as.character(guess_hip_task_other)) %>%
   mutate(across(IA[c(3, 5)], as.integer))
 
-# Figures -----------------------------------------------------------------
+## Figures ----------------------------------------------------------------
 
 ggplot(data = hip_IA) +
   geom_bar(aes(x = guess_hip_task)) +
@@ -84,7 +84,7 @@ IB <- c('guess_hip_hour',
         'guess_hip_attend',
         'guess_hip_attend_sure')
 
-# Initial cleaning --------------------------------------------------------
+## Initial cleaning -------------------------------------------------------
 
 hip_IB <- hip %>%
   select(all_of(IB)) %>%
@@ -96,7 +96,18 @@ hip_IB <- hip %>%
                                            `2` = 'slightly not sure',
                                            `3` = 'not sure at all')))
 
-# Figures -----------------------------------------------------------------
+
+### Trim errors -------------------------------------------------------------
+
+hip_IB <- hip_IB %>%
+  mutate(guess_hip_day = replace(guess_hip_day,
+                                 which(guess_hip_day > 7L),
+                                 NA)) %>%
+  mutate(guess_hip_lunch = replace(guess_hip_lunch,
+                                   which(guess_hip_lunch > 22L),
+                                   NA))
+
+## Figures ----------------------------------------------------------------
 
 ggplot(data = hip_IB) +
   geom_histogram(aes(x = guess_hip_hour), binwidth = 1) +
@@ -183,7 +194,14 @@ hip_IC <- hip %>%
                                       `2` = 'somewhat unlikely',
                                       `3` = 'very unlikely'))
 
-# Figures -----------------------------------------------------------------
+### Trim errors -----------------------------------------------------------
+
+hip_IC <- hip_IC %>%
+  mutate(guess_entry_pct = replace(guess_entry_pct,
+                                   which(guess_entry_pct > 100L),
+                                   NA))
+
+## Figures ----------------------------------------------------------------
 
 ggplot(data = hip_IC) +
   geom_histogram(aes(x = guess_entry_salary), binwidth = 500) +
@@ -249,7 +267,20 @@ hip_ID <- hip %>%
                                   `2` = 'somewhat unlikely',
                                   `3` = 'very unlikely')))
 
-# Figures -----------------------------------------------------------------
+### Trim errors -----------------------------------------------------------
+
+hip_ID <- hip_ID %>%
+  mutate(guess_promote_medium = replace(guess_promote_medium,
+                                        which(guess_promote_medium > 100L),
+                                        NA)) %>%
+  mutate(guess_promote_sp = replace(guess_promote_sp,
+                                    which(guess_promote_sp > 100L),
+                                    NA)) %>%
+  mutate(guess_salary_sp = replace(guess_salary_sp,
+                                   which(guess_salary_sp > 50000L),
+                                   NA))
+
+## Figures ----------------------------------------------------------------
 
 ggplot(data = hip_ID) +
   geom_histogram(aes(x = guess_promote_medium), binwidth = 10) +
@@ -315,7 +346,7 @@ hip_IT <- hip %>%
   select(all_of(IT)) %>%
   mutate(across(all_of(IT), as.logical))
 
-# Figures -----------------------------------------------------------------
+## Figures ----------------------------------------------------------------
 
 IT_codes <- c('IT1a', 'IT1b', 'IT1c', 'IT1d', 'IT1e', 'IT2a', 'IT2b', 'IT2c', 'IT2d', 'IT2e')
 
