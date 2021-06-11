@@ -9,9 +9,7 @@ data = read_excel('weekdayend_all.xlsx')
 #### DM_m (Morning) ####
 ## Description, keep age and school fee as.numeric,  make married, educ, school_yesno, and school_diploma as factor,
 ## and school_name & school_diploma_other as character. In addition, change the values (recode) for those that are factors.  
-
 data$new_age = 2013 - data$year_birth
-
 DM_m = c('age',
          'year_birth',
          'new_age',
@@ -26,8 +24,9 @@ DM_m = c('age',
 
 data_DM = data %>%
   select(all_of(DM_m)) %>%
-  mutate(across(DM_m[c(1, 2, 3, 4)], as.integer)) %>%
-  mutate(across(DM_m[c(5, 6, 7, 9)], as.factor)) %>%
+  mutate(age = replace(age, age == 1991, 22)) %>%
+  mutate(across(DM_m[c(1, 2, 3)], as.integer)) %>%
+  mutate(across(DM_m[c(4, 5, 6, 8)], as.factor)) %>%
   mutate(married = recode(married,
                           `0` = 'Single',
                           `1` = 'Married',
@@ -139,7 +138,20 @@ data_JA = data %>%
                              `1` = 'Yes',
                              `7` = 'I do not know',
                              `-8` = 'Not Sure',
-                             `-9` = 'Not applicable'))
+                             `-9` = 'Not applicable')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Addis Abeba', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis abeba', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'A.A', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adisabeba', 'Addis Ababa')) %>%  
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adiss Ababa', 'Addis Ababa')) %>% 
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Addis  abeba', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Addis abeba', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis Abebe', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'A.a', 'Addis Ababa')) %>%  
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis  Ababa', 'Addis Ababa')) %>%  
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adiss Ababa', 'Addis Ababa')) %>% 
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis Ababa', 'Addis Ababa'))  
+
 
 str(data_JA)
 
