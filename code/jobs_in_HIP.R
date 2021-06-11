@@ -105,6 +105,9 @@ hip_IB <- hip_IB %>%
                                  NA)) %>%
   mutate(guess_hip_lunch = replace(guess_hip_lunch,
                                    which(guess_hip_lunch > 22L),
+                                   NA)) %>%
+  mutate(guess_hip_night = replace(guess_hip_night,
+                                   which(guess_hip_night > 30L),
                                    NA))
 
 ## Figures ----------------------------------------------------------------
@@ -329,6 +332,8 @@ ggplot(data = hip_ID) +
 
 # IT (morning) ------------------------------------------------------------
 
+# need to construct 2 new vars!!
+
 IT <- c('info_entry_choice1',
         'info_entry_choice2',
         'info_entry_choice3',
@@ -356,9 +361,6 @@ for (i in 1:10) {
 
   ggsave(plot = temp, file = paste0('figures/jobs_in_hip/', IT_codes[i], '.png'))
 }
-
-
-
 
 
 
