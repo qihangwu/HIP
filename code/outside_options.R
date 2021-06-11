@@ -6,9 +6,9 @@ library(readxl)
 
 # setwd('')   # unnecessary to set working directory if you opened `HIP.Rproj`
 
-hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
+# hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
 
-# hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
+hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
 
 
 # OA (morning) ------------------------------------------------------------
@@ -50,8 +50,7 @@ hip_OA <- hip %>%
                                  `0` = 'Likely',
                                  `1` = 'Somewhat likely',
                                  `2` = 'Somewhat unlikely',
-                                 `3` = 'Very unlikely')
-                ))
+                                 `3` = 'Very unlikely')))
 
 ### `minimal_salary_*` ----------------------------------------------------
 
@@ -73,7 +72,6 @@ for (i in 1:15) {
 hip_OA_ms <- hip_OA_ms %>%
   rowwise() %>%
   mutate(minimal_salary = min(across(all_of(OA_ms)), na.rm = TRUE))
-
 
 ## Figures ----------------------------------------------------------------
 
@@ -109,7 +107,6 @@ ggplot(data = hip_OA) +
   geom_bar(aes(x = guess_out_attend)) +
   ggsave('figures/outside_options/OA7.png')
 
-# constructed variable
 ggplot(data = hip_OA_ms) +
   geom_histogram(aes(x = minimal_salary), binwidth = 100) +
   ggsave('figures/outside_options/OA8.png')
@@ -133,6 +130,13 @@ hip_OB <- hip %>%
                                      `0` = 'No',
                                      `1` = 'Yes',
                                      `100` = 'Not sure')))
+
+### Trim outliers ---------------------------------------------------------
+
+hip_OB <- hip_OB %>%
+  mutate(guess_out_promote = replace(guess_out_promote,
+                                     which(guess_out_promote > 100L),
+                                     NA))
 
 ## Figures ----------------------------------------------------------------
 
@@ -171,28 +175,31 @@ OC <- c('jobaspect_first',
 hip_OC <- hip %>%
   select(all_of(OC)) %>%
   mutate(across(OC[c(1, 3, 5)], as.factor)) %>%
-  mutate(across(OC[c(1, 3, 5)], ~recode(.,
-                                        `10` = 'Salary as an entry-level worker in the first month',
-                                        `11` = 'Salary as an entry-level worker after 6 months',
-                                        `12` = 'Chance of promotion to a higher level after 6 months',
-                                        `13` = 'Salary in the higher level',
-                                        `2` = 'Provide good work benefit',
-                                        `3` = 'Reasonable work hours',
-                                        `4` = 'The task is interesting',
-                                        `5` = 'Skill development',
-                                        `6` = 'Good management'#, `100` = 'Others'
-                                        ))) %>%
-  mutate(across(OC[c(1, 3, 5)], ~fct_relevel(.,
-                                             'Salary as an entry-level worker in the first month',
-                                             'Salary as an entry-level worker after 6 months',
-                                             'Chance of promotion to a higher level after 6 months',
-                                             'Salary in the higher level',
-                                             'Provide good work benefit',
-                                             'Reasonable work hours',
-                                             'The task is interesting',
-                                             'Skill development',
-                                             'Good management'#, 'Others'
-                                             ))) %>%
+  mutate(across(OC[c(1, 3, 5)],
+                ~recode(.,
+                        `10` = 'Salary as an entry-level worker in the first month',
+                        `11` = 'Salary as an entry-level worker after 6 months',
+                        `12` = 'Chance of promotion to a higher level after 6 months',
+                        `13` = 'Salary in the higher level',
+                        `2` = 'Provide good work benefit',
+                        `3` = 'Reasonable work hours',
+                        `4` = 'The task is interesting',
+                        `5` = 'Skill development',
+                        `6` = 'Good management' #, `100` = 'Others'
+                ))) %>%
+  # need to manually relevel to match questionnaire
+  mutate(across(OC[c(1, 3, 5)],
+                ~fct_relevel(.,
+                             'Salary as an entry-level worker in the first month',
+                             'Salary as an entry-level worker after 6 months',
+                             'Chance of promotion to a higher level after 6 months',
+                             'Salary in the higher level',
+                             'Provide good work benefit',
+                             'Reasonable work hours',
+                             'The task is interesting',
+                             'Skill development',
+                             'Good management' #, 'Others'
+                ))) %>%
   mutate(across(OC[c(2, 4, 6)], as.character))
 
 ## Figures ----------------------------------------------------------------
@@ -212,10 +219,6 @@ ggplot(data = hip_OC) +
   scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
   ggsave('figures/outside_options/OC1iii.png')
 
-
-
-
-
-
+# no figures for `jobaspect_*_other` variables since other responses never provided
 
 
