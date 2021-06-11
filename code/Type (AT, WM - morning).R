@@ -201,14 +201,90 @@ CT = c('b1',
 data_CT = data %>%
   select(all_of(CT)) %>%
   mutate(across(CT[c(1:12)], as.factor)) %>%
-  mutate(across(CT[c(1:12)], ~recode(.,
-                                     `1` = '1',
-                                     `2` = '2',
-                                     `3` = '3',
-                                     `4` = '4',
-                                     `5` = '5',
-                                     `6` = '6'))) 
-
+  mutate(across(CT[c(1)], ~recode(.,
+                                     `1` = 'Incorrect',
+                                     `2` = 'Correct',
+                                     `3` = 'Incorrect',
+                                     `4` = 'Incorrect',
+                                     `5` = 'Incorrect',
+                                     `6` = 'Incorrect'))) %>%
+  mutate(across(CT[c(2)], ~recode(.,
+                                `1` = 'Incorrect',
+                                `2` = 'Incorrect',
+                                `3` = 'Incorrect',
+                                `4` = 'Incorrect',
+                                `5` = 'Incorrect',
+                                `6` = 'Correct'))) %>%
+  mutate(across(CT[c(3)], ~recode(.,
+                                  `1` = 'Correct',
+                                  `2` = 'Incorrect',
+                                  `3` = 'Incorrect',
+                                  `4` = 'Incorrect',
+                                  `5` = 'Incorrect',
+                                  `6` = 'Incorrect'))) %>%
+  mutate(across(CT[c(4)], ~recode(.,
+                                  `1` = 'Incorrect',
+                                  `2` = 'Correct',
+                                  `3` = 'Incorrect',
+                                  `4` = 'Incorrect',
+                                  `5` = 'Incorrect',
+                                  `6` = 'Incorrect'))) %>%
+  mutate(across(CT[c(5)], ~recode(.,
+                                  `1` = 'Correct',
+                                  `2` = 'Incorrect',
+                                  `3` = 'Incorrect',
+                                  `4` = 'Incorrect',
+                                  `5` = 'Incorrect',
+                                  `6` = 'Incorrect'))) %>%
+  mutate(across(CT[c(6)], ~recode(.,
+                                  `1` = 'Incorrect',
+                                  `2` = 'Incorrect',
+                                  `3` = 'Correct',
+                                  `4` = 'Incorrect',
+                                  `5` = 'Incorrect',
+                                  `6` = 'Incorrect'))) %>% 
+  mutate(across(CT[c(7)], ~recode(.,
+                                  `1` = 'Incorrect',
+                                  `2` = 'Incorrect',
+                                  `3` = 'Incorrect',
+                                  `4` = 'Incorrect',
+                                  `5` = 'Correct',
+                                  `6` = 'Incorrect'))) %>% 
+  mutate(across(CT[c(8)], ~recode(.,
+                                  `1` = 'Incorrect',
+                                  `2` = 'Incorrect',
+                                  `3` = 'Incorrect',
+                                  `4` = 'Incorrect',
+                                  `5` = 'Incorrect',
+                                  `6` = 'Correct'))) %>%
+  mutate(across(CT[c(9)], ~recode(.,
+                                  `1` = 'Incorrect',
+                                  `2` = 'Incorrect',
+                                  `3` = 'Incorrect',
+                                  `4` = 'Correct',
+                                  `5` = 'Incorrect',
+                                  `6` = 'Incorrect'))) %>%
+  mutate(across(CT[c(10)], ~recode(.,
+                                  `1` = 'Incorrect',
+                                  `2` = 'Incorrect',
+                                  `3` = 'Correct',
+                                  `4` = 'Incorrect',
+                                  `5` = 'Incorrect',
+                                  `6` = 'Incorrect'))) %>%
+  mutate(across(CT[c(11)], ~recode(.,
+                                   `1` = 'Incorrect',
+                                   `2` = 'Incorrect',
+                                   `3` = 'Correct',
+                                   `4` = 'Incorrect',
+                                   `5` = 'Incorrect',
+                                   `6` = 'Incorrect'))) %>%
+  mutate(across(CT[c(12)], ~recode(.,
+                                   `1` = 'Incorrect',
+                                   `2` = 'Incorrect',
+                                   `3` = 'Incorrect',
+                                   `4` = 'Incorrect',
+                                   `5` = 'Correct',
+                                   `6` = 'Incorrect'))) 
 str(data_CT) 
 
 ggplot(data = data_CT) +
