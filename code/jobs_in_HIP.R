@@ -26,21 +26,21 @@ hip_IA <- hip %>%
   select(all_of(IA)) %>%
   mutate(across(IA[c(1, 4, 6)], as.factor)) %>%
   mutate(guess_hip_task = recode(guess_hip_task,
-                                 `0` = 'sewing',
-                                 `1` = 'quality check',
-                                 `2` = 'team leaders',
-                                 `3` = 'supervisors'#, `100` = 'others'
+                                 `0` = 'Sewing',
+                                 `1` = 'Quality check',
+                                 `2` = 'Team leaders',
+                                 `3` = 'Supervisors'#, `100` = 'others'
                                  )) %>%
   mutate(hip_knowppl_like = recode(hip_knowppl_like,
-                                   `0` = 'almost all of them',
-                                   `1` = 'some of them',
-                                   `2` = 'very few of them',
-                                   `3` = 'almost none of them')) %>%
+                                   `0` = 'Almost all of them',
+                                   `1` = 'Some of them',
+                                   `2` = 'Very few of them',
+                                   `3` = 'Almost none of them')) %>%
   mutate(guess_hip_turnover_sure = recode(guess_hip_turnover_sure,
-                                          `0` = 'very sure',
-                                          `1` = 'slightly sure',
-                                          `2` = 'slightly not sure',
-                                          `3` = 'not sure at all')) %>%
+                                          `0` = 'Very sure',
+                                          `1` = 'Slightly sure',
+                                          `2` = 'Slightly not sure',
+                                          `3` = 'Not sure at all')) %>%
   mutate(guess_hip_task_other = as.character(guess_hip_task_other)) %>%
   mutate(across(IA[c(3, 5)], as.integer))
 
@@ -91,10 +91,10 @@ hip_IB <- hip %>%
   mutate(across(IB[seq(1, 13, 2)], as.integer)) %>%
   mutate(across(IB[seq(2, 14, 2)], as.factor)) %>%
   mutate(across(IB[seq(2, 14, 2)], ~recode(.,
-                                           `0` = 'very sure',
-                                           `1` = 'slightly sure',
-                                           `2` = 'slightly not sure',
-                                           `3` = 'not sure at all')))
+                                           `0` = 'Very sure',
+                                           `1` = 'Slightly sure',
+                                           `2` = 'Slightly not sure',
+                                           `3` = 'Not sure at all')))
 
 
 ### Trim errors -------------------------------------------------------------
@@ -187,15 +187,15 @@ hip_IC <- hip %>%
   mutate(across(IC[c(1, 3, 5, 8)], as.integer)) %>%
   mutate(across(IC[c(2, 4, 6, 7)], as.factor)) %>%
   mutate(across(IC[c(2, 4, 6)], ~recode(.,
-                                        `0` = 'very sure',
-                                        `1` = 'slightly sure',
-                                        `2` = 'slightly not sure',
-                                        `3` = 'not sure at all'))) %>%
+                                        `0` = 'Very sure',
+                                        `1` = 'Slightly sure',
+                                        `2` = 'Slightly not sure',
+                                        `3` = 'Not sure at all'))) %>%
   mutate(guess_entry_pct_you = recode(guess_entry_pct_you,
-                                      `0` = 'likely',
-                                      `1` = 'somewhat likely',
-                                      `2` = 'somewhat unlikely',
-                                      `3` = 'very unlikely'))
+                                      `0` = 'Likely',
+                                      `1` = 'Somewhat likely',
+                                      `2` = 'Somewhat unlikely',
+                                      `3` = 'Very unlikely'))
 
 ### Trim errors -----------------------------------------------------------
 
@@ -260,15 +260,15 @@ hip_ID <- hip %>%
   mutate(across(ID[c(1, 3, 5, 7, 11)], as.integer)) %>%
   mutate(across(ID[c(2, 4, 6, 8, 9, 10)], as.factor)) %>%
   mutate(across(ID[c(2, 4, 6, 8)], ~recode(.,
-                                           `0` = 'very sure',
-                                           `1` = 'slightly sure',
-                                           `2` = 'slightly not sure',
-                                           `3` = 'not sure at all'))) %>%
+                                           `0` = 'Very sure',
+                                           `1` = 'Slightly sure',
+                                           `2` = 'Slightly not sure',
+                                           `3` = 'Not sure at all'))) %>%
   mutate(across(ID[9:10], ~recode(.,
-                                  `0` = 'likely',
-                                  `1` = 'somewhat likely',
-                                  `2` = 'somewhat unlikely',
-                                  `3` = 'very unlikely')))
+                                  `0` = 'Likely',
+                                  `1` = 'Somewhat likely',
+                                  `2` = 'Somewhat unlikely',
+                                  `3` = 'Very unlikely')))
 
 ### Trim errors -----------------------------------------------------------
 
