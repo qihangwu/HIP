@@ -36,7 +36,7 @@ data_DM = data %>%
   select(all_of(DM_e)) %>%
   mutate(across(DM_e[c(1:4)], as.factor)) %>%
   mutate(across(DM_e[c(5:13)], as.character)) %>%
-  mutate(across(DM_e[c(1:4)], ~recode(.,
+  mutate(across(DM_e[c(1:3)], ~recode(.,
                      `0` = 'No',
                      `1` = 'Yes'))) %>%
   mutate(current_live_region = replace(current_live_region, current_live_region == 'Sidaama', 'Sidama')) %>%
