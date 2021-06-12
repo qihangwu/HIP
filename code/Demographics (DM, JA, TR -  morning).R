@@ -116,7 +116,6 @@ JA_m = c('reason_salary',
         'income_target',
         'expend_target')
 
-#Questions regarding integer for months 
 
 data_JA = data %>%
   select(all_of(JA_m)) %>%
@@ -151,7 +150,6 @@ data_JA = data %>%
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis  Ababa', 'Addis Ababa')) %>%  
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adiss Ababa', 'Addis Ababa')) %>% 
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis Ababa', 'Addis Ababa'))  
-
 
 str(data_JA)
 
