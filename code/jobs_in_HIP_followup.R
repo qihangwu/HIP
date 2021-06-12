@@ -1,12 +1,17 @@
+
+# Setup -------------------------------------------------------------------
+
 library(tidyverse)
 library(readxl)
 
-setwd('C:/Users/myzha/Documents/GitHub/HIP')
+# setwd('')   # unnecessary to set working directory if you opened `HIP.Rproj`
 
-hip <- read_excel('data/weekdayend_all.xlsx')
-hip2 <- read_excel('data/weekdayend_all2.xlsx')
+# hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
 
-#### IB ####
+hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
+
+
+# IB (weekend) ------------------------------------------------------------
 
 w_IB <- c('w_guess_hip_hour',
           'w_guess_hip_hour_sure',
@@ -23,34 +28,54 @@ w_IB <- c('w_guess_hip_hour',
           'w_guess_hip_attend',
           'w_guess_hip_attend_sure')
 
+## Initial cleaning -------------------------------------------------------
+
 hip_w_IB <- hip %>%
   select(all_of(w_IB)) %>%
   mutate(across(w_IB[seq(1, 13, 2)], as.integer)) %>%
   mutate(across(w_IB[seq(2, 14, 2)], as.factor)) %>%
   mutate(across(w_IB[seq(2, 14, 2)], ~recode(.,
-                                             `0` = 'very sure',
-                                             `1` = 'slightly sure',
-                                             `2` = 'slightly not sure',
-                                             `3` = 'not sure at all')))
+                                             `0` = 'Very sure',
+                                             `1` = 'Slightly sure',
+                                             `2` = 'Slightly not sure',
+                                             `3` = 'Not sure at all')))
+
+### Trim errors -----------------------------------------------------------
+
+hip_w_IB <- hip_w_IB %>%
+  mutate(w_guess_hip_day = replace(w_guess_hip_day,
+                                   which(w_guess_hip_day > 7L),
+                                   NA)) %>%
+  mutate(w_guess_hip_night = replace(w_guess_hip_night,
+                                     which(w_guess_hip_night > 30L),
+                                     NA)) %>%
+  mutate(w_guess_hip_transp = replace(w_guess_hip_transp,
+                                      which(w_guess_hip_transp > 22L),
+                                      NA)) %>%
+  mutate(w_guess_hip_lunch = replace(w_guess_hip_lunch,
+                                     which(w_guess_hip_lunch > 22L),
+                                     NA))
+
+## Figures ---------------------------------------------------------------
 
 w_IB_codes <- c('IB1', 'IB1s', 'IB2', 'IB2s', 'IB3', 'IB3s', 'IB4', 'IB4s', 'IB5', 'IB5s', 'IB6', 'IB6s', 'IB7', 'IB7s')
 
 for (i in seq(1, 13, 2)) {
   temp <- ggplot(data = hip_w_IB) +
     geom_histogram(aes_string(x = w_IB[i]), binwidth = 1)
-  
+
   ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/w_', w_IB_codes[i], '.png'))
 }
 
 for (i in seq(2, 14, 2)) {
   temp <- ggplot(data = hip_w_IB) +
     geom_bar(aes_string(x = w_IB[i]))
-  
+
   ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/w_', w_IB_codes[i], '.png'))
 }
 
 
-#### IC ####
+# IC (weekend) ------------------------------------------------------------
 
 w_IC <- c('w_guess_entry_salary',
           'w_guess_entry_salary_sure',
@@ -61,20 +86,24 @@ w_IC <- c('w_guess_entry_salary',
           'w_guess_entry_pct_you',
           'w_guess_you_salary_1m')
 
+## Initial cleaning -------------------------------------------------------
+
 hip_w_IC <- hip %>%
   select(all_of(w_IC)) %>%
   mutate(across(w_IC[c(1, 3, 5, 8)], as.integer)) %>%
   mutate(across(w_IC[c(2, 4, 6, 7)], as.factor)) %>%
   mutate(across(w_IC[c(2, 4, 6)], ~recode(.,
-                                          `0` = 'very sure',
-                                          `1` = 'slightly sure',
-                                          `2` = 'slightly not sure',
-                                          `3` = 'not sure at all'))) %>%
+                                          `0` = 'Very sure',
+                                          `1` = 'Slightly sure',
+                                          `2` = 'Slightly not sure',
+                                          `3` = 'Not sure at all'))) %>%
   mutate(w_guess_entry_pct_you = recode(w_guess_entry_pct_you,
-                                        `0` = 'likely',
-                                        `1` = 'somewhat likely',
-                                        `2` = 'somewhat unlikely',
-                                        `3` = 'very unlikely'))
+                                        `0` = 'Likely',
+                                        `1` = 'Somewhat likely',
+                                        `2` = 'Somewhat unlikely',
+                                        `3` = 'Very unlikely'))
+
+## Figures ---------------------------------------------------------------
 
 ggplot(data = hip_w_IC) +
   geom_histogram(aes(x = w_guess_entry_salary), binwidth = 500) +
@@ -109,7 +138,7 @@ ggplot(data = hip_w_IC) +
   ggsave('figures/jobs_in_HIP_followup/w_IC5.png')
 
 
-#### ID ####
+# ID (weekend) ------------------------------------------------------------
 
 w_ID <- c('w_guess_promote_medium',
           'w_guess_promote_medium_sure',
@@ -123,20 +152,34 @@ w_ID <- c('w_guess_promote_medium',
           'w_guess_you_promote_sp',
           'w_guess_you_salary_6m')
 
+## Initial cleaning -------------------------------------------------------
+
 hip_w_ID <- hip %>%
   select(all_of(w_ID)) %>%
   mutate(across(w_ID[c(1, 3, 5, 7, 11)], as.integer)) %>%
   mutate(across(w_ID[c(2, 4, 6, 8, 9, 10)], as.factor)) %>%
   mutate(across(w_ID[c(2, 4, 6, 8)], ~recode(.,
-                                             `0` = 'very sure',
-                                             `1` = 'slightly sure',
-                                             `2` = 'slightly not sure',
-                                             `3` = 'not sure at all'))) %>%
+                                             `0` = 'Very sure',
+                                             `1` = 'Slightly sure',
+                                             `2` = 'Slightly not sure',
+                                             `3` = 'Not sure at all'))) %>%
   mutate(across(w_ID[9:10], ~recode(.,
-                                    `0` = 'likely',
-                                    `1` = 'somewhat likely',
-                                    `2` = 'somewhat unlikely',
-                                    `3` = 'very unlikely')))
+                                    `0` = 'Likely',
+                                    `1` = 'Somewhat likely',
+                                    `2` = 'Somewhat unlikely',
+                                    `3` = 'Very unlikely')))
+
+### Trim errors -----------------------------------------------------------
+
+hip_w_ID <- hip_w_ID %>%
+  mutate(w_guess_promote_medium = replace(w_guess_promote_medium,
+                                          which(w_guess_promote_medium > 100L),
+                                          NA)) %>%
+  mutate(w_guess_promote_sp = replace(w_guess_promote_sp,
+                                      which(w_guess_promote_sp > 100L),
+                                      NA))
+
+## Figures ---------------------------------------------------------------
 
 ggplot(data = hip_w_ID) +
   geom_histogram(aes(x = w_guess_promote_medium), binwidth = 10) +
@@ -183,7 +226,7 @@ ggplot(data = hip_w_ID) +
   ggsave('figures/jobs_in_HIP_followup/w_ID7.png')
 
 
-#### IA ####
+# IA (evening) ------------------------------------------------------------
 
 w_IA <- c('interact_roommate',
           'interact_coworkers',
@@ -201,36 +244,40 @@ w_IA <- c('interact_roommate',
           'interact_manager_salary',
           'interact_break')
 
+## Initial cleaning -------------------------------------------------------
+
 hip_w_IA <- hip %>%
   select(all_of(w_IA)) %>%
   mutate(across(all_of(w_IA), as.factor)) %>%
   mutate(across(c(1, 2, 3, 5, 6, 8, 9, 11, 12, 14), ~recode(.,
-                                                            `0` = 'frequently every day',
-                                                            `1` = 'sometimes every day',
-                                                            `2` = 'once every day',
-                                                            `3` = 'a few times a week',
-                                                            `4` = 'once a week',
-                                                            `6` = 'never',
+                                                            `0` = 'Frequently every day',
+                                                            `1` = 'Sometimes every day',
+                                                            `2` = 'Once every day',
+                                                            `3` = 'A few times a week',
+                                                            `4` = 'Once a week',
+                                                            `6` = 'Never',
                                                             `-8` = "I'm not sure"))) %>%
   mutate(across(c(1, 2, 3, 5, 6, 8, 9, 11, 12, 14), ~fct_relevel(.,
                                                                  "I'm not sure",
                                                                  after = Inf))) %>%
   mutate(across(c(4, 7, 10, 13), ~recode(.,
-                                         `0` = 'not welcomed at all',
-                                         `1` = 'somewhat not welcomed',
-                                         `2` = 'somewhat welcomed',
-                                         `3` = 'very welcomed'))) %>%
+                                         `0` = 'Not welcomed at all',
+                                         `1` = 'Somewhat not welcomed',
+                                         `2` = 'Somewhat welcomed',
+                                         `3` = 'Very welcomed'))) %>%
   mutate(interact_break = recode(interact_break,
-                                 `0` = 'no',
-                                 `1` = 'yes',
-                                 `100` = 'not sure'))
+                                 `0` = 'No',
+                                 `1` = 'Yes',
+                                 `100` = 'Not sure'))
+
+## Figures ---------------------------------------------------------------
 
 w_IA_codes <- c('w_IA0', 'w_IA1', 'w_IA2', 'w_IA2n', 'w_IA2o', 'w_IA3', 'w_IA3n', 'w_IA3o', 'w_IA4', 'w_IA4n', 'w_IA4o', 'w_IA5', 'w_IA5n', 'w_IA5o', 'w_IA6')
 
 for (i in 1:15) {
   temp <- ggplot(data = hip_w_IA) +
     geom_bar(aes_string(x = w_IA[i]))
-  
+
   ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/', w_IA_codes[i], '.png'))
 }
 
