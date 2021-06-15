@@ -292,11 +292,6 @@ hip_ID <- hip_ID %>%
                                     which(guess_promote_sp > 100L),
                                     NA))
 
-#%>%
-#  mutate(guess_salary_sp = replace(guess_salary_sp,
-#                                   which(guess_salary_sp > 50000L),
-#                                   NA))
-
 ### Winsorizing and trimming outliers -------------------------------------
 
 hip_ID <- hip_ID %>%
