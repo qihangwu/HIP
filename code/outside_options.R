@@ -32,6 +32,17 @@ hip_OA <- hip %>%
                                        `2` = 'Somewhat unlikely',
                                        `3` = 'Very unlikely')))
 
+# Winsorizing and trimming outliers ---------------------------------------
+
+# by winsorizing first, no need to specify `na.rm = TRUE` in `replace()`
+hip_OA <- hip_OA %>%
+  mutate(guess_out_salary = replace(guess_out_salary,
+                                    which(guess_out_salary > quantile(guess_out_salary, 0.99)),
+                                    quantile(guess_out_salary, 0.99))) %>%
+  mutate(guess_out_salary = replace(guess_out_salary,
+                                    which(guess_out_salary < quantile(guess_out_salary, 0.01)),
+                                    NA_real_))
+
 ### `minimal_salary_*` ----------------------------------------------------
 
 hip_OA_ms <- hip %>%
@@ -116,7 +127,23 @@ hip_OB <- hip %>%
 hip_OB <- hip_OB %>%
   mutate(guess_out_promote = replace(guess_out_promote,
                                      which(guess_out_promote > 100L),
-                                     NA))
+                                     NA_real_))
+
+# Winsorizing and trimming outliers ---------------------------------------
+
+hip_OB <- hip_OB %>%
+  mutate(guess_out_salary_1y = replace(guess_out_salary_1y,
+                                       which(guess_out_salary_1y > quantile(guess_out_salary_1y, 0.99)),
+                                       quantile(guess_out_salary_1y, 0.99))) %>%
+  mutate(guess_out_salary_1y = replace(guess_out_salary_1y,
+                                       which(guess_out_salary_1y < quantile(guess_out_salary_1y, 0.01)),
+                                       NA_real_)) %>%
+  mutate(guess_out_salary_super = replace(guess_out_salary_super,
+                                       which(guess_out_salary_super > quantile(guess_out_salary_super, 0.99)),
+                                       quantile(guess_out_salary_super, 0.99))) %>%
+  mutate(guess_out_salary_super = replace(guess_out_salary_super,
+                                       which(guess_out_salary_super < quantile(guess_out_salary_super, 0.01)),
+                                       NA_real_))
 
 ## Figures ----------------------------------------------------------------
 
