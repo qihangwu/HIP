@@ -34,7 +34,7 @@ hip_OA <- hip %>%
 
 ### Winsorizing and trimming outliers -------------------------------------
 
-# by winsorizing first, no need to specify `na.rm = TRUE` in `replace()`
+# by winsorizing first, no need to specify `na.rm = TRUE` in `quantile()`
 hip_OA <- hip_OA %>%
 
   mutate(guess_out_salary = replace(
