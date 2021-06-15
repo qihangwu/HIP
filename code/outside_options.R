@@ -10,68 +10,50 @@ library(readxl)
 
 hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
 
+dict <- read_csv('dictionary.csv')
 
 # OA (morning) ------------------------------------------------------------
 
-OA <- c('guess_out_salary',
-        'guess_out_hour',
-        'guess_out_day',
-        'guess_out_extra',
-        'guess_out_night',
-        'guess_out_transp',
-        'guess_out_lunch',
-        'guess_out_attend')
+OA_names <- dict %>%
+  filter(subcategory == 'OA_m') %>%
+  pull(name)
 
-OA_ms <- c('minimal_salary_a',
-           'minimal_salary_b',
-           'minimal_salary_c',
-           'minimal_salary_d',
-           'minimal_salary_e',
-           'minimal_salary_f',
-           'minimal_salary_g',
-           'minimal_salary_h',
-           'minimal_salary_i',
-           'minimal_salary_j',
-           'minimal_salary_k',
-           'minimal_salary_l',
-           'minimal_salary_m',
-           'minimal_salary_n',
-           'minimal_salary_o')
+OA_names_ms <- OA_names[-(1:8)]
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
 
-### All but `minimal_salary_*` --------------------------------------------
+### Recoding --------------------------------------------------------------
 
 hip_OA <- hip %>%
-  select(all_of(OA)) %>%
-  mutate(across(OA[1:5], as.integer)) %>%
-  mutate(across(OA[6:8], as.factor)) %>%
-  mutate(across(OA[6:8], ~recode(.,
-                                 `0` = 'Likely',
-                                 `1` = 'Somewhat likely',
-                                 `2` = 'Somewhat unlikely',
-                                 `3` = 'Very unlikely')))
+  select(all_of(OA_names[1:8])) %>%   # all but `minimal_salary_*` variables
+  mutate(across(OA_names[1:5], as.integer)) %>%
+  mutate(across(OA_names[6:8], as.factor)) %>%
+  mutate(across(OA_names[6:8], ~recode(.,
+                                       `0` = 'Likely',
+                                       `1` = 'Somewhat likely',
+                                       `2` = 'Somewhat unlikely',
+                                       `3` = 'Very unlikely')))
 
 ### `minimal_salary_*` ----------------------------------------------------
 
 hip_OA_ms <- hip %>%
-  select(all_of(OA_ms))
+  select(all_of(OA_names_ms))
 
 # replace each `1` in `minimal_salary_*` with its corresponding value
 # e.g. each `1` in `minimal_salary_a` becomes `600`
 # and replace each `0` with `NA` of type double
 for (i in 1:15) {
   hip_OA_ms <- hip_OA_ms %>%
-    mutate(!!sym(OA_ms[i]) := recode(!!sym(OA_ms[i]),
-                                     `0` = NA_real_,
-                                     `1` = (i + 5) * 100))
+    mutate(!!sym(OA_names_ms[i]) := recode(!!sym(OA_names_ms[i]),
+                                           `0` = NA_real_,
+                                           `1` = (i + 5) * 100))
 }
 
 # create new variable `minimal_salary`
-# that is the minimum value across all `minimal_salary_*` columns
+# which is the minimum value across all `minimal_salary_*` columns
 hip_OA_ms <- hip_OA_ms %>%
   rowwise() %>%
-  mutate(minimal_salary = min(across(all_of(OA_ms)), na.rm = TRUE))
+  mutate(minimal_salary = min(across(all_of(OA_names_ms)), na.rm = TRUE))
 
 ## Figures ----------------------------------------------------------------
 
@@ -114,22 +96,22 @@ ggplot(data = hip_OA_ms) +
 
 # OB (morning) ------------------------------------------------------------
 
-OB <- c('guess_out_salary_1y',
-        'guess_out_salary_1y_com',
-        'guess_out_promote',
-        'guess_out_salary_super',
-        'guess_out_promote_com')
+OB_names <- dict %>%
+  filter(subcategory == 'OB_m') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_OB <- hip %>%
-  select(all_of(OB)) %>%
-  mutate(across(OB[c(1, 3, 4)], as.integer)) %>%
-  mutate(across(OB[c(2, 5)], as.factor)) %>%
-  mutate(across(OB[c(2, 5)], ~recode(.,
-                                     `0` = 'No',
-                                     `1` = 'Yes',
-                                     `100` = 'Not sure')))
+  select(all_of(OB_names)) %>%
+  mutate(across(OB_names[c(1, 3, 4)], as.integer)) %>%
+  mutate(across(OB_names[c(2, 5)], as.factor)) %>%
+  mutate(across(OB_names[c(2, 5)], ~recode(.,
+                                           `0` = 'No',
+                                           `1` = 'Yes',
+                                           `100` = 'Not sure')))
 
 ### Trim errors -----------------------------------------------------------
 
@@ -163,19 +145,18 @@ ggplot(data = hip_OB) +
 
 # OC (morning) ------------------------------------------------------------
 
-OC <- c('jobaspect_first',
-        'jobaspect_first_other',
-        'jobaspect_second',
-        'jobaspect_second_other',
-        'jobaspect_third',
-        'jobaspect_third_other')
+OC_names <- dict %>%
+  filter(subcategory == 'OC_m') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_OC <- hip %>%
-  select(all_of(OC)) %>%
-  mutate(across(OC[c(1, 3, 5)], as.factor)) %>%
-  mutate(across(OC[c(1, 3, 5)],
+  select(all_of(OC_names)) %>%
+  mutate(across(OC_names[c(1, 3, 5)], as.factor)) %>%
+  mutate(across(OC_names[c(1, 3, 5)],
                 ~recode(.,
                         `10` = 'Salary as an entry-level worker in the first month',
                         `11` = 'Salary as an entry-level worker after 6 months',
@@ -188,7 +169,7 @@ hip_OC <- hip %>%
                         `6` = 'Good management' #, `100` = 'Others'
                 ))) %>%
   # need to manually relevel to match questionnaire
-  mutate(across(OC[c(1, 3, 5)],
+  mutate(across(OC_names[c(1, 3, 5)],
                 ~fct_relevel(.,
                              'Salary as an entry-level worker in the first month',
                              'Salary as an entry-level worker after 6 months',
@@ -200,7 +181,7 @@ hip_OC <- hip %>%
                              'Skill development',
                              'Good management' #, 'Others'
                 ))) %>%
-  mutate(across(OC[c(2, 4, 6)], as.character))
+  mutate(across(OC_names[c(2, 4, 6)], as.character))
 
 ## Figures ----------------------------------------------------------------
 
