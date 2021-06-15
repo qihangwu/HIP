@@ -290,10 +290,12 @@ hip_ID <- hip_ID %>%
                                         NA)) %>%
   mutate(guess_promote_sp = replace(guess_promote_sp,
                                     which(guess_promote_sp > 100L),
-                                    NA)) %>%
-  mutate(guess_salary_sp = replace(guess_salary_sp,
-                                   which(guess_salary_sp > 50000L),
-                                   NA))
+                                    NA))
+
+#%>%
+#  mutate(guess_salary_sp = replace(guess_salary_sp,
+#                                   which(guess_salary_sp > 50000L),
+#                                   NA))
 
 ### Winsorizing and trimming outliers -------------------------------------
 
@@ -305,7 +307,7 @@ hip_ID <- hip_ID %>%
     quantile(guess_salary_medium, 0.99))) %>%
   mutate(guess_salary_medium = replace(
     guess_salary_medium,
-    which(guess_salary_medium < quantile(guess_salary_medium, 0.01)),
+    which(guess_salary_medium < 100L),   # too many above 1st percentile
     NA_real_)) %>%
 
   mutate(guess_salary_sp = replace(
@@ -314,7 +316,7 @@ hip_ID <- hip_ID %>%
     quantile(guess_salary_sp, 0.99, na.rm = TRUE))) %>%   # one NA observation
   mutate(guess_salary_sp = replace(
     guess_salary_sp,
-    which(guess_salary_sp < quantile(guess_salary_sp, 0.01, na.rm = TRUE)),
+    which(guess_salary_sp < 100L),   # too many above 1st percentile
     NA_real_)) %>%
 
   mutate(guess_you_salary_6m = replace(
