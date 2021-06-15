@@ -4,13 +4,11 @@
 library(tidyverse)
 library(readxl)
 
-# setwd('')   # unnecessary to set working directory if you opened `HIP.Rproj`
-
 # hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
-
 hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
 
 dict <- read_csv('dictionary.csv')
+
 
 # OA (morning) ------------------------------------------------------------
 
@@ -168,7 +166,7 @@ hip_OC <- hip %>%
                         `5` = 'Skill development',
                         `6` = 'Good management' #, `100` = 'Others'
                 ))) %>%
-  # need to manually relevel to match questionnaire
+  # manually relevel to match questionnaire
   mutate(across(OC_names[c(1, 3, 5)],
                 ~fct_relevel(.,
                              'Salary as an entry-level worker in the first month',
