@@ -32,7 +32,7 @@ hip_OA <- hip %>%
                                        `2` = 'Somewhat unlikely',
                                        `3` = 'Very unlikely')))
 
-# Winsorizing and trimming outliers ---------------------------------------
+### Winsorizing and trimming outliers -------------------------------------
 
 # by winsorizing first, no need to specify `na.rm = TRUE` in `replace()`
 hip_OA <- hip_OA %>%
@@ -129,7 +129,7 @@ hip_OB <- hip_OB %>%
                                      which(guess_out_promote > 100L),
                                      NA_real_))
 
-# Winsorizing and trimming outliers ---------------------------------------
+### Winsorizing and trimming outliers -------------------------------------
 
 hip_OB <- hip_OB %>%
   mutate(guess_out_salary_1y = replace(guess_out_salary_1y,
