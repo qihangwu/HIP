@@ -151,7 +151,7 @@ hip_OB <- hip_OB %>%
     quantile(guess_out_salary_super, 0.99))) %>%
   mutate(guess_out_salary_super = replace(
     guess_out_salary_super,
-    which(guess_out_salary_super < quantile(guess_out_salary_super, 0.01)),
+    which(guess_out_salary_super < 100L), # too many above 1st percentile
     NA_real_))
 
 ## Figures ----------------------------------------------------------------
