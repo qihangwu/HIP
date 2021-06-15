@@ -4,27 +4,25 @@
 library(tidyverse)
 library(readxl)
 
-# setwd('')   # unnecessary to set working directory if you opened `HIP.Rproj`
-
 # hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
-
 hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
+
+dict <- read_csv('dictionary.csv')
 
 
 # IA (morning) ------------------------------------------------------------
 
-IA <- c('guess_hip_task',
-        'guess_hip_task_other',
-        'hip_knowppl',
-        'hip_knowppl_like',
-        'guess_hip_turnover',
-        'guess_hip_turnover_sure')
+IA_names <- dict %>%
+  filter(subcategory == 'IA_m') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_IA <- hip %>%
-  select(all_of(IA)) %>%
-  mutate(across(IA[c(1, 4, 6)], as.factor)) %>%
+  select(all_of(IA_names)) %>%
+  mutate(across(IA_names[c(1, 4, 6)], as.factor)) %>%
   mutate(guess_hip_task = recode(guess_hip_task,
                                  `0` = 'Sewing',
                                  `1` = 'Quality check',
@@ -42,7 +40,7 @@ hip_IA <- hip %>%
                                           `2` = 'Slightly not sure',
                                           `3` = 'Not sure at all')) %>%
   mutate(guess_hip_task_other = as.character(guess_hip_task_other)) %>%
-  mutate(across(IA[c(3, 5)], as.integer))
+  mutate(across(IA_names[c(3, 5)], as.integer))
 
 ## Figures ----------------------------------------------------------------
 
@@ -69,32 +67,23 @@ ggplot(data = hip_IA) +
 
 # IB (morning) ------------------------------------------------------------
 
-IB <- c('guess_hip_hour',
-        'guess_hip_hour_sure',
-        'guess_hip_day',
-        'guess_hip_day_sure',
-        'guess_hip_extra',
-        'guess_hip_extra_sure',
-        'guess_hip_night',
-        'guess_hip_night_sure',
-        'guess_hip_transp',
-        'guess_hip_transp_sure',
-        'guess_hip_lunch',
-        'guess_hip_lunch_sure',
-        'guess_hip_attend',
-        'guess_hip_attend_sure')
+IB_names <- dict %>%
+  filter(subcategory == 'IB_m') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_IB <- hip %>%
-  select(all_of(IB)) %>%
-  mutate(across(IB[seq(1, 13, 2)], as.integer)) %>%
-  mutate(across(IB[seq(2, 14, 2)], as.factor)) %>%
-  mutate(across(IB[seq(2, 14, 2)], ~recode(.,
-                                           `0` = 'Very sure',
-                                           `1` = 'Slightly sure',
-                                           `2` = 'Slightly not sure',
-                                           `3` = 'Not sure at all')))
+  select(all_of(IB_names)) %>%
+  mutate(across(IB_names[seq(1, 13, 2)], as.integer)) %>%
+  mutate(across(IB_names[seq(2, 14, 2)], as.factor)) %>%
+  mutate(across(IB_names[seq(2, 14, 2)], ~recode(.,
+                                                 `0` = 'Very sure',
+                                                 `1` = 'Slightly sure',
+                                                 `2` = 'Slightly not sure',
+                                                 `3` = 'Not sure at all')))
 
 
 ### Trim errors -------------------------------------------------------------
@@ -171,26 +160,23 @@ ggplot(data = hip_IB) +
 
 # IC (morning) ------------------------------------------------------------
 
-IC <- c('guess_entry_salary',
-        'guess_entry_salary_sure',
-        'guess_entry_salary_6m',
-        'guess_entry_salary_6m_sure',
-        'guess_entry_pct',
-        'guess_entry_pct_sure',
-        'guess_entry_pct_you',
-        'guess_you_salary_1m')
+IC_names <- dict %>%
+  filter(subcategory == 'IC_m') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_IC <- hip %>%
-  select(all_of(IC)) %>%
-  mutate(across(IC[c(1, 3, 5, 8)], as.integer)) %>%
-  mutate(across(IC[c(2, 4, 6, 7)], as.factor)) %>%
-  mutate(across(IC[c(2, 4, 6)], ~recode(.,
-                                        `0` = 'Very sure',
-                                        `1` = 'Slightly sure',
-                                        `2` = 'Slightly not sure',
-                                        `3` = 'Not sure at all'))) %>%
+  select(all_of(IC_names)) %>%
+  mutate(across(IC_names[c(1, 3, 5, 8)], as.integer)) %>%
+  mutate(across(IC_names[c(2, 4, 6, 7)], as.factor)) %>%
+  mutate(across(IC_names[c(2, 4, 6)], ~recode(.,
+                                              `0` = 'Very sure',
+                                              `1` = 'Slightly sure',
+                                              `2` = 'Slightly not sure',
+                                              `3` = 'Not sure at all'))) %>%
   mutate(guess_entry_pct_you = recode(guess_entry_pct_you,
                                       `0` = 'Likely',
                                       `1` = 'Somewhat likely',
@@ -241,34 +227,28 @@ ggplot(data = hip_IC) +
 
 # ID (morning) ------------------------------------------------------------
 
-ID <- c('guess_promote_medium',
-        'guess_promote_medium_sure',
-        'guess_promote_sp',
-        'guess_promote_sp_sure',
-        'guess_salary_medium',
-        'guess_salary_medium_sure',
-        'guess_salary_sp',
-        'guess_salary_sp_sure',
-        'guess_you_promote_medium',
-        'guess_you_promote_sp',
-        'guess_you_salary_6m')
+ID_names <- dict %>%
+  filter(subcategory == 'ID_m') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_ID <- hip %>%
-  select(all_of(ID)) %>%
-  mutate(across(ID[c(1, 3, 5, 7, 11)], as.integer)) %>%
-  mutate(across(ID[c(2, 4, 6, 8, 9, 10)], as.factor)) %>%
-  mutate(across(ID[c(2, 4, 6, 8)], ~recode(.,
-                                           `0` = 'Very sure',
-                                           `1` = 'Slightly sure',
-                                           `2` = 'Slightly not sure',
-                                           `3` = 'Not sure at all'))) %>%
-  mutate(across(ID[9:10], ~recode(.,
-                                  `0` = 'Likely',
-                                  `1` = 'Somewhat likely',
-                                  `2` = 'Somewhat unlikely',
-                                  `3` = 'Very unlikely')))
+  select(all_of(ID_names)) %>%
+  mutate(across(ID_names[c(1, 3, 5, 7, 11)], as.integer)) %>%
+  mutate(across(ID_names[c(2, 4, 6, 8, 9, 10)], as.factor)) %>%
+  mutate(across(ID_names[c(2, 4, 6, 8)], ~recode(.,
+                                                 `0` = 'Very sure',
+                                                 `1` = 'Slightly sure',
+                                                 `2` = 'Slightly not sure',
+                                                 `3` = 'Not sure at all'))) %>%
+  mutate(across(ID_names[9:10], ~recode(.,
+                                        `0` = 'Likely',
+                                        `1` = 'Somewhat likely',
+                                        `2` = 'Somewhat unlikely',
+                                        `3` = 'Very unlikely')))
 
 ### Trim errors -----------------------------------------------------------
 
@@ -334,35 +314,30 @@ ggplot(data = hip_ID) +
 
 # need to construct 2 new vars!!
 
-IT <- c('info_entry_choice1',
-        'info_entry_choice2',
-        'info_entry_choice3',
-        'info_entry_choice4',
-        'info_entry_choice5',
-        'info_promote_choice1',
-        'info_promote_choice2',
-        'info_promote_choice3',
-        'info_promote_choice4',
-        'info_promote_choice5')
+IT_names <- dict %>%
+  filter(subcategory == 'IT_m') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_IT <- hip %>%
-  select(all_of(IT)) %>%
-  mutate(across(all_of(IT), as.logical))
+  select(all_of(IT_names)) %>%
+  mutate(across(all_of(IT_names), as.logical))
 
 ## Figures ----------------------------------------------------------------
 
-IT_codes <- c('IT1a', 'IT1b', 'IT1c', 'IT1d', 'IT1e', 'IT2a', 'IT2b', 'IT2c', 'IT2d', 'IT2e')
+IT_codes <- dict %>%
+  filter(subcategory == 'IT_m') %>%
+  pull(code)
 
 for (i in 1:10) {
   temp <- ggplot(data = hip_IT) +
-    geom_bar(aes_string(x = IT[i]))
+    geom_bar(aes_string(x = IT_names[i]))
 
   ggsave(plot = temp, file = paste0('figures/jobs_in_hip/', IT_codes[i], '.png'))
 }
-
-
 
 
 
