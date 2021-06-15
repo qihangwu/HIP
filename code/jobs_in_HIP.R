@@ -190,10 +190,42 @@ hip_IC <- hip_IC %>%
                                    which(guess_entry_pct > 100L),
                                    NA))
 
+### Winsorizing and trimming outliers -------------------------------------
+
+# by winsorizing first, no need to specify `na.rm = TRUE` in `quantile()`
+hip_IC <- hip_IC %>%
+
+  mutate(guess_entry_salary = replace(
+    guess_entry_salary,
+    which(guess_entry_salary > quantile(guess_entry_salary, 0.99)),
+    quantile(guess_entry_salary, 0.99))) %>%
+  mutate(guess_entry_salary = replace(
+    guess_entry_salary,
+    which(guess_entry_salary < quantile(guess_entry_salary, 0.01)),
+    NA_real_)) %>%
+
+  mutate(guess_entry_salary_6m = replace(
+    guess_entry_salary_6m,
+    which(guess_entry_salary_6m > quantile(guess_entry_salary_6m, 0.99)),
+    quantile(guess_entry_salary_6m, 0.99))) %>%
+  mutate(guess_entry_salary_6m = replace(
+    guess_entry_salary_6m,
+    which(guess_entry_salary_6m < quantile(guess_entry_salary_6m, 0.01)),
+    NA_real_)) %>%
+
+  mutate(guess_you_salary_1m = replace(
+    guess_you_salary_1m,
+    which(guess_you_salary_1m > quantile(guess_you_salary_1m, 0.99)),
+    quantile(guess_you_salary_1m, 0.99))) %>%
+  mutate(guess_you_salary_1m = replace(
+    guess_you_salary_1m,
+    which(guess_you_salary_1m < quantile(guess_you_salary_1m, 0.01)),
+    NA_real_))
+
 ## Figures ----------------------------------------------------------------
 
 ggplot(data = hip_IC) +
-  geom_histogram(aes(x = guess_entry_salary), binwidth = 500) +
+  geom_histogram(aes(x = guess_entry_salary), binwidth = 200) +
   ggsave('figures/jobs_in_HIP/IC1.png')
 
 ggplot(data = hip_IC) +
@@ -221,7 +253,7 @@ ggplot(data = hip_IC) +
   ggsave('figures/jobs_in_HIP/IC4.png')
 
 ggplot(data = hip_IC) +
-  geom_histogram(aes(x = guess_you_salary_1m), binwidth = 500) +
+  geom_histogram(aes(x = guess_you_salary_1m), binwidth = 200) +
   ggsave('figures/jobs_in_HIP/IC5.png')
 
 
@@ -262,6 +294,37 @@ hip_ID <- hip_ID %>%
   mutate(guess_salary_sp = replace(guess_salary_sp,
                                    which(guess_salary_sp > 50000L),
                                    NA))
+
+### Winsorizing and trimming outliers -------------------------------------
+
+hip_ID <- hip_ID %>%
+
+  mutate(guess_salary_medium = replace(
+    guess_salary_medium,
+    which(guess_salary_medium > quantile(guess_salary_medium, 0.99)),
+    quantile(guess_salary_medium, 0.99))) %>%
+  mutate(guess_salary_medium = replace(
+    guess_salary_medium,
+    which(guess_salary_medium < quantile(guess_salary_medium, 0.01)),
+    NA_real_)) %>%
+
+  mutate(guess_salary_sp = replace(
+    guess_salary_sp,
+    which(guess_salary_sp > quantile(guess_salary_sp, 0.99, na.rm = TRUE)),
+    quantile(guess_salary_sp, 0.99, na.rm = TRUE))) %>%   # one NA observation
+  mutate(guess_salary_sp = replace(
+    guess_salary_sp,
+    which(guess_salary_sp < quantile(guess_salary_sp, 0.01, na.rm = TRUE)),
+    NA_real_)) %>%
+
+  mutate(guess_you_salary_6m = replace(
+    guess_you_salary_6m,
+    which(guess_you_salary_6m > quantile(guess_you_salary_6m, 0.99)),
+    quantile(guess_you_salary_6m, 0.99))) %>%
+  mutate(guess_you_salary_6m = replace(
+    guess_you_salary_6m,
+    which(guess_you_salary_6m < quantile(guess_you_salary_6m, 0.01)),
+    NA_real_))
 
 ## Figures ----------------------------------------------------------------
 
