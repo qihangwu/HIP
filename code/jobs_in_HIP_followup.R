@@ -4,37 +4,27 @@
 library(tidyverse)
 library(readxl)
 
-# setwd('')   # unnecessary to set working directory if you opened `HIP.Rproj`
-
 # hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
-
 hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
+
+dict <- read_csv('dictionary.csv')
 
 
 # IB (weekend) ------------------------------------------------------------
 
-w_IB <- c('w_guess_hip_hour',
-          'w_guess_hip_hour_sure',
-          'w_guess_hip_day',
-          'w_guess_hip_day_sure',
-          'w_guess_hip_extra',
-          'w_guess_hip_extra_sure',
-          'w_guess_hip_night',
-          'w_guess_hip_night_sure',
-          'w_guess_hip_transp',
-          'w_guess_hip_transp_sure',
-          'w_guess_hip_lunch',
-          'w_guess_hip_lunch_sure',
-          'w_guess_hip_attend',
-          'w_guess_hip_attend_sure')
+w_IB_names <- dict %>%
+  filter(subcategory == 'IB_w') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_w_IB <- hip %>%
-  select(all_of(w_IB)) %>%
-  mutate(across(w_IB[seq(1, 13, 2)], as.integer)) %>%
-  mutate(across(w_IB[seq(2, 14, 2)], as.factor)) %>%
-  mutate(across(w_IB[seq(2, 14, 2)], ~recode(.,
+  select(all_of(w_IB_names)) %>%
+  mutate(across(w_IB_names[seq(1, 13, 2)], as.integer)) %>%
+  mutate(across(w_IB_names[seq(2, 14, 2)], as.factor)) %>%
+  mutate(across(w_IB_names[seq(2, 14, 2)], ~recode(.,
                                              `0` = 'Very sure',
                                              `1` = 'Slightly sure',
                                              `2` = 'Slightly not sure',
@@ -62,14 +52,14 @@ w_IB_codes <- c('IB1', 'IB1s', 'IB2', 'IB2s', 'IB3', 'IB3s', 'IB4', 'IB4s', 'IB5
 
 for (i in seq(1, 13, 2)) {
   temp <- ggplot(data = hip_w_IB) +
-    geom_histogram(aes_string(x = w_IB[i]), binwidth = 1)
+    geom_histogram(aes_string(x = w_IB_names[i]), binwidth = 1)
 
   ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/w_', w_IB_codes[i], '.png'))
 }
 
 for (i in seq(2, 14, 2)) {
   temp <- ggplot(data = hip_w_IB) +
-    geom_bar(aes_string(x = w_IB[i]))
+    geom_bar(aes_string(x = w_IB_names[i]))
 
   ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/w_', w_IB_codes[i], '.png'))
 }
@@ -77,22 +67,19 @@ for (i in seq(2, 14, 2)) {
 
 # IC (weekend) ------------------------------------------------------------
 
-w_IC <- c('w_guess_entry_salary',
-          'w_guess_entry_salary_sure',
-          'w_guess_entry_salary_6m',
-          'w_guess_entry_salary_6m_sure',
-          'w_guess_entry_pct',
-          'w_guess_entry_pct_sure',
-          'w_guess_entry_pct_you',
-          'w_guess_you_salary_1m')
+w_IC_names <- dict %>%
+  filter(subcategory == 'IC_w') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_w_IC <- hip %>%
-  select(all_of(w_IC)) %>%
-  mutate(across(w_IC[c(1, 3, 5, 8)], as.integer)) %>%
-  mutate(across(w_IC[c(2, 4, 6, 7)], as.factor)) %>%
-  mutate(across(w_IC[c(2, 4, 6)], ~recode(.,
+  select(all_of(w_IC_names)) %>%
+  mutate(across(w_IC_names[c(1, 3, 5, 8)], as.integer)) %>%
+  mutate(across(w_IC_names[c(2, 4, 6, 7)], as.factor)) %>%
+  mutate(across(w_IC_names[c(2, 4, 6)], ~recode(.,
                                           `0` = 'Very sure',
                                           `1` = 'Slightly sure',
                                           `2` = 'Slightly not sure',
@@ -140,30 +127,24 @@ ggplot(data = hip_w_IC) +
 
 # ID (weekend) ------------------------------------------------------------
 
-w_ID <- c('w_guess_promote_medium',
-          'w_guess_promote_medium_sure',
-          'w_guess_promote_sp',
-          'w_guess_promote_sp_sure',
-          'w_guess_salary_medium',
-          'w_guess_salary_medium_sure',
-          'w_guess_salary_sp',
-          'w_guess_salary_sp_sure',
-          'w_guess_you_promote_medium',
-          'w_guess_you_promote_sp',
-          'w_guess_you_salary_6m')
+w_ID_names <- dict %>%
+  filter(subcategory == 'ID_w') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_w_ID <- hip %>%
-  select(all_of(w_ID)) %>%
-  mutate(across(w_ID[c(1, 3, 5, 7, 11)], as.integer)) %>%
-  mutate(across(w_ID[c(2, 4, 6, 8, 9, 10)], as.factor)) %>%
-  mutate(across(w_ID[c(2, 4, 6, 8)], ~recode(.,
+  select(all_of(w_ID_names)) %>%
+  mutate(across(w_ID_names[c(1, 3, 5, 7, 11)], as.integer)) %>%
+  mutate(across(w_ID_names[c(2, 4, 6, 8, 9, 10)], as.factor)) %>%
+  mutate(across(w_ID_names[c(2, 4, 6, 8)], ~recode(.,
                                              `0` = 'Very sure',
                                              `1` = 'Slightly sure',
                                              `2` = 'Slightly not sure',
                                              `3` = 'Not sure at all'))) %>%
-  mutate(across(w_ID[9:10], ~recode(.,
+  mutate(across(w_ID_names[9:10], ~recode(.,
                                     `0` = 'Likely',
                                     `1` = 'Somewhat likely',
                                     `2` = 'Somewhat unlikely',
@@ -228,28 +209,18 @@ ggplot(data = hip_w_ID) +
 
 # IA (evening) ------------------------------------------------------------
 
-w_IA <- c('interact_roommate',
-          'interact_coworkers',
-          'interact_coworkers_out',
-          'interact_coworkers_wel',
-          'interact_coworkers_salary',
-          'interact_supervisor',
-          'interact_supervisor_wel',
-          'interact_supervisor_salary',
-          'interact_hrmanager',
-          'interact_hrmanager_wel',
-          'interact_hrmanager_salary',
-          'interact_manager',
-          'interact_manager_wel',
-          'interact_manager_salary',
-          'interact_break')
+w_IA_names <- dict %>%
+  filter(subcategory == 'IA_w') %>%
+  pull(name)
 
-## Initial cleaning -------------------------------------------------------
+## Cleaning ---------------------------------------------------------------
+
+### Recoding --------------------------------------------------------------
 
 hip_w_IA <- hip %>%
-  select(all_of(w_IA)) %>%
-  mutate(across(all_of(w_IA), as.factor)) %>%
-  mutate(across(c(1, 2, 3, 5, 6, 8, 9, 11, 12, 14), ~recode(.,
+  select(all_of(w_IA_names)) %>%
+  mutate(across(all_of(w_IA_names), as.factor)) %>%
+  mutate(across(w_IA_names[c(1, 2, 3, 5, 6, 8, 9, 11, 12, 14)], ~recode(.,
                                                             `0` = 'Frequently every day',
                                                             `1` = 'Sometimes every day',
                                                             `2` = 'Once every day',
@@ -257,10 +228,10 @@ hip_w_IA <- hip %>%
                                                             `4` = 'Once a week',
                                                             `6` = 'Never',
                                                             `-8` = "I'm not sure"))) %>%
-  mutate(across(c(1, 2, 3, 5, 6, 8, 9, 11, 12, 14), ~fct_relevel(.,
+  mutate(across(w_IA_names[c(1, 2, 3, 5, 6, 8, 9, 11, 12, 14)], ~fct_relevel(.,
                                                                  "I'm not sure",
                                                                  after = Inf))) %>%
-  mutate(across(c(4, 7, 10, 13), ~recode(.,
+  mutate(across(w_IA_names[c(4, 7, 10, 13)], ~recode(.,
                                          `0` = 'Not welcomed at all',
                                          `1` = 'Somewhat not welcomed',
                                          `2` = 'Somewhat welcomed',
@@ -272,13 +243,15 @@ hip_w_IA <- hip %>%
 
 ## Figures ---------------------------------------------------------------
 
-w_IA_codes <- c('w_IA0', 'w_IA1', 'w_IA2', 'w_IA2n', 'w_IA2o', 'w_IA3', 'w_IA3n', 'w_IA3o', 'w_IA4', 'w_IA4n', 'w_IA4o', 'w_IA5', 'w_IA5n', 'w_IA5o', 'w_IA6')
+w_IA_codes <- dict %>%
+  filter(subcategory == 'IA_w') %>%
+  pull(code)
 
 for (i in 1:15) {
   temp <- ggplot(data = hip_w_IA) +
-    geom_bar(aes_string(x = w_IA[i]))
+    geom_bar(aes_string(x = w_IA_names[i]))
 
-  ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/', w_IA_codes[i], '.png'))
+  ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/w_', w_IA_codes[i], '.png'))
 }
 
 
