@@ -48,7 +48,9 @@ hip_w_IB <- hip_w_IB %>%
 
 ## Figures ---------------------------------------------------------------
 
-w_IB_codes <- c('IB1', 'IB1s', 'IB2', 'IB2s', 'IB3', 'IB3s', 'IB4', 'IB4s', 'IB5', 'IB5s', 'IB6', 'IB6s', 'IB7', 'IB7s')
+w_IB_codes <- dict %>%
+  filter(subcategory == 'IB_w') %>%
+  pull(code)
 
 for (i in seq(1, 13, 2)) {
   temp <- ggplot(data = hip_w_IB) +
@@ -90,10 +92,41 @@ hip_w_IC <- hip %>%
                                         `2` = 'Somewhat unlikely',
                                         `3` = 'Very unlikely'))
 
+### Winsorizing and trimming outliers -------------------------------------
+
+hip_w_IC <- hip_w_IC %>%
+
+  mutate(w_guess_entry_salary = replace(
+    w_guess_entry_salary,
+    which(w_guess_entry_salary > quantile(w_guess_entry_salary, 0.99, na.rm = TRUE)),
+    quantile(w_guess_entry_salary, 0.99, na.rm = TRUE))) %>%
+  mutate(w_guess_entry_salary = replace(
+    w_guess_entry_salary,
+    which(w_guess_entry_salary < quantile(w_guess_entry_salary, 0.01, na.rm = TRUE)),
+    NA_real_)) %>%
+
+  mutate(w_guess_entry_salary_6m = replace(
+    w_guess_entry_salary_6m,
+    which(w_guess_entry_salary_6m > quantile(w_guess_entry_salary_6m, 0.99, na.rm = TRUE)),
+    quantile(w_guess_entry_salary_6m, 0.99, na.rm = TRUE))) %>%
+  mutate(w_guess_entry_salary_6m = replace(
+    w_guess_entry_salary_6m,
+    which(w_guess_entry_salary_6m < quantile(w_guess_entry_salary_6m, 0.01, na.rm = TRUE)),
+    NA_real_)) %>%
+
+  mutate(w_guess_you_salary_1m = replace(
+    w_guess_you_salary_1m,
+    which(w_guess_you_salary_1m > quantile(w_guess_you_salary_1m, 0.99, na.rm = TRUE)),
+    quantile(w_guess_you_salary_1m, 0.99, na.rm = TRUE))) %>%
+  mutate(w_guess_you_salary_1m = replace(
+    w_guess_you_salary_1m,
+    which(w_guess_you_salary_1m < quantile(w_guess_you_salary_1m, 0.01, na.rm = TRUE)),
+    NA_real_))
+
 ## Figures ---------------------------------------------------------------
 
 ggplot(data = hip_w_IC) +
-  geom_histogram(aes(x = w_guess_entry_salary), binwidth = 500) +
+  geom_histogram(aes(x = w_guess_entry_salary), binwidth = 100) +
   ggsave('figures/jobs_in_HIP_followup/w_IC1.png')
 
 ggplot(data = hip_w_IC) +
@@ -121,7 +154,7 @@ ggplot(data = hip_w_IC) +
   ggsave('figures/jobs_in_HIP_followup/w_IC4.png')
 
 ggplot(data = hip_w_IC) +
-  geom_histogram(aes(x = w_guess_you_salary_1m), binwidth = 500) +
+  geom_histogram(aes(x = w_guess_you_salary_1m), binwidth = 200) +
   ggsave('figures/jobs_in_HIP_followup/w_IC5.png')
 
 
@@ -149,6 +182,37 @@ hip_w_ID <- hip %>%
                                     `1` = 'Somewhat likely',
                                     `2` = 'Somewhat unlikely',
                                     `3` = 'Very unlikely')))
+
+### Winsorizing and trimming outliers -------------------------------------
+
+hip_w_ID <- hip_w_ID %>%
+
+  mutate(w_guess_salary_medium = replace(
+    w_guess_salary_medium,
+    which(w_guess_salary_medium > quantile(w_guess_salary_medium, 0.99, na.rm = TRUE)),
+    quantile(w_guess_salary_medium, 0.99, na.rm = TRUE))) %>%
+  mutate(w_guess_salary_medium = replace(
+    w_guess_salary_medium,
+    which(w_guess_salary_medium < 100L),   # too many above 1st percentile
+    NA_real_)) %>%
+
+  mutate(w_guess_salary_sp = replace(
+    w_guess_salary_sp,
+    which(w_guess_salary_sp > quantile(w_guess_salary_sp, 0.99, na.rm = TRUE)),
+    quantile(w_guess_salary_sp, 0.99, na.rm = TRUE))) %>%
+  mutate(w_guess_salary_sp = replace(
+    w_guess_salary_sp,
+    which(w_guess_salary_sp < quantile(w_guess_salary_sp, 0.01, na.rm = TRUE)),
+    NA_real_)) %>%
+
+  mutate(w_guess_you_salary_6m = replace(
+    w_guess_you_salary_6m,
+    which(w_guess_you_salary_6m > quantile(w_guess_you_salary_6m, 0.99, na.rm = TRUE)),
+    quantile(w_guess_you_salary_6m, 0.99, na.rm = TRUE))) %>%
+  mutate(w_guess_you_salary_6m = replace(
+    w_guess_you_salary_6m,
+    which(w_guess_you_salary_6m < quantile(w_guess_you_salary_6m, 0.01, na.rm = TRUE)),
+    NA_real_))
 
 ### Trim errors -----------------------------------------------------------
 
