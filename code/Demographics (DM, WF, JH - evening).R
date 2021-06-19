@@ -238,3 +238,4 @@ ggplot(data = data_JH) +
   geom_bar(aes(x = history_quitreason)) +
   ggsave('JH7.png')
 
+
