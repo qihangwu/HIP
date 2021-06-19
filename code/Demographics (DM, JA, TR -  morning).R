@@ -2,13 +2,17 @@ library(tidyverse)
 library(readxl)
 library(ggplot2)
 setwd("~/HIP")
-
+install.packages("Factoshiny")
+library(Factoshiny)
+library(FactoMineR)
 
 data = read_excel('weekdayend_all.xlsx') 
 
 #### DM_m (Morning) ####
 ## Description, keep age and school fee as.numeric,  make married, educ, school_yesno, and school_diploma as factor,
 ## and school_name & school_diploma_other as character. In addition, change the values (recode) for those that are factors.  
+
+data$high_educ = ifelse(data$educ > 2, "Higher than 10th grade education", "10th grade education or lower")
 data$new_age = 2013 - data$year_birth
 DM_m = c('age',
          'year_birth',
@@ -16,6 +20,7 @@ DM_m = c('age',
         'month_birth',
         'married',
         'educ',
+        'high_educ',
         'school_yesno',
         'school_name',
         'school_diploma',
@@ -26,7 +31,8 @@ data_DM = data %>%
   select(all_of(DM_m)) %>%
   mutate(age = replace(age, age == 1991, 22)) %>%
   mutate(across(DM_m[c(1, 2, 3)], as.integer)) %>%
-  mutate(across(DM_m[c(4, 5, 6, 8)], as.factor)) %>%
+  mutate(across(DM_m[c(4, 5, 6, 7, 8)], as.factor)) %>%
+  mutate(school_name = as.character(school_name)) %>%
   mutate(married = recode(married,
                           `0` = 'Single',
                           `1` = 'Married',
@@ -116,6 +122,7 @@ JA_m = c('reason_salary',
         'income_target',
         'expend_target')
 
+#Questions regarding integer for months 
 
 data_JA = data %>%
   select(all_of(JA_m)) %>%
@@ -150,6 +157,7 @@ data_JA = data %>%
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis  Ababa', 'Addis Ababa')) %>%  
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adiss Ababa', 'Addis Ababa')) %>% 
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis Ababa', 'Addis Ababa'))  
+
 
 str(data_JA)
 
@@ -268,3 +276,4 @@ ggplot(data = data_TR) +
 ggplot(data = data_TR) +
   geom_bar(aes(x = trust_ancres)) +
   ggsave('TR6.png')
+
