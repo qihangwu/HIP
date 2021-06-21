@@ -2,8 +2,12 @@ library(tidyverse)
 library(readxl)
 library(ggplot2)
 setwd("C:/Users/Ezana Teodros/Downloads")
+install.packages("Factoshiny")
+library(Factoshiny)
+library(FactoMineR)
 
 
+rm(list = ls())
 data = read_excel('weekdayend_all.xlsx') 
 
 #### A11-A36 (Grading - Behavioral Test (BT)) ####
@@ -181,12 +185,10 @@ ggplot(data = data_BT) +
   geom_bar(aes(x = a36)) +
   ggsave('a36.png')
 
-#### B1-B12 (Grading - Cognitive Test (CT)) ####
+#### B1-B12 (Grading - Cognitive Test (ct)) ####
 
-data$tot_score_CT = data$b1 + data$b2 + data$b3 + data$b4 + data$b5 + data$b6 + data$b7 + data$b8 + data$b9 + 
-  data$b10 + data$b11 + data$b12
 
-CT = c('b1',
+ct = c('b1',
        'b2',
        'b3',
        'b4',
@@ -197,148 +199,197 @@ CT = c('b1',
        'b9',
        'b10',
        'b11',
-       'b12',
-       'tot_score_CT')
+       'b12')
 
-data_CT = data %>%
-  select(all_of(CT)) %>%
-  mutate(across(CT[c(1:12)], as.factor)) %>%
-  mutate(across(CT[c(1)], ~recode(.,
+data_ct = data %>%
+  select(all_of(ct)) %>%
+  mutate(across(ct[c(1:12)], as.factor)) %>%
+  mutate(across(ct[c(1)], ~recode(.,
                                      `1` = 'Incorrect',
                                      `2` = 'Correct',
                                      `3` = 'Incorrect',
                                      `4` = 'Incorrect',
                                      `5` = 'Incorrect',
                                      `6` = 'Incorrect'))) %>%
-  mutate(across(CT[c(2)], ~recode(.,
+  mutate(across(ct[c(2)], ~recode(.,
                                 `1` = 'Incorrect',
                                 `2` = 'Incorrect',
                                 `3` = 'Incorrect',
                                 `4` = 'Incorrect',
                                 `5` = 'Incorrect',
                                 `6` = 'Correct'))) %>%
-  mutate(across(CT[c(3)], ~recode(.,
+  mutate(across(ct[c(3)], ~recode(.,
                                   `1` = 'Correct',
                                   `2` = 'Incorrect',
                                   `3` = 'Incorrect',
                                   `4` = 'Incorrect',
                                   `5` = 'Incorrect',
                                   `6` = 'Incorrect'))) %>%
-  mutate(across(CT[c(4)], ~recode(.,
+  mutate(across(ct[c(4)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Correct',
                                   `3` = 'Incorrect',
                                   `4` = 'Incorrect',
                                   `5` = 'Incorrect',
                                   `6` = 'Incorrect'))) %>%
-  mutate(across(CT[c(5)], ~recode(.,
+  mutate(across(ct[c(5)], ~recode(.,
                                   `1` = 'Correct',
                                   `2` = 'Incorrect',
                                   `3` = 'Incorrect',
                                   `4` = 'Incorrect',
                                   `5` = 'Incorrect',
                                   `6` = 'Incorrect'))) %>%
-  mutate(across(CT[c(6)], ~recode(.,
+  mutate(across(ct[c(6)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Incorrect',
                                   `3` = 'Correct',
                                   `4` = 'Incorrect',
                                   `5` = 'Incorrect',
                                   `6` = 'Incorrect'))) %>% 
-  mutate(across(CT[c(7)], ~recode(.,
+  mutate(across(ct[c(7)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Incorrect',
                                   `3` = 'Incorrect',
                                   `4` = 'Incorrect',
                                   `5` = 'Correct',
                                   `6` = 'Incorrect'))) %>% 
-  mutate(across(CT[c(8)], ~recode(.,
+  mutate(across(ct[c(8)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Incorrect',
                                   `3` = 'Incorrect',
                                   `4` = 'Incorrect',
                                   `5` = 'Incorrect',
                                   `6` = 'Correct'))) %>%
-  mutate(across(CT[c(9)], ~recode(.,
+  mutate(across(ct[c(9)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Incorrect',
                                   `3` = 'Incorrect',
                                   `4` = 'Correct',
                                   `5` = 'Incorrect',
                                   `6` = 'Incorrect'))) %>%
-  mutate(across(CT[c(10)], ~recode(.,
+  mutate(across(ct[c(10)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Incorrect',
                                   `3` = 'Correct',
                                   `4` = 'Incorrect',
                                   `5` = 'Incorrect',
                                   `6` = 'Incorrect'))) %>%
-  mutate(across(CT[c(11)], ~recode(.,
+  mutate(across(ct[c(11)], ~recode(.,
                                    `1` = 'Incorrect',
                                    `2` = 'Incorrect',
                                    `3` = 'Correct',
                                    `4` = 'Incorrect',
                                    `5` = 'Incorrect',
                                    `6` = 'Incorrect'))) %>%
-  mutate(across(CT[c(12)], ~recode(.,
+  mutate(across(ct[c(12)], ~recode(.,
                                    `1` = 'Incorrect',
                                    `2` = 'Incorrect',
                                    `3` = 'Incorrect',
                                    `4` = 'Incorrect',
                                    `5` = 'Correct',
-                                   `6` = 'Incorrect'))) 
-str(data_CT) 
+                                   `6` = 'Incorrect'))) %>%
+  mutate(across(ct[c(12)], ~recode(.,
+                                 `1` = 'Incorrect',
+                                 `2` = 'Incorrect',
+                                 `3` = 'Incorrect',
+                                 `4` = 'Incorrect',
+                                 `5` = 'Correct',
+                                 `6` = 'Incorrect')))%>%
+  mutate(across(ct[c(1:12)], ~recode(.,
+                                     `Correct` = '1',
+                                     `Incorrect` = '0')))%>%
+  mutate(across(ct[c(1:12)], as.integer))
 
-max(data$tot_score_CT, na.rm=T)
-min(data$tot_score_CT, na.rm=T)
+
+data_ct$tot_score_ct = data_ct$b1 + data_ct$b2 + data_ct$b3 + data_ct$b4 + data_ct$b5 + data_ct$b6 + data_ct$b7 + data_ct$b8 + data_ct$b9 + 
+  data_ct$b10 + data_ct$b11 + data_ct$b12
+
+data_ct$B1 = data_ct$b1 - 1 
+data_ct$B2 = data_ct$b2 - 1 
+data_ct$B3 = data_ct$b3 - 1 
+data_ct$B4 = data_ct$b4 - 1 
+data_ct$B5 = data_ct$b5 - 1 
+data_ct$B6 = data_ct$b6 - 1 
+data_ct$B7 = data_ct$b7 - 1 
+data_ct$B8 = data_ct$b8 - 1 
+data_ct$B9 = data_ct$b9 - 1 
+data_ct$B10 = data_ct$b10 - 1 
+data_ct$B11 = data_ct$b11 - 1 
+data_ct$B12 = data_ct$b12 - 1 
+
+data_ct$tot_score_ct = data_ct$B1 + data_ct$B2 + data_ct$B3 + data_ct$B4 + data_ct$B5 + data_ct$B6 + data_ct$B7 + data_ct$B8 + data_ct$B9 + 
+  data_ct$B10 + data_ct$B11 + data_ct$B12
+
+ct = c('B1',
+       'B2',
+       'B3',
+       'B4',
+       'B5',
+       'B6',
+       'B7',
+       'B8',
+       'B9',
+       'B10',
+       'B11',
+       'B12',
+       'tot_score_ct')
+
+data_CT = data_ct %>%
+  select(all_of(ct))
+
+summary(data_CT)
+
+data$tot_score_CT = (data$tot_score_CT - mean(data$tot_score_CT, na.rm = TRUE)) / sd(data$tot_score_CT, na.rm = TRUE)
+data$tot_score_CT
+
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b1)) +
-  ggsave('b1.png')
+  geom_bar(aes(x = B1)) +
+  ggsave('B1.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b2)) +
-  ggsave('b2.png')
+  geom_bar(aes(x = B2)) +
+  ggsave('B2.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b3)) +
-  ggsave('b3.png')
+  geom_bar(aes(x = B3)) +
+  ggsave('B3.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b4)) +
-  ggsave('b4.png')
+  geom_bar(aes(x = B4)) +
+  ggsave('B4.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b5)) +
-  ggsave('b5.png')
+  geom_bar(aes(x = B5)) +
+  ggsave('B5.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b6)) +
-  ggsave('b6.png')
+  geom_bar(aes(x = B6)) +
+  ggsave('B6.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b7)) +
-  ggsave('b7.png')
+  geom_bar(aes(x = B7)) +
+  ggsave('B7.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b8)) +
-  ggsave('b8.png')
+  geom_bar(aes(x = B8)) +
+  ggsave('B8.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b9)) +
-  ggsave('b9.png')
+  geom_bar(aes(x = B9)) +
+  ggsave('B9.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b10)) +
-  ggsave('b10.png')
+  geom_bar(aes(x = B10)) +
+  ggsave('B10.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b11)) +
-  ggsave('b11.png')
+  geom_bar(aes(x = B11)) +
+  ggsave('B11.png')
 
 ggplot(data = data_CT) +
-  geom_bar(aes(x = b12)) +
-  ggsave('b12.png')
+  geom_bar(aes(x = B12)) +
+  ggsave('B12.png')
 
 
 #### B1-B12 (Grading - Dexterity (DX)) ####
@@ -373,7 +424,7 @@ data_DX = data %>%
                               `2` = 'Worker pulled 0 needle.',
                               `-9` = 'Missing')) 
 
-str(data_CT) 
+str(data_DX) 
 
 ggplot(data = data_DX) +
   geom_bar(aes(x = card_qual)) +
