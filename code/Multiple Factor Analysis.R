@@ -5,6 +5,7 @@ setwd("~/HIP")
 install.packages("Factoshiny")
 library(Factoshiny)
 library(FactoMineR)
+library(matrixStats)
 
 rm(list = ls())
 
@@ -39,15 +40,15 @@ data_TS_WM = data %>%
 
 data_TS_WM$row_min_WM = rowMins(as.matrix(data_TS_WM[,c(1,2,3)]), na.rm = TRUE)
 
-min(data$tot_score_WM1, na.rm=T)
-min(data$tot_score_WM2, na.rm=T)
-min(data$tot_score_WM3, na.rm=T)
+summary(data_TS_WM)
 
 data$normalize_WM1 = (data$tot_score_WM1 - mean(data$tot_score_WM1, na.rm = TRUE)) / sd(data$tot_score_WM1, na.rm = TRUE)
 data$normalize_WM2 = (data$tot_score_WM2 - mean(data$tot_score_WM2, na.rm = TRUE)) / sd(data$tot_score_WM2, na.rm = TRUE)
 data$normalize_WM3 = (data$tot_score_WM3 - mean(data$tot_score_WM3, na.rm = TRUE)) / sd(data$tot_score_WM3, na.rm = TRUE)
 
+data_TS_WM$normalize_WM  = (data_TS_WM$row_min_WM- mean(data_TS_WM$row_min_WM, na.rm = TRUE)) / sd(data_TS_WM$row_min_WM, na.rm = TRUE)
 
+data$normalize_WM = data_TS_WM$normalize_WM
 
 # Part D
 
@@ -204,9 +205,10 @@ summary(data_CT)
 
 data$tot_score_CT = data_ct$tot_score_CT 
 
-
 data$normalize_CT = (data$tot_score_CT - mean(data$tot_score_CT, na.rm = TRUE)) / sd(data$tot_score_CT, na.rm = TRUE)
 data$normalize_CT
+
+summary(data$normalize_CT)
 
 
 # Part E 
@@ -224,9 +226,7 @@ data$needle_score = ifelse(data$needle_qual == 0, data$needle/2.5,
 
 MFA = c('high_educ',
         'first_job',
-        'tot_score_WM1',
-        'tot_score_WM2',
-        'tot_score_WM3',
+        'normalize_WM',
         'tot_score_CT',
         'card_score',
         'needle_score')
@@ -234,25 +234,25 @@ MFA = c('high_educ',
 data_MFA = data %>%
 select(all_of(MFA))%>%
   mutate(across(MFA[c(1, 2)], as.factor)) %>%
-  mutate(across(MFA[c(3, 4, 5, 6, 7, 8)], as.integer))
+  mutate(across(MFA[c(3, 4, 5, 6)], as.integer))
 
 
 result = Factoshiny(data_MFA)
 
 Factoshiny(result)
 
-newDF <- data_MFA[,c("tot_score_WM1","tot_score_WM2","tot_score_WM3","tot_score_CT","card_score","needle_score","high_educ","history_yesno")]
-res.MFA<-MFA(newDF,group=c(6,2), type=c("s","n"),name.group=c("Gr 1","Gr 2"),graph=FALSE)
+newDF <- data_MFA[,c("normalize_WM","tot_score_CT","card_score","needle_score","high_educ","first_job")]
+res.MFA<-MFA(newDF,group=c(4,2), type=c("s","n"),name.group=c("Gr 1","Gr 2"),graph=FALSE)
 plot.MFA(res.MFA, choix="ind",lab.par=FALSE,title="Individual factor map")
 plot.MFA(res.MFA, choix="var",habillage='group',title="Correlation circle")
 plot.MFA(res.MFA, choix="group")
 plot.MFA(res.MFA, choix="axes",habillage='group')
 
-newDF <- data_MFA[,c("tot_score_WM1","tot_score_WM2","tot_score_WM3","tot_score_CT","card_score","needle_score","high_educ","history_yesno")]
-res.MFA<-MFA(newDF,group=c(6,2), type=c("s","n"),name.group=c("Gr 1","Gr 2"),graph=FALSE)
+newDF <- data_MFA[,c("normalize_WM","tot_score_CT","card_score","needle_score","high_educ","first_job")]
+res.MFA<-MFA(newDF,group=c(4,2), type=c("s","n"),name.group=c("Gr 1","Gr 2"),graph=FALSE)
 summary(res.MFA)
 
-newDF <- data_MFA[,c("tot_score_WM1","tot_score_WM2","tot_score_WM3","tot_score_CT","card_score","needle_score","high_educ","history_yesno")]
-res.MFA<-MFA(newDF,group=c(6,2), type=c("s","n"),name.group=c("Gr 1","Gr 2"),graph=FALSE)
+newDF <- data_MFA[,c("normalize_WM","tot_score_CT","card_score","needle_score","high_educ","first_job")]
+res.MFA<-MFA(newDF,group=c(4,2), type=c("s","n"),name.group=c("Gr 1","Gr 2"),graph=FALSE)
 dimdesc(res.MFA)
 
