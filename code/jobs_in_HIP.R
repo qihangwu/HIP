@@ -4,6 +4,8 @@
 library(tidyverse)
 library(readxl)
 
+source('code/functions.R')
+
 # hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
 hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
 
@@ -222,6 +224,13 @@ hip_IC <- hip_IC %>%
     which(guess_you_salary_1m < quantile(guess_you_salary_1m, 0.01)),
     NA_real_))
 
+## Bias -------------------------------------------------------------------
+
+hip_IC <- calc_bias(data = hip_IC,
+                    variable = IC_names[1],
+                    benchmark = 750,
+                    threshold = 0.2)
+
 ## Figures ----------------------------------------------------------------
 
 ggplot(data = hip_IC) +
@@ -322,6 +331,23 @@ hip_ID <- hip_ID %>%
     guess_you_salary_6m,
     which(guess_you_salary_6m < quantile(guess_you_salary_6m, 0.01)),
     NA_real_))
+
+## Bias -------------------------------------------------------------------
+
+hip_ID <- calc_bias(data = hip_ID,
+                    variable = ID_names[5],
+                    benchmark = 1707,
+                    threshold = 0.2)
+
+hip_ID <- calc_bias(data = hip_ID,
+                    variable = ID_names[7],
+                    benchmark = 2857,
+                    threshold = 0.2)
+
+hip_ID <- calc_bias(data = hip_ID,
+                    variable = ID_names[11],
+                    benchmark = 1202,
+                    threshold = 0.2)
 
 ## Figures ----------------------------------------------------------------
 
