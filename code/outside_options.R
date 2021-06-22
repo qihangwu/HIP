@@ -4,6 +4,8 @@
 library(tidyverse)
 library(readxl)
 
+source('code/functions.R')
+
 # hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
 hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
 
