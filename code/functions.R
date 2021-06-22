@@ -1,7 +1,7 @@
 
 # Generate bias variables -------------------------------------------------
 
-calc_bias <- function(data, variable, benchmark) {
+calc_bias <- function(data, variable, benchmark, threshold = 0.2) {
   data <- data %>%
     mutate('{variable}_raw' := !!sym(variable) - benchmark,   # raw bias
            .after = !!sym(variable)) %>%
