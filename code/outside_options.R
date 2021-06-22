@@ -67,6 +67,10 @@ hip_OA_ms <- hip_OA_ms %>%
   rowwise() %>%
   mutate(minimal_salary = min(across(all_of(OA_names_ms)), na.rm = TRUE))
 
+## Bias -------------------------------------------------------------------
+
+# benchmark for outside worker salary?
+
 ## Figures ----------------------------------------------------------------
 
 ggplot(data = hip_OA) +
@@ -153,6 +157,10 @@ hip_OB <- hip_OB %>%
     guess_out_salary_super,
     which(guess_out_salary_super < 100L), # too many above 1st percentile
     NA_real_))
+
+## Bias -------------------------------------------------------------------
+
+# benchmark for outside worker salary?
 
 ## Figures ----------------------------------------------------------------
 
