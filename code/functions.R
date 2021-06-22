@@ -11,7 +11,7 @@ calc_bias <- function(data, variable, benchmark, threshold = 0.2) {
 
     mutate('{variable}_bias' := ifelse(!!sym(paste0(variable, '_abs')) >= threshold, 1, 0),   # bias sign
            .after = !!sym(paste0(variable, '_abs'))) %>%
-    mutate('{variable}_bias' := ifelse(!!sym(paste0(variable, '_bias')) &
+    mutate('{variable}_bias' := ifelse(!!sym(paste0(variable, '_bias')) == 1 &
                                          sign(!!sym(paste0(variable, '_raw'))) == -1,
                                        -1,
                                        !!sym(paste0(variable, '_bias'))))

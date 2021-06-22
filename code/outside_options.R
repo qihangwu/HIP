@@ -69,6 +69,8 @@ hip_OA_ms <- hip_OA_ms %>%
   rowwise() %>%
   mutate(minimal_salary = min(across(all_of(OA_names_ms)), na.rm = TRUE))
 
+# recode Inf as 2500
+
 ## Bias -------------------------------------------------------------------
 
 # benchmark for outside worker salary?
