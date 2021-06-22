@@ -6,7 +6,7 @@ calc_bias <- function(data, variable, benchmark, threshold = 0.2) {
     mutate('{variable}_raw' := !!sym(variable) - benchmark,   # raw bias
            .after = !!sym(variable)) %>%
 
-    mutate('{variable}_abs' := abs(!!sym(variable)) / benchmark,   # absolute bias
+    mutate('{variable}_abs' := abs(!!sym(paste0(variable, '_raw'))) / benchmark,   # absolute bias
            .after = !!sym(paste0(variable, '_raw'))) %>%
 
     mutate('{variable}_bias' := ifelse(!!sym(paste0(variable, '_abs')) >= threshold, 1, 0),   # bias sign
