@@ -231,6 +231,16 @@ hip_IC <- calc_bias(data = hip_IC,
                     benchmark = 750,
                     threshold = 0.2)
 
+hip_IC <- calc_bias(data = hip_IC,
+                    variable = IC_names[3],
+                    benchmark = 1202,
+                    threshold = 0.2)
+
+hip_IC <- calc_bias(data = hip_IC,
+                    variable = IC_names[8],
+                    benchmark = 750,
+                    threshold = 0.2)
+
 ## Figures ----------------------------------------------------------------
 
 ggplot(data = hip_IC) +
