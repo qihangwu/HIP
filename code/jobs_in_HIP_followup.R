@@ -4,6 +4,8 @@
 library(tidyverse)
 library(readxl)
 
+source('code/functions.R')
+
 # hip <- read_excel('data/weekdayend_all.xlsx')   # 295 obs. of 381 variables
 hip <- read_excel('data/weekdayend_all2.xlsx')   # 525 obs. of 382 variables
 
@@ -123,6 +125,23 @@ hip_w_IC <- hip_w_IC %>%
     which(w_guess_you_salary_1m < quantile(w_guess_you_salary_1m, 0.01, na.rm = TRUE)),
     NA_real_))
 
+## Bias -------------------------------------------------------------------
+
+hip_w_IC <- calc_bias(data = hip_w_IC,
+                      variable = w_IC_names[1],
+                      benchmark = 750,
+                      threshold = 0.2)
+
+hip_w_IC <- calc_bias(data = hip_w_IC,
+                      variable = w_IC_names[3],
+                      benchmark = 1202,
+                      threshold = 0.2)
+
+hip_w_IC <- calc_bias(data = hip_w_IC,
+                      variable = w_IC_names[8],
+                      benchmark = 750,
+                      threshold = 0.2)
+
 ## Figures ---------------------------------------------------------------
 
 ggplot(data = hip_w_IC) +
@@ -223,6 +242,23 @@ hip_w_ID <- hip_w_ID %>%
   mutate(w_guess_promote_sp = replace(w_guess_promote_sp,
                                       which(w_guess_promote_sp > 100L),
                                       NA))
+
+## Bias -------------------------------------------------------------------
+
+hip_w_ID <- calc_bias(data = hip_w_ID,
+                      variable = w_ID_names[5],
+                      benchmark = 1707,
+                      threshold = 0.2)
+
+hip_w_ID <- calc_bias(data = hip_w_ID,
+                      variable = w_ID_names[7],
+                      benchmark = 2857,
+                      threshold = 0.2)
+
+hip_w_ID <- calc_bias(data = hip_w_ID,
+                      variable = w_ID_names[11],
+                      benchmark = 1202,
+                      threshold = 0.2)
 
 ## Figures ---------------------------------------------------------------
 
