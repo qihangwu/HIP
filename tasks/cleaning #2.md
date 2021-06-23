@@ -26,13 +26,27 @@
 
 1. Let's generate a few more variables from the data - 
 
+   David's comment 6/19/2021: Ideally all variables are either categorical or continuous (no string variables)
+
+   
+
    (a) higheduc: Whether workers have attended more than 10th grade education
 
    (b) firstjob (history_yesno): Whether this is your first job (we already got this variable cleaned - just to list it here)
 
    (c) memory: The total score in working memory test. I think we can first generate total number of correct answers from each series; each worker was tested only one series. Then we can take the minimal number from the three series and generate a new variable "memory". Then normalize this variable.
 
+   David's comment 6/19/2021: I saw 3 series of WM scores in the cleaning file. Can you put them all together in one variable? (Maybe you can put all three variables in the same data frame, and then find a minimal value in each row - Max has some similar codes that might be useful when generating minimal salary)
+
+   Also I think you can simply do normalization by this: data$tot_score_WM3 <- (data$tot_score_WM3 - mean(data$tot_score_WM3, na.rm = TRUE)) / sd(data$tot_score_WM3, na.rm = TRUE)
+
+   
+
    (d) cognitive: The total score of cognitive tests. We can simply count how many correct answers each worker has. Then normalize this variable.
+
+   David's comment 6/19/2021: There's one outlier in b7 ("649"); a useful thing to do would be do a summary after recoding of data_CT. Also I think we should generate tot_score_CT after we recode all the questions to "correct" and "incorrect" - i.e. the variable tot_score_CT should be like "min = 0, max = 12".
+
+   
 
    (e) dexterity: Let me know if you think this measure makes sense to you - 
 
@@ -41,3 +55,5 @@
    ​	(e.2) Needle test (needlescore). We calculate how many needles each worker can deal with in a second. If the quality is G, then we divide 2.5 by the total amount of time. If the quality is O, then we divide 1.5 by time. If the quality if B, we divide 0.5 by time. Normalize this variable at last.
 
 2. I'm not sure if you can do this easily in R, so maybe you can google first how to do principal component analysis (PCA) in R. Basically, we have 6 measures of workers' types: higheduc, firstjob, memory, cognitive, cardscore, needlescore. PCA can generate a normalized score to capture "common" factors amongst these 6 variables. This can be a good holistic measure of worker's type. 
+
+   David's comment 6/19/2021: I didn't see the variable "firstjob" in the MFA analysis file. Happy to learn more different ways to do the factor analysis!
