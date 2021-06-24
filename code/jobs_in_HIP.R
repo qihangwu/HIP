@@ -408,22 +408,60 @@ ggplot(data = hip_ID) +
 
 # IT (morning) ------------------------------------------------------------
 
-# need to construct 2 new vars!!
-
 IT_names <- dict %>%
   filter(subcategory == 'IT_m') %>%
   pull(name)
 
+IT_names_entry <- IT_names[1:5]
+
+IT_names_promote <- IT_names[6:10]
+
 ## Cleaning ---------------------------------------------------------------
 
-### Recoding --------------------------------------------------------------
+### info_entry_choice* ----------------------------------------------------
 
-hip_IT <- hip %>%
-  select(all_of(IT_names)) %>%
-  mutate(across(all_of(IT_names), as.logical))
+hip_IT_entry <- hip %>%
+  select(all_of(IT_names_entry))
+
+for (i in 1:5) {
+  hip_IT_entry <- hip_IT_entry %>%
+    mutate(!!sym(IT_names_entry[i]) := recode(!!sym(IT_names_entry[i]),
+                                               `0` = 200,
+                                               `1` = 10 * 2^(i - 1)))
+}
+
+hip_IT_entry <- hip_IT_entry %>%
+  rowwise() %>%
+  mutate(info_entry_choice = min(across(all_of(IT_names_entry)), na.rm = TRUE))
+
+
+### info_promote_choice* --------------------------------------------------
+
+hip_IT_promote <- hip %>%
+  select(all_of(IT_names_promote))
+
+for (i in 1:5) {
+  hip_IT_promote <- hip_IT_promote %>%
+    mutate(!!sym(IT_names_promote[i]) := recode(!!sym(IT_names_promote[i]),
+                                              `0` = 200,
+                                              `1` = 10 * 2^(i - 1)))
+}
+
+hip_IT_promote <- hip_IT_promote %>%
+  rowwise() %>%
+  mutate(info_promote_choice = min(across(all_of(IT_names_promote)), na.rm = TRUE))
 
 ## Figures ----------------------------------------------------------------
 
+ggplot(data = hip_IT_entry) +
+  geom_histogram(aes(x = info_entry_choice), binwidth = 20) +
+  ggsave('figures/jobs_in_HIP/IT1.png')
+
+ggplot(data = hip_IT_promote) +
+  geom_histogram(aes(x = info_promote_choice), binwidth = 20) +
+  ggsave('figures/jobs_in_HIP/IT2.png')
+
+# delete later?
 IT_codes <- dict %>%
   filter(subcategory == 'IT_m') %>%
   pull(code)
