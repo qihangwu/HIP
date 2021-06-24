@@ -192,37 +192,15 @@ hip_IC <- hip_IC %>%
                                    which(guess_entry_pct > 100L),
                                    NA))
 
-### Winsorizing and trimming outliers -------------------------------------
+### Trim and winsorize outliers -------------------------------------------
 
-# by winsorizing first, no need to specify `na.rm = TRUE` in `quantile()`
-hip_IC <- hip_IC %>%
-
-  mutate(guess_entry_salary = replace(
-    guess_entry_salary,
-    which(guess_entry_salary > quantile(guess_entry_salary, 0.99)),
-    quantile(guess_entry_salary, 0.99))) %>%
-  mutate(guess_entry_salary = replace(
-    guess_entry_salary,
-    which(guess_entry_salary < quantile(guess_entry_salary, 0.01)),
-    NA_real_)) %>%
-
-  mutate(guess_entry_salary_6m = replace(
-    guess_entry_salary_6m,
-    which(guess_entry_salary_6m > quantile(guess_entry_salary_6m, 0.99)),
-    quantile(guess_entry_salary_6m, 0.99))) %>%
-  mutate(guess_entry_salary_6m = replace(
-    guess_entry_salary_6m,
-    which(guess_entry_salary_6m < quantile(guess_entry_salary_6m, 0.01)),
-    NA_real_)) %>%
-
-  mutate(guess_you_salary_1m = replace(
-    guess_you_salary_1m,
-    which(guess_you_salary_1m > quantile(guess_you_salary_1m, 0.99)),
-    quantile(guess_you_salary_1m, 0.99))) %>%
-  mutate(guess_you_salary_1m = replace(
-    guess_you_salary_1m,
-    which(guess_you_salary_1m < quantile(guess_you_salary_1m, 0.01)),
-    NA_real_))
+hip_IC <- trim_winsorize(data = hip_IC,
+                         variable = IC_names[c(1, 3, 8)],
+                         # guess_entry_salary
+                         # guess_entry_salary_6m
+                         # guess_you_salary_1m
+                         trim = 100,
+                         percentile = 0.99)
 
 ## Bias -------------------------------------------------------------------
 
@@ -313,34 +291,13 @@ hip_ID <- hip_ID %>%
 
 ### Winsorizing and trimming outliers -------------------------------------
 
-hip_ID <- hip_ID %>%
-
-  mutate(guess_salary_medium = replace(
-    guess_salary_medium,
-    which(guess_salary_medium > quantile(guess_salary_medium, 0.99)),
-    quantile(guess_salary_medium, 0.99))) %>%
-  mutate(guess_salary_medium = replace(
-    guess_salary_medium,
-    which(guess_salary_medium < 100L),   # too many above 1st percentile
-    NA_real_)) %>%
-
-  mutate(guess_salary_sp = replace(
-    guess_salary_sp,
-    which(guess_salary_sp > quantile(guess_salary_sp, 0.99, na.rm = TRUE)),
-    quantile(guess_salary_sp, 0.99, na.rm = TRUE))) %>%   # one NA observation
-  mutate(guess_salary_sp = replace(
-    guess_salary_sp,
-    which(guess_salary_sp < 100L),   # too many above 1st percentile
-    NA_real_)) %>%
-
-  mutate(guess_you_salary_6m = replace(
-    guess_you_salary_6m,
-    which(guess_you_salary_6m > quantile(guess_you_salary_6m, 0.99)),
-    quantile(guess_you_salary_6m, 0.99))) %>%
-  mutate(guess_you_salary_6m = replace(
-    guess_you_salary_6m,
-    which(guess_you_salary_6m < quantile(guess_you_salary_6m, 0.01)),
-    NA_real_))
+hip_ID <- trim_winsorize(data = hip_ID,
+                         variable = ID_names[c(5, 7, 11)],
+                         # guess_salary_medium
+                         # guess_salary_sp
+                         # guess_you_salary_6m
+                         trim = 100,
+                         percentile = 0.99)
 
 ## Bias -------------------------------------------------------------------
 
@@ -461,17 +418,6 @@ ggplot(data = hip_IT_promote) +
   geom_histogram(aes(x = info_promote_choice), binwidth = 20) +
   ggsave('figures/jobs_in_HIP/IT2.png')
 
-# delete later?
-IT_codes <- dict %>%
-  filter(subcategory == 'IT_m') %>%
-  pull(code)
-
-for (i in 1:10) {
-  temp <- ggplot(data = hip_IT) +
-    geom_bar(aes_string(x = IT_names[i]))
-
-  ggsave(plot = temp, file = paste0('figures/jobs_in_hip/', IT_codes[i], '.png'))
-}
 
 
 
