@@ -55,11 +55,11 @@ hip_OA_ms <- hip %>%
 
 # replace each `1` in `minimal_salary_*` with its corresponding value
 # e.g. each `1` in `minimal_salary_a` becomes `600`
-# and replace each `0` with `NA` of type double
+# and replace each `0` with `2500`
 for (i in 1:15) {
   hip_OA_ms <- hip_OA_ms %>%
     mutate(!!sym(OA_names_ms[i]) := recode(!!sym(OA_names_ms[i]),
-                                           `0` = NA_real_,
+                                           `0` = 2500,
                                            `1` = (i + 5) * 100))
 }
 
@@ -68,8 +68,6 @@ for (i in 1:15) {
 hip_OA_ms <- hip_OA_ms %>%
   rowwise() %>%
   mutate(minimal_salary = min(across(all_of(OA_names_ms)), na.rm = TRUE))
-
-# recode Inf as 2500
 
 ## Bias -------------------------------------------------------------------
 
