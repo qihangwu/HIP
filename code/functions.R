@@ -23,12 +23,18 @@ calc_bias <- function(data, variable, benchmark, threshold = 0.2) {
 trim_winsorize <- function(data, variable, trim = 100, percentile = 0.99) {
   for (i in variable) {
     data <- data %>%
+      # trim
       mutate('{i}' := replace(!!sym(i),
                               which(!!sym(i) <= trim),
                               NA_real_)) %>%
+      # winsorize
       mutate('{i}' := replace(!!sym(i),
-                              which(!!sym(i) > quantile(!!sym(i), percentile)),
-                              quantile(!!sym(i), percentile)))
+                              which(!!sym(i) > quantile(!!sym(i),
+                                                        percentile,
+                                                        na.rm = TRUE)),
+                              quantile(!!sym(i),
+                                       percentile,
+                                       na.rm = TRUE)))
   }
   return(data)
 }
