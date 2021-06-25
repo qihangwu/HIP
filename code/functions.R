@@ -3,18 +3,24 @@
 
 calc_bias <- function(data, variable, benchmark, threshold = 0.2) {
   data <- data %>%
-    mutate('{variable}_raw' := !!sym(variable) - benchmark,   # raw bias
+    # raw bias
+    mutate('{variable}_raw' := !!sym(variable) - benchmark,
            .after = !!sym(variable)) %>%
 
-    mutate('{variable}_abs' := abs(!!sym(paste0(variable, '_raw'))) / benchmark,   # absolute bias
+    # absolute bias
+    mutate('{variable}_abs' := abs(!!sym(paste0(variable, '_raw'))) / benchmark,
            .after = !!sym(paste0(variable, '_raw'))) %>%
 
-    mutate('{variable}_bias' := ifelse(!!sym(paste0(variable, '_abs')) >= threshold, 1, 0),   # bias sign
+    # sign of bias
+    mutate('{variable}_bias' := ifelse(!!sym(paste0(variable, '_abs')) >= threshold,
+                                       1,
+                                       0),
            .after = !!sym(paste0(variable, '_abs'))) %>%
     mutate('{variable}_bias' := ifelse(!!sym(paste0(variable, '_bias')) == 1 &
                                          sign(!!sym(paste0(variable, '_raw'))) == -1,
                                        -1,
                                        !!sym(paste0(variable, '_bias'))))
+  return(data)
 }
 
 
