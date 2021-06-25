@@ -167,7 +167,7 @@ hip_ID <- hip_ID %>%
                                     which(guess_promote_sp > 100L),
                                     NA))
 
-## Winsorizing and trimming outliers --------------------------------------
+## Trim and winsorize outliers --------------------------------------------
 
 hip_ID <- trim_winsorize(data = hip_ID,
                          variable = ID_names[c(5, 7, 11)],

@@ -27,7 +27,7 @@ calc_bias <- function(data, variable, benchmark, threshold = 0.2) {
 # Trim and winsorize salary variables -------------------------------------
 
 trim_winsorize <- function(data, variable, trim = 100, percentile = 0.99) {
-  for (i in variable) {
+  for (i in variable) {   # can take in vector of variable names
     data <- data %>%
       # trim
       mutate('{i}' := replace(!!sym(i),

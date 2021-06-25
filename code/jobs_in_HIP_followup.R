@@ -70,36 +70,15 @@ hip_w_IC <- hip %>%
                                         `2` = 'Somewhat unlikely',
                                         `3` = 'Very unlikely'))
 
-## Winsorizing and trimming outliers --------------------------------------
+## Trim and winsorize outliers --------------------------------------------
 
-hip_w_IC <- hip_w_IC %>%
-
-  mutate(w_guess_entry_salary = replace(
-    w_guess_entry_salary,
-    which(w_guess_entry_salary > quantile(w_guess_entry_salary, 0.99, na.rm = TRUE)),
-    quantile(w_guess_entry_salary, 0.99, na.rm = TRUE))) %>%
-  mutate(w_guess_entry_salary = replace(
-    w_guess_entry_salary,
-    which(w_guess_entry_salary < quantile(w_guess_entry_salary, 0.01, na.rm = TRUE)),
-    NA_real_)) %>%
-
-  mutate(w_guess_entry_salary_6m = replace(
-    w_guess_entry_salary_6m,
-    which(w_guess_entry_salary_6m > quantile(w_guess_entry_salary_6m, 0.99, na.rm = TRUE)),
-    quantile(w_guess_entry_salary_6m, 0.99, na.rm = TRUE))) %>%
-  mutate(w_guess_entry_salary_6m = replace(
-    w_guess_entry_salary_6m,
-    which(w_guess_entry_salary_6m < quantile(w_guess_entry_salary_6m, 0.01, na.rm = TRUE)),
-    NA_real_)) %>%
-
-  mutate(w_guess_you_salary_1m = replace(
-    w_guess_you_salary_1m,
-    which(w_guess_you_salary_1m > quantile(w_guess_you_salary_1m, 0.99, na.rm = TRUE)),
-    quantile(w_guess_you_salary_1m, 0.99, na.rm = TRUE))) %>%
-  mutate(w_guess_you_salary_1m = replace(
-    w_guess_you_salary_1m,
-    which(w_guess_you_salary_1m < quantile(w_guess_you_salary_1m, 0.01, na.rm = TRUE)),
-    NA_real_))
+hip_w_IC <- trim_winsorize(data = hip_w_IC,
+                           variable = w_IC_names[c(1, 3, 8)],
+                           # w_guess_entry_salary
+                           # w_guess_entry_salary_6m
+                           # w_guess_you_salary_1m
+                           trim = 100,
+                           percentile = 0.99)
 
 ## Bias -------------------------------------------------------------------
 
@@ -142,36 +121,15 @@ hip_w_ID <- hip %>%
                                     `2` = 'Somewhat unlikely',
                                     `3` = 'Very unlikely')))
 
-## Winsorizing and trimming outliers --------------------------------------
+## Trim and winsorize outliers --------------------------------------------
 
-hip_w_ID <- hip_w_ID %>%
-
-  mutate(w_guess_salary_medium = replace(
-    w_guess_salary_medium,
-    which(w_guess_salary_medium > quantile(w_guess_salary_medium, 0.99, na.rm = TRUE)),
-    quantile(w_guess_salary_medium, 0.99, na.rm = TRUE))) %>%
-  mutate(w_guess_salary_medium = replace(
-    w_guess_salary_medium,
-    which(w_guess_salary_medium < 100L),   # too many above 1st percentile
-    NA_real_)) %>%
-
-  mutate(w_guess_salary_sp = replace(
-    w_guess_salary_sp,
-    which(w_guess_salary_sp > quantile(w_guess_salary_sp, 0.99, na.rm = TRUE)),
-    quantile(w_guess_salary_sp, 0.99, na.rm = TRUE))) %>%
-  mutate(w_guess_salary_sp = replace(
-    w_guess_salary_sp,
-    which(w_guess_salary_sp < quantile(w_guess_salary_sp, 0.01, na.rm = TRUE)),
-    NA_real_)) %>%
-
-  mutate(w_guess_you_salary_6m = replace(
-    w_guess_you_salary_6m,
-    which(w_guess_you_salary_6m > quantile(w_guess_you_salary_6m, 0.99, na.rm = TRUE)),
-    quantile(w_guess_you_salary_6m, 0.99, na.rm = TRUE))) %>%
-  mutate(w_guess_you_salary_6m = replace(
-    w_guess_you_salary_6m,
-    which(w_guess_you_salary_6m < quantile(w_guess_you_salary_6m, 0.01, na.rm = TRUE)),
-    NA_real_))
+hip_w_ID <- trim_winsorize(data = hip_w_ID,
+                           variable = w_ID_names[c(5, 7, 11)],
+                           # w_guess_salary_medium
+                           # w_guess_salary_sp
+                           # w_guess_you_salary_6m
+                           trim = 100,
+                           percentile = 0.99)
 
 ## Trim errors ------------------------------------------------------------
 
@@ -232,8 +190,5 @@ hip_w_IA <- hip %>%
                                  `0` = 'No',
                                  `1` = 'Yes',
                                  `100` = 'Not sure'))
-
-
-
 
 
