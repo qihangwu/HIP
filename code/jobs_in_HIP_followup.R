@@ -18,9 +18,7 @@ w_IB_names <- dict %>%
   filter(subcategory == 'IB_w') %>%
   pull(name)
 
-## Cleaning ---------------------------------------------------------------
-
-### Recoding --------------------------------------------------------------
+## Recoding ---------------------------------------------------------------
 
 hip_w_IB <- hip %>%
   select(all_of(w_IB_names)) %>%
@@ -32,7 +30,7 @@ hip_w_IB <- hip %>%
                                              `2` = 'Slightly not sure',
                                              `3` = 'Not sure at all')))
 
-### Trim errors -----------------------------------------------------------
+## Trim errors ------------------------------------------------------------
 
 hip_w_IB <- hip_w_IB %>%
   mutate(w_guess_hip_day = replace(w_guess_hip_day,
@@ -48,26 +46,6 @@ hip_w_IB <- hip_w_IB %>%
                                      which(w_guess_hip_lunch > 22L),
                                      NA))
 
-## Figures ---------------------------------------------------------------
-
-w_IB_codes <- dict %>%
-  filter(subcategory == 'IB_w') %>%
-  pull(code)
-
-for (i in seq(1, 13, 2)) {
-  temp <- ggplot(data = hip_w_IB) +
-    geom_histogram(aes_string(x = w_IB_names[i]), binwidth = 1)
-
-  ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/w_', w_IB_codes[i], '.png'))
-}
-
-for (i in seq(2, 14, 2)) {
-  temp <- ggplot(data = hip_w_IB) +
-    geom_bar(aes_string(x = w_IB_names[i]))
-
-  ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/w_', w_IB_codes[i], '.png'))
-}
-
 
 # IC (weekend) ------------------------------------------------------------
 
@@ -75,9 +53,7 @@ w_IC_names <- dict %>%
   filter(subcategory == 'IC_w') %>%
   pull(name)
 
-## Cleaning ---------------------------------------------------------------
-
-### Recoding --------------------------------------------------------------
+## Recoding ---------------------------------------------------------------
 
 hip_w_IC <- hip %>%
   select(all_of(w_IC_names)) %>%
@@ -94,7 +70,7 @@ hip_w_IC <- hip %>%
                                         `2` = 'Somewhat unlikely',
                                         `3` = 'Very unlikely'))
 
-### Winsorizing and trimming outliers -------------------------------------
+## Winsorizing and trimming outliers --------------------------------------
 
 hip_w_IC <- hip_w_IC %>%
 
@@ -142,40 +118,6 @@ hip_w_IC <- calc_bias(data = hip_w_IC,
                       benchmark = 750,
                       threshold = 0.2)
 
-## Figures ---------------------------------------------------------------
-
-ggplot(data = hip_w_IC) +
-  geom_histogram(aes(x = w_guess_entry_salary), binwidth = 100) +
-  ggsave('figures/jobs_in_HIP_followup/w_IC1.png')
-
-ggplot(data = hip_w_IC) +
-  geom_bar(aes(x = w_guess_entry_salary_sure)) +
-  ggsave('figures/jobs_in_HIP_followup/w_IC1s.png')
-
-ggplot(data = hip_w_IC) +
-  geom_histogram(aes(x = w_guess_entry_salary_6m), binwidth = 500) +
-  ggsave('figures/jobs_in_HIP_followup/w_IC2.png')
-
-ggplot(data = hip_w_IC) +
-  geom_bar(aes(x = w_guess_entry_salary_6m_sure)) +
-  ggsave('figures/jobs_in_HIP_followup/w_IC2s.png')
-
-ggplot(data = hip_w_IC) +
-  geom_histogram(aes(x = w_guess_entry_pct), binwidth = 10) +
-  ggsave('figures/jobs_in_HIP_followup/w_IC3.png')
-
-ggplot(data = hip_w_IC) +
-  geom_bar(aes(x = w_guess_entry_pct_sure)) +
-  ggsave('figures/jobs_in_HIP_followup/w_IC3s.png')
-
-ggplot(data = hip_w_IC) +
-  geom_bar(aes(x = w_guess_entry_pct_you)) +
-  ggsave('figures/jobs_in_HIP_followup/w_IC4.png')
-
-ggplot(data = hip_w_IC) +
-  geom_histogram(aes(x = w_guess_you_salary_1m), binwidth = 200) +
-  ggsave('figures/jobs_in_HIP_followup/w_IC5.png')
-
 
 # ID (weekend) ------------------------------------------------------------
 
@@ -183,9 +125,7 @@ w_ID_names <- dict %>%
   filter(subcategory == 'ID_w') %>%
   pull(name)
 
-## Cleaning ---------------------------------------------------------------
-
-### Recoding --------------------------------------------------------------
+## Recoding ---------------------------------------------------------------
 
 hip_w_ID <- hip %>%
   select(all_of(w_ID_names)) %>%
@@ -202,7 +142,7 @@ hip_w_ID <- hip %>%
                                     `2` = 'Somewhat unlikely',
                                     `3` = 'Very unlikely')))
 
-### Winsorizing and trimming outliers -------------------------------------
+## Winsorizing and trimming outliers --------------------------------------
 
 hip_w_ID <- hip_w_ID %>%
 
@@ -233,7 +173,7 @@ hip_w_ID <- hip_w_ID %>%
     which(w_guess_you_salary_6m < quantile(w_guess_you_salary_6m, 0.01, na.rm = TRUE)),
     NA_real_))
 
-### Trim errors -----------------------------------------------------------
+## Trim errors ------------------------------------------------------------
 
 hip_w_ID <- hip_w_ID %>%
   mutate(w_guess_promote_medium = replace(w_guess_promote_medium,
@@ -260,52 +200,6 @@ hip_w_ID <- calc_bias(data = hip_w_ID,
                       benchmark = 1202,
                       threshold = 0.2)
 
-## Figures ---------------------------------------------------------------
-
-ggplot(data = hip_w_ID) +
-  geom_histogram(aes(x = w_guess_promote_medium), binwidth = 10) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID1.png')
-
-ggplot(data = hip_w_ID) +
-  geom_bar(aes(x = w_guess_promote_medium_sure)) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID1s.png')
-
-ggplot(data = hip_w_ID) +
-  geom_histogram(aes(x = w_guess_promote_sp), binwidth = 10) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID2.png')
-
-ggplot(data = hip_w_ID) +
-  geom_bar(aes(x = w_guess_promote_sp_sure)) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID2s.png')
-
-ggplot(data = hip_w_ID) +
-  geom_histogram(aes(x = w_guess_salary_medium), binwidth = 500) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID3.png')
-
-ggplot(data = hip_w_ID) +
-  geom_bar(aes(x = w_guess_salary_medium_sure)) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID3s.png')
-
-ggplot(data = hip_w_ID) +
-  geom_histogram(aes(x = w_guess_salary_sp), binwidth = 500) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID4.png')
-
-ggplot(data = hip_w_ID) +
-  geom_bar(aes(x = w_guess_salary_sp_sure)) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID4s.png')
-
-ggplot(data = hip_w_ID) +
-  geom_bar(aes(x = w_guess_you_promote_medium)) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID5.png')
-
-ggplot(data = hip_w_ID) +
-  geom_bar(aes(x = w_guess_you_promote_sp)) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID6.png')
-
-ggplot(data = hip_w_ID) +
-  geom_histogram(aes(x = w_guess_you_salary_6m), binwidth = 500) +
-  ggsave('figures/jobs_in_HIP_followup/w_ID7.png')
-
 
 # IA (evening) ------------------------------------------------------------
 
@@ -313,9 +207,7 @@ w_IA_names <- dict %>%
   filter(subcategory == 'IA_w') %>%
   pull(name)
 
-## Cleaning ---------------------------------------------------------------
-
-### Recoding --------------------------------------------------------------
+## Recoding ---------------------------------------------------------------
 
 hip_w_IA <- hip %>%
   select(all_of(w_IA_names)) %>%
@@ -340,19 +232,6 @@ hip_w_IA <- hip %>%
                                  `0` = 'No',
                                  `1` = 'Yes',
                                  `100` = 'Not sure'))
-
-## Figures ---------------------------------------------------------------
-
-w_IA_codes <- dict %>%
-  filter(subcategory == 'IA_w') %>%
-  pull(code)
-
-for (i in 1:15) {
-  temp <- ggplot(data = hip_w_IA) +
-    geom_bar(aes_string(x = w_IA_names[i]))
-
-  ggsave(plot = temp, file = paste0('figures/jobs_in_HIP_followup/w_', w_IA_codes[i], '.png'))
-}
 
 
 

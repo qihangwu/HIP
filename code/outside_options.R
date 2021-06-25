@@ -20,9 +20,7 @@ OA_names <- dict %>%
 
 OA_names_ms <- OA_names[-(1:8)]
 
-## Cleaning ---------------------------------------------------------------
-
-### Recoding --------------------------------------------------------------
+## Recoding ---------------------------------------------------------------
 
 hip_OA <- hip %>%
   select(all_of(OA_names[1:8])) %>%   # all but `minimal_salary_*` variables
@@ -34,7 +32,7 @@ hip_OA <- hip %>%
                                        `2` = 'Somewhat unlikely',
                                        `3` = 'Very unlikely')))
 
-### Winsorizing and trimming outliers -------------------------------------
+## Winsorizing and trimming outliers --------------------------------------
 
 # by winsorizing first, no need to specify `na.rm = TRUE` in `quantile()`
 hip_OA <- hip_OA %>%
@@ -48,7 +46,7 @@ hip_OA <- hip_OA %>%
     which(guess_out_salary < quantile(guess_out_salary, 0.01)),
     NA_real_))
 
-### `minimal_salary_*` ----------------------------------------------------
+## `minimal_salary_*` -----------------------------------------------------
 
 hip_OA_ms <- hip %>%
   select(all_of(OA_names_ms))
@@ -73,44 +71,6 @@ hip_OA_ms <- hip_OA_ms %>%
 
 # benchmark for outside worker salary?
 
-## Figures ----------------------------------------------------------------
-
-ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_salary), binwidth = 500) +
-  ggsave('figures/outside_options/OA1.png')
-
-ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_hour), binwidth = 1) +
-  ggsave('figures/outside_options/OA2.png')
-
-ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_day), binwidth = 1) +
-  ggsave('figures/outside_options/OA3.png')
-
-ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_extra), binwidth = 1) +
-  ggsave('figures/outside_options/OA4.png')
-
-ggplot(data = hip_OA) +
-  geom_histogram(aes(x = guess_out_night), binwidth = 1) +
-  ggsave('figures/outside_options/OA4b.png')
-
-ggplot(data = hip_OA) +
-  geom_bar(aes(x = guess_out_transp)) +
-  ggsave('figures/outside_options/OA5.png')
-
-ggplot(data = hip_OA) +
-  geom_bar(aes(x = guess_out_lunch)) +
-  ggsave('figures/outside_options/OA6.png')
-
-ggplot(data = hip_OA) +
-  geom_bar(aes(x = guess_out_attend)) +
-  ggsave('figures/outside_options/OA7.png')
-
-ggplot(data = hip_OA_ms) +
-  geom_histogram(aes(x = minimal_salary), binwidth = 100) +
-  ggsave('figures/outside_options/OA8.png')
-
 
 # OB (morning) ------------------------------------------------------------
 
@@ -118,9 +78,7 @@ OB_names <- dict %>%
   filter(subcategory == 'OB_m') %>%
   pull(name)
 
-## Cleaning ---------------------------------------------------------------
-
-### Recoding --------------------------------------------------------------
+## Recoding ---------------------------------------------------------------
 
 hip_OB <- hip %>%
   select(all_of(OB_names)) %>%
@@ -131,14 +89,14 @@ hip_OB <- hip %>%
                                            `1` = 'Yes',
                                            `100` = 'Not sure')))
 
-### Trim errors -----------------------------------------------------------
+## Trim errors ------------------------------------------------------------
 
 hip_OB <- hip_OB %>%
   mutate(guess_out_promote = replace(guess_out_promote,
                                      which(guess_out_promote > 100L),
                                      NA_real_))
 
-### Winsorizing and trimming outliers -------------------------------------
+## Winsorizing and trimming outliers --------------------------------------
 
 hip_OB <- hip_OB %>%
 
@@ -164,28 +122,6 @@ hip_OB <- hip_OB %>%
 
 # benchmark for outside worker salary?
 
-## Figures ----------------------------------------------------------------
-
-ggplot(data = hip_OB) +
-  geom_histogram(aes(x = guess_out_salary_1y), binwidth = 500) +
-  ggsave('figures/outside_options/OB2.png')
-
-ggplot(data = hip_OB) +
-  geom_bar(aes(x = guess_out_salary_1y_com)) +
-  ggsave('figures/outside_options/OB2c.png')
-
-ggplot(data = hip_OB) +
-  geom_histogram(aes(x = guess_out_promote), binwidth = 10) +
-  ggsave('figures/outside_options/OB3.png')
-
-ggplot(data = hip_OB) +
-  geom_histogram(aes(x = guess_out_salary_super), binwidth = 500) +
-  ggsave('figures/outside_options/OB4.png')
-
-ggplot(data = hip_OB) +
-  geom_bar(aes(x = guess_out_promote_com)) +
-  ggsave('figures/outside_options/OB4c.png')
-
 
 # OC (morning) ------------------------------------------------------------
 
@@ -193,9 +129,7 @@ OC_names <- dict %>%
   filter(subcategory == 'OC_m') %>%
   pull(name)
 
-## Cleaning ---------------------------------------------------------------
-
-### Recoding --------------------------------------------------------------
+## Recoding ---------------------------------------------------------------
 
 hip_OC <- hip %>%
   select(all_of(OC_names)) %>%
@@ -226,24 +160,4 @@ hip_OC <- hip %>%
                              'Good management' #, 'Others'
                 ))) %>%
   mutate(across(OC_names[c(2, 4, 6)], as.character))
-
-## Figures ----------------------------------------------------------------
-
-ggplot(data = hip_OC) +
-  geom_bar(aes(x = jobaspect_first)) +
-  scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
-  ggsave('figures/outside_options/OC1i.png')
-
-ggplot(data = hip_OC) +
-  geom_bar(aes(x = jobaspect_second)) +
-  scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
-  ggsave('figures/outside_options/OC1ii.png')
-
-ggplot(data = hip_OC) +
-  geom_bar(aes(x = jobaspect_third)) +
-  scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
-  ggsave('figures/outside_options/OC1iii.png')
-
-# no figures for `jobaspect_*_other` variables since other responses never provided
-
 
