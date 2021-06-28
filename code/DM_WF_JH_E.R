@@ -1,9 +1,9 @@
 library(tidyverse)
 library(readxl)
 library(ggplot2)
-setwd("~/HIP")
 library(Factoshiny)
 library(FactoMineR)
+library(matrixStats)
 
 data = read_excel('weekdayend_all2.xlsx') 
 
@@ -239,4 +239,6 @@ ggplot(data = data_JH) +
 ggplot(data = data_JH) +
   geom_bar(aes(x = history_quitreason)) +
   ggsave('JH7.png')
+
+
 
