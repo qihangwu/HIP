@@ -5,8 +5,7 @@ library(Factoshiny)
 library(FactoMineR)
 library(matrixStats)
 
-
-data = read_excel('weekdayend_all2.xlsx') 
+data = read_excel('data/weekdayend_all2.xlsx')
 
 #### A11-A36 (Grading - Behavioral Test (BT)) ####
 
@@ -74,7 +73,7 @@ data_BT = data %>%
   mutate(a24 = recode(a24,
                       `0` = '100 birrs today.',
                       `1` = '130 birrs in a year.',
-                      `-9` = 'Missing')) %>%  
+                      `-9` = 'Missing')) %>%
   mutate(a25 = recode(a25,
                       `0` = '100 birrs today.',
                       `1` = '140 birrs in a year.',
@@ -94,7 +93,7 @@ data_BT = data %>%
   mutate(a33 = recode(a33,
                       `0` = 'Get 100 birrs in 6 months.',
                       `1` = 'Get 120 birrs in a year.',
-                      `-9` = 'Missing')) %>%  
+                      `-9` = 'Missing')) %>%
   mutate(a34 = recode(a34,
                       `0` = 'Get 100 birrs in 6 months.',
                       `1` = 'Get 130 birrs in a year.',
@@ -243,14 +242,14 @@ data_ct = data %>%
                                   `3` = 'Correct',
                                   `4` = 'Incorrect',
                                   `5` = 'Incorrect',
-                                  `6` = 'Incorrect'))) %>% 
+                                  `6` = 'Incorrect'))) %>%
   mutate(across(ct[c(7)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Incorrect',
                                   `3` = 'Incorrect',
                                   `4` = 'Incorrect',
                                   `5` = 'Correct',
-                                  `6` = 'Incorrect'))) %>% 
+                                  `6` = 'Incorrect'))) %>%
   mutate(across(ct[c(8)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Incorrect',
@@ -299,23 +298,23 @@ data_ct = data %>%
   mutate(across(ct[c(1:12)], as.integer))
 
 
-data_ct$tot_score_ct = data_ct$b1 + data_ct$b2 + data_ct$b3 + data_ct$b4 + data_ct$b5 + data_ct$b6 + data_ct$b7 + data_ct$b8 + data_ct$b9 + 
+data_ct$tot_score_ct = data_ct$b1 + data_ct$b2 + data_ct$b3 + data_ct$b4 + data_ct$b5 + data_ct$b6 + data_ct$b7 + data_ct$b8 + data_ct$b9 +
   data_ct$b10 + data_ct$b11 + data_ct$b12
 
-data_ct$B1 = data_ct$b1 - 1 
-data_ct$B2 = data_ct$b2 - 1 
-data_ct$B3 = data_ct$b3 - 1 
-data_ct$B4 = data_ct$b4 - 1 
-data_ct$B5 = data_ct$b5 - 1 
-data_ct$B6 = data_ct$b6 - 1 
-data_ct$B7 = data_ct$b7 - 1 
-data_ct$B8 = data_ct$b8 - 1 
-data_ct$B9 = data_ct$b9 - 1 
-data_ct$B10 = data_ct$b10 - 1 
-data_ct$B11 = data_ct$b11 - 1 
-data_ct$B12 = data_ct$b12 - 1 
+data_ct$B1 = data_ct$b1 - 1
+data_ct$B2 = data_ct$b2 - 1
+data_ct$B3 = data_ct$b3 - 1
+data_ct$B4 = data_ct$b4 - 1
+data_ct$B5 = data_ct$b5 - 1
+data_ct$B6 = data_ct$b6 - 1
+data_ct$B7 = data_ct$b7 - 1
+data_ct$B8 = data_ct$b8 - 1
+data_ct$B9 = data_ct$b9 - 1
+data_ct$B10 = data_ct$b10 - 1
+data_ct$B11 = data_ct$b11 - 1
+data_ct$B12 = data_ct$b12 - 1
 
-data_ct$tot_score_ct = data_ct$B1 + data_ct$B2 + data_ct$B3 + data_ct$B4 + data_ct$B5 + data_ct$B6 + data_ct$B7 + data_ct$B8 + data_ct$B9 + 
+data_ct$tot_score_ct = data_ct$B1 + data_ct$B2 + data_ct$B3 + data_ct$B4 + data_ct$B5 + data_ct$B6 + data_ct$B7 + data_ct$B8 + data_ct$B9 +
   data_ct$B10 + data_ct$B11 + data_ct$B12
 
 ct = c('B1',
@@ -337,7 +336,7 @@ data_CT = data_ct %>%
 
 summary(data_CT)
 
-data$tot_score_CT = data_ct$tot_score_ct 
+data$tot_score_CT = data_ct$tot_score_ct
 
 data$normalize_CT = (data$tot_score_CT - mean(data$tot_score_CT, na.rm = TRUE)) / sd(data$tot_score_CT, na.rm = TRUE)
 data$normalize_CT
@@ -396,12 +395,12 @@ ggplot(data = data_CT) +
 #### B1-B12 (Grading - Dexterity (DX)) ####
 
 data$card_score = ifelse(data$card_qual == 0, data$card/25,
-                         ifelse(data$card_qual == 1, data$card/22.5, 
+                         ifelse(data$card_qual == 1, data$card/22.5,
                                 ifelse(data$card_qual == 2, data$card/20,
                                        '0')))
 
 data$needle_score = ifelse(data$needle_qual == 0, data$needle/2.5,
-                           ifelse(data$needle_qual == 1, data$needle/1.5, 
+                           ifelse(data$needle_qual == 1, data$needle/1.5,
                                   ifelse(data$needle_qual == 2, data$needle/0.5,
                                          '0')))
 
@@ -418,14 +417,14 @@ data_DX = data %>%
                            `1` = 'Two piles have similar number of cards but not exactly the same.',
                            `2` = 'Two piles have very differnt number of cards.',
                            `-9` = 'Missing')) %>%
-  
+
   mutate(needle_qual= recode(needle_qual,
                              `0` = 'Worker pulled through 2 or 3 needles.',
                              `1` = 'Worker pulled 1 needle.',
                              `2` = 'Worker pulled 0 needle.',
-                             `-9` = 'Missing')) 
+                             `-9` = 'Missing'))
 
-str(data_DX) 
+str(data_DX)
 
 ggplot(data = data_DX) +
   geom_bar(aes(x = card_qual)) +

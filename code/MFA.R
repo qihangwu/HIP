@@ -5,7 +5,7 @@ library(Factoshiny)
 library(FactoMineR)
 library(matrixStats)
 
-data = read_excel('weekdayend_all2.xlsx') 
+data = read_excel('data/weekdayend_all2.xlsx')
 
 
 # Part A
@@ -19,11 +19,11 @@ data$first_job= data$history_yesno
 
 # Part C
 
-data$tot_score_WM1 = data$series11_yesno + data$series12_yesno + data$series13_yesno + data$series14_yesno + data$series15_yesno + 
+data$tot_score_WM1 = data$series11_yesno + data$series12_yesno + data$series13_yesno + data$series14_yesno + data$series15_yesno +
   data$series16_yesno + data$series17_yesno
-data$tot_score_WM2 = data$series21_yesno + data$series22_yesno + data$series23_yesno + data$series24_yesno + data$series25_yesno + 
+data$tot_score_WM2 = data$series21_yesno + data$series22_yesno + data$series23_yesno + data$series24_yesno + data$series25_yesno +
   data$series26_yesno + data$series27_yesno
-data$tot_score_WM3 = data$series31_yesno + data$series32_yesno + data$series33_yesno + data$series34_yesno + data$series35_yesno + 
+data$tot_score_WM3 = data$series31_yesno + data$series32_yesno + data$series33_yesno + data$series34_yesno + data$series35_yesno +
   data$series36_yesno + data$series37_yesno
 
 TS_WM = c('tot_score_WM1',
@@ -105,14 +105,14 @@ data_ct = data %>%
                                   `3` = 'Correct',
                                   `4` = 'Incorrect',
                                   `5` = 'Incorrect',
-                                  `6` = 'Incorrect'))) %>% 
+                                  `6` = 'Incorrect'))) %>%
   mutate(across(ct[c(7)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Incorrect',
                                   `3` = 'Incorrect',
                                   `4` = 'Incorrect',
                                   `5` = 'Correct',
-                                  `6` = 'Incorrect'))) %>% 
+                                  `6` = 'Incorrect'))) %>%
   mutate(across(ct[c(8)], ~recode(.,
                                   `1` = 'Incorrect',
                                   `2` = 'Incorrect',
@@ -161,23 +161,23 @@ data_ct = data %>%
   mutate(across(ct[c(1:12)], as.integer))
 
 
-data_ct$tot_score_ct = data_ct$b1 + data_ct$b2 + data_ct$b3 + data_ct$b4 + data_ct$b5 + data_ct$b6 + data_ct$b7 + data_ct$b8 + data_ct$b9 + 
+data_ct$tot_score_ct = data_ct$b1 + data_ct$b2 + data_ct$b3 + data_ct$b4 + data_ct$b5 + data_ct$b6 + data_ct$b7 + data_ct$b8 + data_ct$b9 +
   data_ct$b10 + data_ct$b11 + data_ct$b12
 
-data_ct$B1 = data_ct$b1 - 1 
-data_ct$B2 = data_ct$b2 - 1 
-data_ct$B3 = data_ct$b3 - 1 
-data_ct$B4 = data_ct$b4 - 1 
-data_ct$B5 = data_ct$b5 - 1 
-data_ct$B6 = data_ct$b6 - 1 
-data_ct$B7 = data_ct$b7 - 1 
-data_ct$B8 = data_ct$b8 - 1 
-data_ct$B9 = data_ct$b9 - 1 
-data_ct$B10 = data_ct$b10 - 1 
-data_ct$B11 = data_ct$b11 - 1 
-data_ct$B12 = data_ct$b12 - 1 
+data_ct$B1 = data_ct$b1 - 1
+data_ct$B2 = data_ct$b2 - 1
+data_ct$B3 = data_ct$b3 - 1
+data_ct$B4 = data_ct$b4 - 1
+data_ct$B5 = data_ct$b5 - 1
+data_ct$B6 = data_ct$b6 - 1
+data_ct$B7 = data_ct$b7 - 1
+data_ct$B8 = data_ct$b8 - 1
+data_ct$B9 = data_ct$b9 - 1
+data_ct$B10 = data_ct$b10 - 1
+data_ct$B11 = data_ct$b11 - 1
+data_ct$B12 = data_ct$b12 - 1
 
-data_ct$tot_score_CT = data_ct$B1 + data_ct$B2 + data_ct$B3 + data_ct$B4 + data_ct$B5 + data_ct$B6 + data_ct$B7 + data_ct$B8 + data_ct$B9 + 
+data_ct$tot_score_CT = data_ct$B1 + data_ct$B2 + data_ct$B3 + data_ct$B4 + data_ct$B5 + data_ct$B6 + data_ct$B7 + data_ct$B8 + data_ct$B9 +
   data_ct$B10 + data_ct$B11 + data_ct$B12
 
 ct = c('B1',
@@ -199,7 +199,7 @@ data_CT = data_ct %>%
 
 summary(data_CT)
 
-data$tot_score_CT = data_ct$tot_score_CT 
+data$tot_score_CT = data_ct$tot_score_CT
 
 data$normalize_CT = (data$tot_score_CT - mean(data$tot_score_CT, na.rm = TRUE)) / sd(data$tot_score_CT, na.rm = TRUE)
 data$normalize_CT
@@ -207,15 +207,15 @@ data$normalize_CT
 summary(data$normalize_CT)
 
 
-# Part E 
+# Part E
 
 data$card_score = ifelse(data$card_qual == 0, data$card/25,
-                         ifelse(data$card_qual == 1, data$card/22.5, 
+                         ifelse(data$card_qual == 1, data$card/22.5,
                                 ifelse(data$card_qual == 2, data$card/20,
                                        '0')))
 
 data$needle_score = ifelse(data$needle_qual == 0, data$needle/2.5,
-                           ifelse(data$needle_qual == 1, data$needle/1.5, 
+                           ifelse(data$needle_qual == 1, data$needle/1.5,
                                   ifelse(data$needle_qual == 2, data$needle/0.5,
                                          '0')))
 # Subset data
