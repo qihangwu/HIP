@@ -1,12 +1,9 @@
 library(tidyverse)
 library(readxl)
 library(ggplot2)
-setwd("~/HIP")
 library(Factoshiny)
 library(FactoMineR)
 library(matrixStats)
-
-rm(list = ls())
 
 data = read_excel('weekdayend_all2.xlsx') 
 
@@ -254,4 +251,3 @@ summary(res.MFA)
 newDF <- data_MFA[,c("normalize_WM","tot_score_CT","card_score","needle_score","high_educ","first_job")]
 res.MFA<-MFA(newDF,group=c(4,2), type=c("s","n"),name.group=c("Gr 1","Gr 2"),graph=FALSE)
 dimdesc(res.MFA)
-
