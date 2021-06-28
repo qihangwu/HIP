@@ -1,9 +1,10 @@
 library(tidyverse)
 library(readxl)
 library(ggplot2)
-setwd("~/HIP")
 library(Factoshiny)
 library(FactoMineR)
+library(matrixStats)
+
 
 data = read_excel('weekdayend_all2.xlsx') 
 
@@ -13,6 +14,7 @@ data = read_excel('weekdayend_all2.xlsx')
 
 data$high_educ = ifelse(data$educ > 2, "Higher than 10th grade education", "10th grade education or lower")
 data$new_age = 2013 - data$year_birth
+
 DM_m = c('age',
          'year_birth',
          'new_age',
@@ -272,3 +274,4 @@ ggplot(data = data_TR) +
 ggplot(data = data_TR) +
   geom_bar(aes(x = trust_ancres)) +
   ggsave('TR6.png')
+
