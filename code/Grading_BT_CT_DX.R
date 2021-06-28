@@ -1,12 +1,11 @@
 library(tidyverse)
 library(readxl)
 library(ggplot2)
-setwd("~/HIP")
 library(Factoshiny)
 library(FactoMineR)
+library(matrixStats)
 
 
-rm(list = ls())
 data = read_excel('weekdayend_all2.xlsx') 
 
 #### A11-A36 (Grading - Behavioral Test (BT)) ####
@@ -435,5 +434,4 @@ ggplot(data = data_DX) +
 ggplot(data = data_DX) +
   geom_bar(aes(x = needle_qual)) +
   ggsave('DX2.png')
-
 
