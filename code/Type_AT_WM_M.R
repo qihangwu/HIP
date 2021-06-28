@@ -1,9 +1,10 @@
 library(tidyverse)
 library(readxl)
 library(ggplot2)
-setwd("~/HIP")
 library(Factoshiny)
 library(FactoMineR)
+library(matrixStats)
+
 
 data = read_excel('weekdayend_all2.xlsx') 
 
