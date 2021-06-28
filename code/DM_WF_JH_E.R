@@ -59,22 +59,6 @@ data_DMe = data %>%
                            `100` = 'Others'))
 str(data_DM)
 
-ggplot(data = data_DM) +
-  geom_bar(aes(x = lang_amhar)) +
-  ggsave('DM4a.png')
-
-ggplot(data = data_DM) +
-  geom_bar(aes(x = lang_sidama)) +
-  ggsave('DM4b.png')
-
-ggplot(data = data_DM) +
-  geom_bar(aes(x = lang_other)) +
-  ggsave('DM4c.png')
-
-ggplot(data = data_DM) +
-  geom_bar(aes(x = religion)) +
-  ggsave('DM5.png')
-
 
 #### WF (Evening) ####
 
@@ -117,70 +101,6 @@ data_WF = data %>%
 
 str(data_WF)
 
-ggplot(data = data_WF) +
-  geom_bar(aes(x = family_told_job)) +
-  ggsave('WF1fa.png')
-
-ggplot(data = data_WF) +
-  geom_bar(aes(x = friend_told_job)) +
-  ggsave('WF1fr.png')
-
-ggplot(data = data_WF) +
-  geom_bar(aes(x = search_job_other)) +
-  ggsave('WF1o.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = search_job_day), binwidth = 1) +
-  ggsave('WF1b.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = search_job_hour), binwidth = 5) +
-  ggsave('WF1c.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = search_job_min), binwidth = 1) +
-  ggsave('WF1d.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = income_total), binwidth = 1000) +
-  ggsave('WF2.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = income_from_family), binwidth = 1000) +
-  ggsave('WF3.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = income_from_friend), binwidth = 100) +
-  ggsave('WF4.png')
-
-ggplot(data = data_WF) +
-  geom_bar(aes(x = income_to_family), binwidth = 1000) +
-  ggsave('WF5.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = expend_food), binwidth = 100) +
-  ggsave('WF6.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = expend_transp), binwidth = 50) +
-  ggsave('WF7.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = expend_rent), binwidth = 100) +
-  ggsave('WF8.png')
-
-ggplot(data = data_WF) +
-  geom_histogram(aes(x = expend_cosmetic), binwidth = 50) +
-  ggsave('WF9.png')
-
-ggplot(data = data_WF) +
-  geom_bar(aes(x = health_nofood)) +
-  ggsave('WF10.png')
-
-ggplot(data = data_WF) +
-  geom_bar(aes(x = health_ill)) +
-  ggsave('WF11.png')
-
 
 #### JH (Evening) ####
 
@@ -211,34 +131,4 @@ data_JH = data %>%
                                      `100` = 'Others'))
 
 str(data_JH)
-
-ggplot(data = data_JH) +
-  geom_bar(aes(x = history_yesno)) +
-  ggsave('JH1.png')
-
-ggplot(data = data_JH) +
-  geom_histogram(aes(x = history_age), binwidth = 1) +
-  ggsave('JH2.png')
-
-ggplot(data = data_JH) +
-  geom_bar(aes(x = history_manual)) +
-  ggsave('JH3a.png')
-
-ggplot(data = data_JH) +
-  geom_histogram(aes(x = history_salary), binwidth = 100) +
-  ggsave('JH4.png')
-
-ggplot(data = data_JH) +
-  geom_histogram(aes(x = history_hour), binwidth = 1) +
-  ggsave('JH5.png')
-
-ggplot(data = data_JH) +
-  geom_histogram(aes(x = history_day), binwidth = 1) +
-  ggsave('JH6.png')
-
-ggplot(data = data_JH) +
-  geom_bar(aes(x = history_quitreason)) +
-  ggsave('JH7.png')
-
-
 
