@@ -28,8 +28,8 @@ hip_analysis <- hip %>%
   cbind(data_JH) %>%
   cbind(data_TS_WM) %>%
   cbind(data_CT) %>%
-  cbind(data_DX) %>%
-  cbind(data_MFA)
+  cbind(data_DX) #%>%
+#  cbind(data_MFA)
 
 
 # Pooled ------------------------------------------------------------------

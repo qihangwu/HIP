@@ -233,9 +233,9 @@ data_MFA = data %>%
   mutate(across(MFA[c(3, 4, 5, 6)], as.integer))
 
 
-result = Factoshiny(data_MFA)
+#result = Factoshiny(data_MFA)
 
-Factoshiny(result)
+#Factoshiny(result)
 
 newDF <- data_MFA[,c("normalize_WM","tot_score_CT","card_score","needle_score","high_educ","first_job")]
 res.MFA<-MFA(newDF,group=c(4,2), type=c("s","n"),name.group=c("Gr 1","Gr 2"),graph=FALSE)
