@@ -57,7 +57,6 @@ data_DMe = data %>%
                            `3` = 'Muslim',
                            `4` = 'Traditional religions',
                            `100` = 'Others'))
-str(data_DM)
 
 
 #### WF (Evening) ####
@@ -99,8 +98,6 @@ data_WF = data %>%
                                    `1` = 'Yes',
                                    `100` = 'Not Sure'))
 
-str(data_WF)
-
 
 #### JH (Evening) ####
 
@@ -129,6 +126,4 @@ data_JH = data %>%
                                      `5` = 'Because the job did not provide good benefits.',
                                      `6` = 'Because the employer treated me badly.',
                                      `100` = 'Others'))
-
-str(data_JH)
 

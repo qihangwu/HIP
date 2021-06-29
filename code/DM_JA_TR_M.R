@@ -59,8 +59,6 @@ data_DMm = data %>%
   )) %>%
   mutate(school_diploma_other = as.character(school_diploma_other))
 
-str(DM_m)
-
 
 #### JA_m (morning) ####
 
@@ -120,9 +118,6 @@ data_JA = data %>%
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis Ababa', 'Addis Ababa'))
 
 
-str(data_JA)
-
-
 #### TR_m (morning) ####
 
 TR_m = c('trust_anoctr',
@@ -141,9 +136,4 @@ data_TR = data %>%
                                                    `2` = 'Neither agree nor disagree',
                                                    `3` = 'Somewhat disagre',
                                                    `4` = 'Strongly Disagree')))
-str(data_TR)
-
-
-
-
 
