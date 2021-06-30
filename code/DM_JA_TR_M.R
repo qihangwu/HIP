@@ -61,43 +61,6 @@ data_DMm = data %>%
 
 str(DM_m)
 
-ggplot(data = data_DMm) +
-  geom_histogram(aes(x = age), binwidth=1) +
-  xlim(15,30) + 
-  ggsave('DM1.png')
-
-ggplot(data = data_DMm) +
-  geom_histogram(aes(x = new_age), binwidth=1) +
-  xlim(15,30) + 
-  ggsave('DM1newage.png')
-
-ggplot(data = data_DMm) +
-  geom_histogram(aes(x = year_birth), binwidth=1) +
-  ggsave('DM1a.png')
-
-ggplot(data = data_DMm) +
-  geom_histogram(aes(x = month_birth), binwidth=1) + 
-  ggsave('DM1b.png')
-
-ggplot(data = data_DMm) +
-  geom_bar(aes(x = married), binwidth=1) +
-  ggsave('DM2.png')
-
-ggplot(data = data_DMm) +
-  geom_bar(aes(x = educ)) +
-  ggsave('DM3.png')
-
-ggplot(data = data_DMm) +
-  geom_bar(aes(x = school_yesno)) +
-  ggsave('DM3a.png')
-
-ggplot(data = data_DMm) +
-  geom_bar(aes(x = school_diploma)) +
-  ggsave('DM3c.png')
-
-ggplot(data = data_DMm) +
-  geom_histogram(aes(x = school_fee), binwidth=1000) +
-  ggsave('DM3d.png')
 
 #### JA_m (morning) ####
 
@@ -159,77 +122,6 @@ data_JA = data %>%
 
 str(data_JA)
 
-ggplot(data = data_JA) +
-  geom_bar(aes(x = reason_salary)) +
-  ggsave('JA1a.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = reason_interest)) +
-  ggsave('JA1b.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = reason_tiring)) +
-  ggsave('JA1c.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = reason_learn)) +
-  ggsave('JA1d.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = reason_style)) +
-  ggsave('JA1e.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = reason_quickjob)) +
-  ggsave('JA1f.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = reason_family)) +
-  ggsave('JA1g.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = reason_school)) +
-  ggsave('JA1h.png')
-
-ggplot(data = data_JA) +
-  geom_histogram(aes(x = plan_year), binwidth = 1) +
-  ggsave('JA2a.png')
-
-ggplot(data = data_JA) +
-  geom_histogram(aes(x = plan_month), binwidth = 5) +
-  ggsave('JA2b.png')
-
-ggplot(data = data_JA) +
-  geom_histogram(aes(x = plan_school_year), binwidth = 1) +
-  ggsave('JA3a.png')
-
-ggplot(data = data_JA) +
-  geom_histogram(aes(x = plan_school_month), binwidth = 2) +
-  ggsave('JA3b.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = plan_marry)) +
-  ggsave('JA4.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = plan_startown)) +
-  ggsave('JA6.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = plan_migrate)) +
-  ggsave('JA7.png')
-
-ggplot(data = data_JA) +
-  geom_bar(aes(x = plan_migrate_home)) +
-  ggsave('JA8.png')
-
-ggplot(data = data_JA) +
-  geom_histogram(aes(x = income_target), binwidth = 100) +
-  ggsave('WF12.png')
-
-ggplot(data = data_JA) +
-  geom_histogram(aes(x = expend_target), binwidth = 100) +
-  ggsave('WF13.png')
 
 #### TR_m (morning) ####
 
@@ -250,28 +142,4 @@ data_TR = data %>%
                                                    `3` = 'Somewhat disagre',
                                                    `4` = 'Strongly Disagree'))) 
 str(data_TR)
-
-ggplot(data = data_TR) +
-  geom_bar(aes(x = trust_anoctr)) +
-  ggsave('TR1.png')
-
-ggplot(data = data_TR) +
-  geom_bar(aes(x = trust_samelang)) +
-  ggsave('TR2.png')
-
-ggplot(data = data_TR) +
-  geom_bar(aes(x = trust_difflang)) +
-  ggsave('TR3.png')
-
-ggplot(data = data_TR) +
-  geom_bar(aes(x = trust_govt)) +
-  ggsave('TR4.png')
-
-ggplot(data = data_TR) +
-  geom_bar(aes(x = trust_ethres)) +
-  ggsave('TR5.png')
-
-ggplot(data = data_TR) +
-  geom_bar(aes(x = trust_ancres)) +
-  ggsave('TR6.png')
 
