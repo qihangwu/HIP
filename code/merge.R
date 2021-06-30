@@ -46,38 +46,31 @@ hip_analysis_pool <- hip_analysis %>%
 
 ## Interaction ------------------------------------------------------------
 
-ggplot(data = hip_analysis_pool) +
-  geom_density(aes(x = guess_entry_salary),
-               color = 'blue',
-               alpha = 0.5,
-               fill = 'blue') +
-  geom_density(aes(x = w_guess_entry_salary),
-               color = 'red',
-               alpha = 0.5,
-               fill = 'red') +
-  geom_vline(aes(xintercept = 750)) +
-  facet_grid(treat1 ~ treat2)
+gg_pooled <- function(variable, benchmark) {
+
+  plot <- ggplot(data = hip_analysis_pool) +
+    geom_density(aes(x = !!sym(variable)),
+                 size = 0.8) +
+    geom_density(aes(x = !!sym(paste0('w_', variable))),
+                 size = 0.8,
+                 color = 'cornflowerblue') +
+    geom_vline(aes(xintercept = benchmark),
+               color = 'red') +
+    facet_grid(treat2 ~ treat1, labeller = 'label_both') +
+    labs(title = variable,
+         subtitle = 'Black is morning, blue is weekend',
+         x = '') +
+    theme_minimal()
+
+  return(plot)
+}
+
+ggplot() +
+  geom_boxplot(data = hip_analysis_pool %>% filter(treat1 == 0), aes(y = guess_entry_salary)) +
+  geom_boxplot(data = hip_analysis_pool %>% filter(treat1 == 1), aes(y = guess_entry_salary))
 
 
-ggplot(data = hip_analysis_pool) +
-  geom_density(aes(x = guess_salary_medium),
-               color = 'blue',
-               alpha = 0.5) +
-  geom_density(aes(x = w_guess_salary_medium),
-               color = 'red',
-               alpha = 0.5) +
-  geom_vline(aes(xintercept = 1707)) +
-  facet_grid(treat1 ~ treat2)
 
-ggplot(data = hip_analysis_pool) +
-  geom_density(aes(x = guess_entry_salary_abs),
-               color = 'blue',
-               alpha = 0.5) +
-  geom_density(aes(x = w_guess_entry_salary_abs),
-               color = 'red',
-               alpha = 0.5) +
-#  geom_vline(aes(xintercept = 750)) +
-  facet_grid(treat1 ~ treat2)
 
 hip_analysis_pool <- hip_analysis_pool %>%
   mutate(guess_entry_salary_diff = w_guess_entry_salary - guess_entry_salary,
