@@ -7,6 +7,11 @@ library(readxl)
 source('code/outside_options.R')
 source('code/jobs_in_HIP.R')
 source('code/jobs_in_HIP_followup.R')
+source('code/DM_JA_TR_M.R')
+source('code/DM_WF_JH_E.R')
+source('code/Type_AT_WM_M.R')
+source('code/Grading_BT_CT_DX.R')
+source('code/MFA.R')
 
 
 # OA (morning) ------------------------------------------------------------
