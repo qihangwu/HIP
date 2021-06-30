@@ -111,78 +111,6 @@ data_BT = data %>%
 str(BT)
 
 
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a11)) +
-  ggsave('a11.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a12)) +
-  ggsave('a12.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a13)) +
-  ggsave('a13.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a14)) +
-  ggsave('a14.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a15)) +
-  ggsave('a15.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a16)) +
-  ggsave('a16.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a21)) +
-  ggsave('a21.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a22)) +
-  ggsave('a22.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a23)) +
-  ggsave('a23.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a24)) +
-  ggsave('a24.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a25)) +
-  ggsave('a25.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a26)) +
-  ggsave('a26.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a31)) +
-  ggsave('a31.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a32)) +
-  ggsave('a32.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a33)) +
-  ggsave('a33.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a34)) +
-  ggsave('a34.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a35)) +
-  ggsave('a35.png')
-
-ggplot(data = data_BT) +
-  geom_bar(aes(x = a36)) +
-  ggsave('a36.png')
-
 #### B1-B12 (Grading - Cognitive Test (ct)) ####
 
 
@@ -344,53 +272,7 @@ data$normalize_CT
 
 summary(data$normalize_CT)
 
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B1)) +
-  ggsave('B1.png')
 
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B2)) +
-  ggsave('B2.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B3)) +
-  ggsave('B3.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B4)) +
-  ggsave('B4.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B5)) +
-  ggsave('B5.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B6)) +
-  ggsave('B6.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B7)) +
-  ggsave('B7.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B8)) +
-  ggsave('B8.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B9)) +
-  ggsave('B9.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B10)) +
-  ggsave('B10.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B11)) +
-  ggsave('B11.png')
-
-ggplot(data = data_CT) +
-  geom_bar(aes(x = B12)) +
-  ggsave('B12.png')
 
 
 #### B1-B12 (Grading - Dexterity (DX)) ####
@@ -426,12 +308,4 @@ data_DX = data %>%
                              `-9` = 'Missing')) 
 
 str(data_DX) 
-
-ggplot(data = data_DX) +
-  geom_bar(aes(x = card_qual)) +
-  ggsave('DX1.png')
-
-ggplot(data = data_DX) +
-  geom_bar(aes(x = needle_qual)) +
-  ggsave('DX2.png')
 
