@@ -2,6 +2,7 @@
 # Setup -------------------------------------------------------------------
 
 library(stargazer)
+library(reshape2)
 
 source('code/outside_options.R')
 source('code/jobs_in_HIP.R')
@@ -66,6 +67,22 @@ gg_pooled <- function(variable, benchmark) {
   ggsave(plot = plot, file = paste0('figures/treatment_bias/pool_', variable, '.png'))
 }
 
+gg_pooled_bar <- function(vari) {
+
+  data <- hip_analysis_pool %>%
+    select(c('wid', all_of(vari), paste0('w_', vari))) %>%
+    melt(id.vars = 'wid')
+
+  plot <- ggplot(data = data) +
+    geom_bar(aes(x = value, fill = variable), position = 'dodge') +
+#    facet_wrap(~treat2, labeller = 'label_both') +
+    labs(title = vari,
+         x = 'sign') +
+    scale_fill_discrete(name = 'Survey',
+                        labels = c('morning', 'weekend'))
+  ggsave(plot = plot, file = paste0('figures/treatment_bias/pool_', vari, '.png'))
+}
+
 ### Original --------------------------------------------------------------
 
 pool_names_orig <- c('guess_entry_salary',
@@ -114,7 +131,16 @@ for (i in 1:6) {
 
 ### Bias sign -------------------------------------------------------------
 
+pool_names_sign <- c('guess_entry_salary_bias',
+                     'guess_entry_salary_6m_bias',
+                     'guess_you_salary_1m_bias',
+                     'guess_salary_medium_bias',
+                     'guess_salary_sp_bias',
+                     'guess_you_salary_6m_bias')
 
+for (i in 1:6) {
+  gg_pooled_bar(pool_names_sign[i])
+}
 
 ### Regression ------------------------------------------------------------
 
