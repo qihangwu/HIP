@@ -8,12 +8,12 @@ library(matrixStats)
 data = read_excel('data/weekdayend_all2.xlsx') 
 
 #### DM_e (Evening) ####
-### Generate two variables of Amharic and Sidamaigna and 3rd variable of non-Amharic 
+### Generate two variables of Amharic and Sidamaigna and 3rd variable of non-Amharic
 
 data$lang_sidama = ifelse(data$language_0, "1", "0")
 data$lang_amhar = ifelse(data$language_5, "1", "0")
-data$lang_other = ifelse(data$language_1 | data$language_2 | data$language_3 | data$language_4 | data$language_6 | 
-                           data$language_7 | data$language_8 | data$language_9 | data$language_10 | data$language_11 
+data$lang_other = ifelse(data$language_1 | data$language_2 | data$language_3 | data$language_4 | data$language_6 |
+                           data$language_7 | data$language_8 | data$language_9 | data$language_10 | data$language_11
                          | data$language_100, "1", "0")
 data$langu_other = is.na(data$language_other)
 
@@ -49,31 +49,14 @@ data_DMe = data %>%
   mutate(current_live_region = replace(current_live_region, current_live_region == 'Oromiys', 'Oromia')) %>%
   mutate(current_live_city = replace(current_live_city, current_live_city == 'Sidama', 'Hawassa')) %>%
   mutate(current_live_city = replace(current_live_city, current_live_city == 'Hawasa', 'Hawassa')) %>%
-  mutate(current_live_city = replace(current_live_city, current_live_city == 'Hawasa', 'Hawassa')) %>%  
+  mutate(current_live_city = replace(current_live_city, current_live_city == 'Hawasa', 'Hawassa')) %>%
   mutate(religion = recode(religion,
                            `0` = 'Protestant',
                            `1` = 'Orthodox',
                            `2` = 'Catholic',
                            `3` = 'Muslim',
                            `4` = 'Traditional religions',
-                           `100` = 'Others')) 
-str(data_DM)
-
-ggplot(data = data_DM) +
-  geom_bar(aes(x = lang_amhar)) +
-  ggsave('DM4a.png')
-
-ggplot(data = data_DM) +
-  geom_bar(aes(x = lang_sidama)) +
-  ggsave('DM4b.png')
-
-ggplot(data = data_DM) +
-  geom_bar(aes(x = lang_other)) +
-  ggsave('DM4c.png')
-
-ggplot(data = data_DM) +
-  geom_bar(aes(x = religion)) +
-  ggsave('DM5.png')
+                           `100` = 'Others'))
 
 
 #### WF (Evening) ####
@@ -83,7 +66,7 @@ ggplot(data = data_DM) +
 data$family_told_job = ifelse(data$search_job_way_5, "1", "0")
 data$friend_told_job = ifelse(data$search_job_way_6, "1", "0")
 
-data$search_job_other = ifelse(data$search_job_way_0 | data$search_job_way_1 | data$search_job_way_2 | data$search_job_way_3 | 
+data$search_job_other = ifelse(data$search_job_way_0 | data$search_job_way_1 | data$search_job_way_2 | data$search_job_way_3 |
                                  data$search_job_way_4 | data$search_job_way_7 | data$search_job_way_8, "1", "0")
 
 WF = c('family_told_job',
@@ -115,9 +98,6 @@ data_WF = data %>%
                                    `1` = 'Yes',
                                    `100` = 'Not Sure'))
 
-str(data_WF)
-
-
 #### JH (Evening) ####
 
 JH = c('history_yesno',
@@ -145,7 +125,5 @@ data_JH = data %>%
                                      `5` = 'Because the job did not provide good benefits.',
                                      `6` = 'Because the employer treated me badly.',
                                      `100` = 'Others'))
-
-str(data_JH) 
 
 

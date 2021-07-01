@@ -5,12 +5,11 @@ library(Factoshiny)
 library(FactoMineR)
 library(matrixStats)
 
-
 data = read_excel('data/weekdayend_all2.xlsx') 
 
 #### DM_m (Morning) ####
 ## Description, keep age and school fee as.numeric,  make married, educ, school_yesno, and school_diploma as factor,
-## and school_name & school_diploma_other as character. In addition, change the values (recode) for those that are factors.  
+## and school_name & school_diploma_other as character. In addition, change the values (recode) for those that are factors.
 
 data$high_educ = ifelse(data$educ > 2, "Higher than 10th grade education", "10th grade education or lower")
 data$new_age = 2013 - data$year_birth
@@ -59,9 +58,6 @@ data_DMm = data %>%
   )) %>%
   mutate(school_diploma_other = as.character(school_diploma_other))
 
-str(DM_m)
-
-
 #### JA_m (morning) ####
 
 JA_m = c('reason_salary',
@@ -109,18 +105,15 @@ data_JA = data %>%
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Addis Abeba', 'Addis Ababa')) %>%
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis abeba', 'Addis Ababa')) %>%
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'A.A', 'Addis Ababa')) %>%
-  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adisabeba', 'Addis Ababa')) %>%  
-  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adiss Ababa', 'Addis Ababa')) %>% 
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adisabeba', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adiss Ababa', 'Addis Ababa')) %>%
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Addis  abeba', 'Addis Ababa')) %>%
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Addis abeba', 'Addis Ababa')) %>%
   mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis Abebe', 'Addis Ababa')) %>%
-  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'A.a', 'Addis Ababa')) %>%  
-  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis  Ababa', 'Addis Ababa')) %>%  
-  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adiss Ababa', 'Addis Ababa')) %>% 
-  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis Ababa', 'Addis Ababa'))  
-
-
-str(data_JA)
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'A.a', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis  Ababa', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adiss Ababa', 'Addis Ababa')) %>%
+  mutate(plan_migrate_des = replace(plan_migrate_des, plan_migrate_des == 'Adis Ababa', 'Addis Ababa'))
 
 
 #### TR_m (morning) ####
@@ -140,6 +133,4 @@ data_TR = data %>%
                                                    `1` = 'Somewhat agree',
                                                    `2` = 'Neither agree nor disagree',
                                                    `3` = 'Somewhat disagre',
-                                                   `4` = 'Strongly Disagree'))) 
-str(data_TR)
-
+                                                   `4` = 'Strongly Disagree')))

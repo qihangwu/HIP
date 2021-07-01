@@ -5,8 +5,7 @@ library(Factoshiny)
 library(FactoMineR)
 library(matrixStats)
 
-
-data = read_excel('weekdayend_all2.xlsx') 
+data = read_excel('data/weekdayend_all2.xlsx')
 
 #### AT (Evening) ####
 
@@ -31,14 +30,13 @@ data_AT = data %>%
                                      `1` = 'Somewhat Agree',
                                      `2` = 'Neither agree nor disagree',
                                      `3` = 'Somewhat Disagree',
-                                     `4` = 'Completely Disagree'))) 
+                                     `4` = 'Completely Disagree')))
 
-str(data_AT) 
 
 
 #### WM (Evening) ####
 
-data$tot_score_WM1 = data$series11_yesno + data$series12_yesno + data$series13_yesno + data$series14_yesno + data$series15_yesno + 
+data$tot_score_WM1 = data$series11_yesno + data$series12_yesno + data$series13_yesno + data$series14_yesno + data$series15_yesno +
   data$series16_yesno + data$series17_yesno
 
 WM1 = c('series11_yesno',
@@ -56,15 +54,13 @@ data_WM1 = data %>%
   mutate(across(WM1[c(8)], as.integer)) %>%
   mutate(across(WM1[c(1:7)], ~recode(.,
                                      `0` = 'Incorrect',
-                                     `1` = 'Correct'))) 
+                                     `1` = 'Correct')))
 
 summary(data_WM1)
 
-str(data_WM1) 
-
-
 
 data$tot_score_WM2 = data$series21_yesno + data$series22_yesno + data$series23_yesno + data$series24_yesno + data$series25_yesno + 
+
   data$series26_yesno + data$series27_yesno
 
 WM2 = c('series21_yesno',
@@ -81,14 +77,13 @@ data_WM2 = data %>%
   mutate(across(WM2[c(1:7)], as.factor)) %>%
   mutate(across(WM2[c(1:7)], ~recode(.,
                                      `0` = 'Incorrect',
-                                     `1` = 'Correct'))) 
+                                     `1` = 'Correct')))
 
 summary(data_WM2)
 
 
-
-
 data$tot_score_WM3 = data$series31_yesno + data$series32_yesno + data$series33_yesno + data$series34_yesno + data$series35_yesno + 
+
   data$series36_yesno + data$series37_yesno
 
 WM3 = c('series31_yesno',
@@ -105,7 +100,7 @@ data_WM3 = data %>%
   mutate(across(WM3[c(1:7)], as.factor)) %>%
   mutate(across(WM3[c(1:7)], ~recode(.,
                                      `0` = 'Incorrect',
-                                     `1` = 'Correct'))) 
+                                     `1` = 'Correct')))
 
 summary(data_WM3)
 
