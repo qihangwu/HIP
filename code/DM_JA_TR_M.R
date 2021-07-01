@@ -6,7 +6,7 @@ library(FactoMineR)
 library(matrixStats)
 
 
-data = read_excel('weekdayend_all2.xlsx') 
+data = read_excel('data/weekdayend_all2.xlsx') 
 
 #### DM_m (Morning) ####
 ## Description, keep age and school fee as.numeric,  make married, educ, school_yesno, and school_diploma as factor,
