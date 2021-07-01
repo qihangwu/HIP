@@ -5,7 +5,7 @@ library(Factoshiny)
 library(FactoMineR)
 library(matrixStats)
 
-data = read_excel('weekdayend_all2.xlsx') 
+data = read_excel('data/weekdayend_all2.xlsx') 
 
 #### DM_e (Evening) ####
 ### Generate two variables of Amharic and Sidamaigna and 3rd variable of non-Amharic 
