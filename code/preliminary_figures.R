@@ -7,6 +7,11 @@ library(readxl)
 source('code/outside_options.R')
 source('code/jobs_in_HIP.R')
 source('code/jobs_in_HIP_followup.R')
+source('code/DM_JA_TR_M.R')
+source('code/DM_WF_JH_E.R')
+source('code/Type_AT_WM_M.R')
+source('code/Grading_BT_CT_DX.R')
+source('code/MFA.R')
 
 
 # OA (morning) ------------------------------------------------------------
@@ -382,3 +387,510 @@ for (i in 1:15) {
 }
 
 
+# DM_m (morning) ------------------------------------------------------------
+
+ggplot(data = data_DMm) +
+  geom_histogram(aes(x = age), binwidth=1) +
+  xlim(15,30) + 
+  ggsave('DM1.png')
+
+ggplot(data = data_DMm) +
+  geom_histogram(aes(x = new_age), binwidth=1) +
+  xlim(15,30) + 
+  ggsave('DM1newage.png')
+
+ggplot(data = data_DMm) +
+  geom_histogram(aes(x = year_birth), binwidth=1) +
+  ggsave('DM1a.png')
+
+ggplot(data = data_DMm) +
+  geom_histogram(aes(x = month_birth), binwidth=1) + 
+  ggsave('DM1b.png')
+
+ggplot(data = data_DMm) +
+  geom_bar(aes(x = married), binwidth=1) +
+  ggsave('DM2.png')
+
+ggplot(data = data_DMm) +
+  geom_bar(aes(x = educ)) +
+  ggsave('DM3.png')
+
+ggplot(data = data_DMm) +
+  geom_bar(aes(x = school_yesno)) +
+  ggsave('DM3a.png')
+
+ggplot(data = data_DMm) +
+  geom_bar(aes(x = school_diploma)) +
+  ggsave('DM3c.png')
+
+ggplot(data = data_DMm) +
+  geom_histogram(aes(x = school_fee), binwidth=1000) +
+  ggsave('DM3d.png')
+
+
+# JA (morning) ------------------------------------------------------------
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = reason_salary)) +
+  ggsave('JA1a.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = reason_interest)) +
+  ggsave('JA1b.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = reason_tiring)) +
+  ggsave('JA1c.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = reason_learn)) +
+  ggsave('JA1d.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = reason_style)) +
+  ggsave('JA1e.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = reason_quickjob)) +
+  ggsave('JA1f.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = reason_family)) +
+  ggsave('JA1g.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = reason_school)) +
+  ggsave('JA1h.png')
+
+ggplot(data = data_JA) +
+  geom_histogram(aes(x = plan_year), binwidth = 1) +
+  ggsave('JA2a.png')
+
+ggplot(data = data_JA) +
+  geom_histogram(aes(x = plan_month), binwidth = 5) +
+  ggsave('JA2b.png')
+
+ggplot(data = data_JA) +
+  geom_histogram(aes(x = plan_school_year), binwidth = 1) +
+  ggsave('JA3a.png')
+
+ggplot(data = data_JA) +
+  geom_histogram(aes(x = plan_school_month), binwidth = 2) +
+  ggsave('JA3b.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = plan_marry)) +
+  ggsave('JA4.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = plan_startown)) +
+  ggsave('JA6.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = plan_migrate)) +
+  ggsave('JA7.png')
+
+ggplot(data = data_JA) +
+  geom_bar(aes(x = plan_migrate_home)) +
+  ggsave('JA8.png')
+
+ggplot(data = data_JA) +
+  geom_histogram(aes(x = income_target), binwidth = 100) +
+  ggsave('WF12.png')
+
+ggplot(data = data_JA) +
+  geom_histogram(aes(x = expend_target), binwidth = 100) +
+  ggsave('WF13.png')
+
+
+# TR (morning) ------------------------------------------------------------
+
+ggplot(data = data_TR) +
+  geom_bar(aes(x = trust_anoctr)) +
+  ggsave('TR1.png')
+
+ggplot(data = data_TR) +
+  geom_bar(aes(x = trust_samelang)) +
+  ggsave('TR2.png')
+
+ggplot(data = data_TR) +
+  geom_bar(aes(x = trust_difflang)) +
+  ggsave('TR3.png')
+
+ggplot(data = data_TR) +
+  geom_bar(aes(x = trust_govt)) +
+  ggsave('TR4.png')
+
+ggplot(data = data_TR) +
+  geom_bar(aes(x = trust_ethres)) +
+  ggsave('TR5.png')
+
+ggplot(data = data_TR) +
+  geom_bar(aes(x = trust_ancres)) +
+  ggsave('TR6.png')
+
+
+# WF (evening) ------------------------------------------------------------
+
+ggplot(data = data_WF) +
+  geom_bar(aes(x = family_told_job)) +
+  ggsave('WF1fa.png')
+
+ggplot(data = data_WF) +
+  geom_bar(aes(x = friend_told_job)) +
+  ggsave('WF1fr.png')
+
+ggplot(data = data_WF) +
+  geom_bar(aes(x = search_job_other)) +
+  ggsave('WF1o.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = search_job_day), binwidth = 1) +
+  ggsave('WF1b.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = search_job_hour), binwidth = 5) +
+  ggsave('WF1c.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = search_job_min), binwidth = 1) +
+  ggsave('WF1d.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = income_total), binwidth = 1000) +
+  ggsave('WF2.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = income_from_family), binwidth = 1000) +
+  ggsave('WF3.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = income_from_friend), binwidth = 100) +
+  ggsave('WF4.png')
+
+ggplot(data = data_WF) +
+  geom_bar(aes(x = income_to_family), binwidth = 1000) +
+  ggsave('WF5.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = expend_food), binwidth = 100) +
+  ggsave('WF6.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = expend_transp), binwidth = 50) +
+  ggsave('WF7.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = expend_rent), binwidth = 100) +
+  ggsave('WF8.png')
+
+ggplot(data = data_WF) +
+  geom_histogram(aes(x = expend_cosmetic), binwidth = 50) +
+  ggsave('WF9.png')
+
+ggplot(data = data_WF) +
+  geom_bar(aes(x = health_nofood)) +
+  ggsave('WF10.png')
+
+ggplot(data = data_WF) +
+  geom_bar(aes(x = health_ill)) +
+  ggsave('WF11.png')
+
+
+# JH (evening) ------------------------------------------------------------
+
+ggplot(data = data_JH) +
+  geom_bar(aes(x = history_yesno)) +
+  ggsave('JH1.png')
+
+ggplot(data = data_JH) +
+  geom_histogram(aes(x = history_age), binwidth = 1) +
+  ggsave('JH2.png')
+
+ggplot(data = data_JH) +
+  geom_bar(aes(x = history_manual)) +
+  ggsave('JH3a.png')
+
+ggplot(data = data_JH) +
+  geom_histogram(aes(x = history_salary), binwidth = 100) +
+  ggsave('JH4.png')
+
+ggplot(data = data_JH) +
+  geom_histogram(aes(x = history_hour), binwidth = 1) +
+  ggsave('JH5.png')
+
+ggplot(data = data_JH) +
+  geom_histogram(aes(x = history_day), binwidth = 1) +
+  ggsave('JH6.png')
+
+ggplot(data = data_JH) +
+  geom_bar(aes(x = history_quitreason)) +
+  ggsave('JH7.png')
+
+
+# AT (evening) ------------------------------------------------------------
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi1)) +
+  ggsave('AT1.png')
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi2)) +
+  ggsave('AT2.png')
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi3)) +
+  ggsave('AT3.png')
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi4)) +
+  ggsave('AT4.png')
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi5)) +
+  ggsave('AT5.png')
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi6)) +
+  ggsave('AT6.png')
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi7)) +
+  ggsave('AT7.png')
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi8)) +
+  ggsave('AT8.png')
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi9)) +
+  ggsave('AT9.png')
+
+ggplot(data = data_AT) +
+  geom_bar(aes(x = tipi10)) +
+  ggsave('AT10.png')
+
+
+# WM (evening) ------------------------------------------------------------
+
+ggplot(data = data_WM1) +
+  geom_bar(aes(x = series11_yesno)) +
+  ggsave('WM11.png')
+
+ggplot(data = data_WM1) +
+  geom_bar(aes(x = series12_yesno)) +
+  ggsave('WM2.png')
+
+ggplot(data = data_WM1) +
+  geom_bar(aes(x = series13_yesno)) +
+  ggsave('WM3.png')
+
+ggplot(data = data_WM1) +
+  geom_bar(aes(x = series14_yesno)) +
+  ggsave('WM4.png')
+
+ggplot(data = data_WM1) +
+  geom_bar(aes(x = series15_yesno)) +
+  ggsave('WM5.png')
+
+ggplot(data = data_WM1) +
+  geom_bar(aes(x = series16_yesno)) +
+  ggsave('WM6.png')
+
+ggplot(data = data_WM1) +
+  geom_bar(aes(x = series17_yesno)) +
+  ggsave('WM7.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series21_yesno)) +
+  ggsave('WM21.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series22_yesno)) +
+  ggsave('WM22.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series23_yesno)) +
+  ggsave('WM23.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series24_yesno)) +
+  ggsave('WM24.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series25_yesno)) +
+  ggsave('WM25.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series26_yesno)) +
+  ggsave('WM26.png')
+
+ggplot(data = data_WM2) +
+  geom_bar(aes(x = series27_yesno)) +
+  ggsave('WM27.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series31_yesno)) +
+  ggsave('WM31.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series32_yesno)) +
+  ggsave('WM32.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series33_yesno)) +
+  ggsave('WM33.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series34_yesno)) +
+  ggsave('WM34.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series35_yesno)) +
+  ggsave('WM35.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series36_yesno)) +
+  ggsave('WM36.png')
+
+ggplot(data = data_WM3) +
+  geom_bar(aes(x = series37_yesno)) +
+  ggsave('WM37.png')
+
+
+# A11-A36 (Grading - Behavioral Test (BT)) 
+
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a11)) +
+  ggsave('a11.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a12)) +
+  ggsave('a12.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a13)) +
+  ggsave('a13.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a14)) +
+  ggsave('a14.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a15)) +
+  ggsave('a15.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a16)) +
+  ggsave('a16.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a21)) +
+  ggsave('a21.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a22)) +
+  ggsave('a22.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a23)) +
+  ggsave('a23.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a24)) +
+  ggsave('a24.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a25)) +
+  ggsave('a25.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a26)) +
+  ggsave('a26.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a31)) +
+  ggsave('a31.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a32)) +
+  ggsave('a32.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a33)) +
+  ggsave('a33.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a34)) +
+  ggsave('a34.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a35)) +
+  ggsave('a35.png')
+
+ggplot(data = data_BT) +
+  geom_bar(aes(x = a36)) +
+  ggsave('a36.png')
+
+
+# B1-B12 (Grading - Cognitive Test (CT)) ------------------------------------------------------------
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B1)) +
+  ggsave('B1.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B2)) +
+  ggsave('B2.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B3)) +
+  ggsave('B3.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B4)) +
+  ggsave('B4.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B5)) +
+  ggsave('B5.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B6)) +
+  ggsave('B6.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B7)) +
+  ggsave('B7.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B8)) +
+  ggsave('B8.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B9)) +
+  ggsave('B9.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B10)) +
+  ggsave('B10.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B11)) +
+  ggsave('B11.png')
+
+ggplot(data = data_CT) +
+  geom_bar(aes(x = B12)) +
+  ggsave('B12.png')
+
+
+# B1-B12 (Grading - Dexterity (DX)) ------------------------------------------------------------
+
+ggplot(data = data_DX) +
+  geom_bar(aes(x = card_qual)) +
+  ggsave('DX1.png')
+
+ggplot(data = data_DX) +
+  geom_bar(aes(x = needle_qual)) +
+  ggsave('DX2.png')

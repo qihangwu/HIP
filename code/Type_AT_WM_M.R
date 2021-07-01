@@ -32,7 +32,6 @@ data_AT = data %>%
                                      `3` = 'Somewhat Disagree',
                                      `4` = 'Completely Disagree')))
 
-str(data_AT)
 
 
 #### WM (Evening) ####
@@ -59,10 +58,9 @@ data_WM1 = data %>%
 
 summary(data_WM1)
 
-str(data_WM1)
 
+data$tot_score_WM2 = data$series21_yesno + data$series22_yesno + data$series23_yesno + data$series24_yesno + data$series25_yesno + 
 
-data$tot_score_WM2 = data$series21_yesno + data$series22_yesno + data$series23_yesno + data$series24_yesno + data$series25_yesno +
   data$series26_yesno + data$series27_yesno
 
 WM2 = c('series21_yesno',
@@ -84,7 +82,8 @@ data_WM2 = data %>%
 summary(data_WM2)
 
 
-data$tot_score_WM3 = data$series31_yesno + data$series32_yesno + data$series33_yesno + data$series34_yesno + data$series35_yesno +
+data$tot_score_WM3 = data$series31_yesno + data$series32_yesno + data$series33_yesno + data$series34_yesno + data$series35_yesno + 
+
   data$series36_yesno + data$series37_yesno
 
 WM3 = c('series31_yesno',
@@ -104,6 +103,4 @@ data_WM3 = data %>%
                                      `1` = 'Correct')))
 
 summary(data_WM3)
-
-
 

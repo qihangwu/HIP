@@ -303,7 +303,3 @@ data_DX = data %>%
                              `1` = 'Worker pulled 1 needle.',
                              `2` = 'Worker pulled 0 needle.',
                              `-9` = 'Missing'))
-
-str(data_DX)
-
-
