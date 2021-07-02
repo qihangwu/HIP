@@ -265,10 +265,10 @@ summary(data_CT)
 
 data_CT$tot_score_CT = data_ct$tot_score_ct
 
-data_CT$normalize_CT = (data$tot_score_CT - mean(data$tot_score_CT, na.rm = TRUE)) / sd(data$tot_score_CT, na.rm = TRUE)
+data_CT$normalize_CT = (data_CT$tot_score_CT - mean(data_CT$tot_score_CT, na.rm = TRUE)) / sd(data_CT$tot_score_CT, na.rm = TRUE)
 data_CT$normalize_CT
 
-summary(data$normalize_CT)
+summary(data_CT$normalize_CT)
 
 
 #### B1-B12 (Grading - Dexterity (DX)) ####

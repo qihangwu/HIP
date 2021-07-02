@@ -59,8 +59,7 @@ data_WM1 = data %>%
 summary(data_WM1)
 
 
-data$tot_score_WM2 = data$series21_yesno + data$series22_yesno + data$series23_yesno + data$series24_yesno + data$series25_yesno + 
-
+data$tot_score_WM2 = data$series21_yesno + data$series22_yesno + data$series23_yesno + data$series24_yesno + data$series25_yesno +
   data$series26_yesno + data$series27_yesno
 
 WM2 = c('series21_yesno',
@@ -82,8 +81,7 @@ data_WM2 = data %>%
 summary(data_WM2)
 
 
-data$tot_score_WM3 = data$series31_yesno + data$series32_yesno + data$series33_yesno + data$series34_yesno + data$series35_yesno + 
-
+data$tot_score_WM3 = data$series31_yesno + data$series32_yesno + data$series33_yesno + data$series34_yesno + data$series35_yesno +
   data$series36_yesno + data$series37_yesno
 
 WM3 = c('series31_yesno',
@@ -103,4 +101,24 @@ data_WM3 = data %>%
                                      `1` = 'Correct')))
 
 summary(data_WM3)
+
+TS_WM = c('tot_score_WM1',
+          'tot_score_WM2',
+          'tot_score_WM3')
+
+data_TS_WM = data %>%
+  select(all_of(TS_WM)) %>%
+  mutate(across(TS_WM[c(1:3)], as.numeric))
+
+data_TS_WM$row_min_WM = rowMins(as.matrix(data_TS_WM[,c(1,2,3)]), na.rm = TRUE)
+
+summary(data_TS_WM)
+
+data$normalize_WM1 = (data$tot_score_WM1 - mean(data$tot_score_WM1, na.rm = TRUE)) / sd(data$tot_score_WM1, na.rm = TRUE)
+data$normalize_WM2 = (data$tot_score_WM2 - mean(data$tot_score_WM2, na.rm = TRUE)) / sd(data$tot_score_WM2, na.rm = TRUE)
+data$normalize_WM3 = (data$tot_score_WM3 - mean(data$tot_score_WM3, na.rm = TRUE)) / sd(data$tot_score_WM3, na.rm = TRUE)
+
+data_TS_WM$normalize_WM  = (data_TS_WM$row_min_WM- mean(data_TS_WM$row_min_WM, na.rm = TRUE)) / sd(data_TS_WM$row_min_WM, na.rm = TRUE)
+
+data$normalize_WM = data_TS_WM$normalize_WM
 
