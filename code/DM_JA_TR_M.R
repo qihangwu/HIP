@@ -5,13 +5,14 @@ library(Factoshiny)
 library(FactoMineR)
 library(matrixStats)
 
-data = read_excel('data/weekdayend_all2.xlsx') 
+data = read_excel('data/weekdayend_all2.xlsx')
 
 #### DM_m (Morning) ####
 ## Description, keep age and school fee as.numeric,  make married, educ, school_yesno, and school_diploma as factor,
 ## and school_name & school_diploma_other as character. In addition, change the values (recode) for those that are factors.
 
 data$high_educ = ifelse(data$educ > 2, "Higher than 10th grade education", "10th grade education or lower")
+
 data$new_age = 2013 - data$year_birth
 
 DM_m = c('age',
@@ -57,6 +58,9 @@ data_DMm = data %>%
                                  `3` = 'Others'
   )) %>%
   mutate(school_diploma_other = as.character(school_diploma_other))
+
+data$high_educ = ifelse(data$educ > 2, "Higher than 10th grade education", "10th grade education or lower")
+
 
 #### JA_m (morning) ####
 
@@ -134,3 +138,4 @@ data_TR = data %>%
                                                    `2` = 'Neither agree nor disagree',
                                                    `3` = 'Somewhat disagre',
                                                    `4` = 'Strongly Disagree')))
+

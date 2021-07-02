@@ -11,7 +11,6 @@ source('code/DM_JA_TR_M.R')
 source('code/DM_WF_JH_E.R')
 source('code/Type_AT_WM_M.R')
 source('code/Grading_BT_CT_DX.R')
-source('code/MFA.R')
 
 
 # Merge -------------------------------------------------------------------
@@ -31,8 +30,7 @@ hip_analysis <- hip %>%
   cbind(data_JH) %>%
   cbind(data_TS_WM) %>%
   cbind(data_CT) %>%
-  cbind(data_DX) #%>%
-#  cbind(data_MFA)
+  cbind(data_DX)
 
 
 # Pooled ------------------------------------------------------------------
