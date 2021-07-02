@@ -11,17 +11,14 @@ source('code/Grading_BT_CT_DX.R')
 
 # Multifactor Analysis Start ----------------------------------------
 
-MFA = c('high_educ',
-        'first_job',
-        'normalize_WM',
-        'tot_score_CT',
-        'card_score',
-        'needle_score')
+hip_analysis <- hip %>%
+  select(c('wid', 'treat1', 'treat2a', 'treat2b')) %>%
+  cbind(data_DMm) %>%
+  cbind(data_JH) %>%
+  cbind(data_TS_WM) %>%
+  cbind(data_CT) %>%
+  cbind(data_DX)
 
-data_MFA = data %>%
-  select(all_of(MFA))%>%
-  mutate(across(MFA[c(1, 2)], as.factor)) %>%
-  mutate(across(MFA[c(3, 4, 5, 6)], as.integer))
 
 
 result = Factoshiny(data_MFA)

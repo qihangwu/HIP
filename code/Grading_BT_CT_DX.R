@@ -265,8 +265,8 @@ summary(data_CT)
 
 data_CT$tot_score_CT = data_ct$tot_score_ct
 
-data$normalize_CT = (data$tot_score_CT - mean(data$tot_score_CT, na.rm = TRUE)) / sd(data$tot_score_CT, na.rm = TRUE)
-data$normalize_CT
+data_CT$normalize_CT = (data$tot_score_CT - mean(data$tot_score_CT, na.rm = TRUE)) / sd(data$tot_score_CT, na.rm = TRUE)
+data_CT$normalize_CT
 
 summary(data$normalize_CT)
 
