@@ -59,8 +59,6 @@ data_DMe = data %>%
                            `100` = 'Others'))
 
 
-
-
 #### WF (Evening) ####
 
 ## Job way, pick most important ones and create around 3 or more main variables like the language variable

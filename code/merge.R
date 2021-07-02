@@ -27,6 +27,11 @@ hip_analysis <- hip %>%
   cbind(hip_ID[c(5:8, 10:13, 17:20)]) %>%
   cbind(hip_w_ID[c(5:8, 10:13, 17:20)]) %>%
   cbind(data_DMm) %>%
+  cbind(data_DMe) %>%
+  cbind(data_WF) %>%
+  cbind(data_AT) %>%
+  cbind(data_JA) %>%
+  cbind(data_TR) %>%
   cbind(data_JH) %>%
   cbind(data_TS_WM) %>%
   cbind(data_CT) %>%
