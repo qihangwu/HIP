@@ -12,6 +12,7 @@ source('code/merge.R')
 
 # Multifactor Analysis Start ----------------------------------------
 
+
 data_analysis <- data %>%
   select(c('wid', 'treat1', 'treat2a', 'treat2b')) %>%
   cbind(data_DMm) %>%
