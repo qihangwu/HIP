@@ -132,6 +132,6 @@ data_JH = data %>%
                                      `6` = 'Because the employer treated me badly.',
                                      `100` = 'Others'))
 
-data$first_job = data$history_yesno
+data_JH$first_job = data$history_yesno
 
 
