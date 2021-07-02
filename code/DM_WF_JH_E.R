@@ -5,7 +5,7 @@ library(Factoshiny)
 library(FactoMineR)
 library(matrixStats)
 
-data = read_excel('data/weekdayend_all2.xlsx') 
+data = read_excel('data/weekdayend_all2.xlsx')
 
 #### DM_e (Evening) ####
 ### Generate two variables of Amharic and Sidamaigna and 3rd variable of non-Amharic
@@ -59,6 +59,8 @@ data_DMe = data %>%
                            `100` = 'Others'))
 
 
+
+
 #### WF (Evening) ####
 
 ## Job way, pick most important ones and create around 3 or more main variables like the language variable
@@ -98,7 +100,11 @@ data_WF = data %>%
                                    `1` = 'Yes',
                                    `100` = 'Not Sure'))
 
+
+
 #### JH (Evening) ####
+
+data$first_job= data$history_yesno
 
 JH = c('history_yesno',
        'history_age',
@@ -125,5 +131,7 @@ data_JH = data %>%
                                      `5` = 'Because the job did not provide good benefits.',
                                      `6` = 'Because the employer treated me badly.',
                                      `100` = 'Others'))
+
+data$first_job = data$history_yesno
 
 

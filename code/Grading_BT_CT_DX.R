@@ -5,6 +5,7 @@ library(Factoshiny)
 library(FactoMineR)
 library(matrixStats)
 
+
 data = read_excel('data/weekdayend_all2.xlsx')
 
 #### A11-A36 (Grading - Behavioral Test (BT)) ####
@@ -106,8 +107,6 @@ data_BT = data %>%
                       `0` = 'Get 100 birrs in 6 months.',
                       `1` = 'Get 150 birrs in a year.',
                       `-9` = 'Missing'))
-
-str(BT)
 
 
 #### B1-B12 (Grading - Cognitive Test (ct)) ####
