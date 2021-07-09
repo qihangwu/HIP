@@ -84,8 +84,8 @@ plot(reg_t2_CT4)
 
 reg_t2a_CT5 =  lm(tot_score_CT ~ treat2a, data = hip_analysis_pool)
 summary(reg_t2a_CT5)
-coeftest(reg_treat2a_CT5, vcov = vcovHC(reg_treat2a_CT5 , type="HC1"))
-plot(reg_treat2b_CT5)
+coeftest(reg_t2a_CT5, vcov = vcovHC(reg_t2a_CT5 , type="HC1"))
+plot(reg_t2a_CT5)
 
 reg_t2b_CT6 =  lm(tot_score_CT ~ treat2b, data = hip_analysis_pool)
 summary(reg_t2b_CT6)
@@ -122,7 +122,7 @@ plot(reg_t1_WM3)
 
 
 reg_t2_WM4 =  lm(normalize_WM ~ treat2, data = hip_analysis_pool)
-summary(reg_treat2_WM4)
+summary(reg_t2_WM4)
 coeftest(reg_t2_WM4, vcov = vcovHC(reg_t2_WM4 , type="HC1"))
 plot(reg_treat2_WM4)
 
@@ -134,7 +134,7 @@ plot(reg_treat2a_WM5)
 
 reg_t2b_WM6 =  lm(normalize_WM ~ treat2b, data = hip_analysis_pool)
 summary(reg_t2b_WM6)
-coeftest(reg_t2b_WM6, vcov = vcovHC(reg_t2b_WW6 , type="HC1"))
+coeftest(reg_t2b_WM6, vcov = vcovHC(reg_t2b_WM6 , type="HC1"))
 plot(reg_t2b_WM6)
 
 
@@ -144,10 +144,10 @@ coeftest(reg_t12_WM7, vcov = vcovHC(reg_t12_WM7, type="HC1"))
 plot(reg_t12_WM7)
 
 
-reg_treat12b_WM8 =  lm(normalize_WM ~ treat1*treat2b, data = hip_analysis_pool)
-summary(reg_treat12b_WM8)
+reg_t12b_WM8 =  lm(normalize_WM ~ treat1*treat2b, data = hip_analysis_pool)
+summary(reg_t12b_WM8)
 coeftest(reg_t12b_WM8, vcov = vcovHC(reg_t12b_WM8 , type="HC1"))
-plot(reg_treat12b_WM8)
+plot(reg_t12b_WM8)
 
 reg_all_WM9 = lm(normalize_WM ~ treat1*treat2 + treat1 + treat2 + first_job +high_educ, data = hip_analysis_pool)
 summary(reg_all_WM9)
@@ -168,7 +168,7 @@ coeftest(reg_educ_CS2, vcov = vcovHC(reg_educ_CS2 , type="HC1"))
 plot(reg_job_CS2)
 
 
-reg_t1_CS3 = lm(card_score  ~ treat1, data = hip_analysis_pool)
+reg_t1_CS3 = glm(card_score  ~ treat1, data = hip_analysis_pool)
 summary(reg_t1_CS3)
 coeftest(reg_t1_CS3, vcov = vcovHC(reg_t1_CS3 , type="HC1"))
 plot(reg_t1_CS3)
@@ -196,12 +196,12 @@ summary(reg_t12_CS7)
 coeftest(reg_t12_CS7, vcov = vcovHC(reg_t12_CS7 , type="HC1"))
 plot(reg_t12_CS7)
 
-reg_t12b_CS8 =  lm(card_score ~ treat1*treat2b, data = hip_analysis_pool)
+reg_t12b_CS8 =  glm(card_score ~ treat1*treat2b, family = binomial, data = hip_analysis_pool)
 summary(reg_t12b_CS8)
 coeftest(reg_t12b_CS8, vcov = vcovHC(reg_t12b_CS8 , type="HC1"))
 plot(reg_t12b_CS8)
 
-reg_all_CS9 = glm(card_score ~ treat1*treat2 + treat1 + treat2 + first_job +high_educ, family = binomial, data = hip_analysis_pool)
+reg_all_CS9 = glm(card_score ~ treat1*treat2 + treat1 + treat2 + first_job +high_educ, data = hip_analysis_pool)
 summary(reg_all_CS9)
 coeftest(reg_all_CS9, vcov = vcovHC(reg_all_CS9 , type="HC1"))
 plot(reg_all_CS9)
@@ -272,3 +272,10 @@ reg_fjob_heduc =  glm(high_educ ~ first_job, family = binomial, data = hip_analy
 summary(reg_fjob_heduc)
 coeftest(reg_fjob_heduc, vcov = vcovHC(reg_fjob_heduc, type="HC1"))
 plot(reg_fjob_heduc)
+
+
+reg_t1_MFA = lm(cbind(first_job, high_educ, card_score, normalize_WM, tot_score_CT) ~ treat1, data = hip_analysis_pool)
+summary(reg_t1_MFA)
+coeftest(reg_t1_MFA, vcov = vcovHC(reg_t1_MFA, type="HC1"))
+plot(reg_t1_MFA)
+

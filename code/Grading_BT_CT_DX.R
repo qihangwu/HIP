@@ -290,7 +290,8 @@ DX = c('card_qual',
 
 data_DX = data %>%
   select(all_of(DX)) %>%
-  mutate(across(DX[c(1:2)], as.factor)) %>%
+  mutate(across(DX[c(2,4)], as.numeric)) %>%
+  mutate(across(DX[c(1,3)], as.factor)) %>%
   mutate(card_qual= recode(card_qual,
                            `0` = 'Two piles have the same number of cards.',
                            `1` = 'Two piles have similar number of cards but not exactly the same.',
