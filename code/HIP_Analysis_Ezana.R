@@ -334,8 +334,6 @@ rob_se_NS <- list(sqrt(diag(vcovHC(reg_educ_NS, type = "HC1"))),
 stargazer(reg_educ_NS, reg_job_NS, reg_t1_NS, reg_t2_NS, reg_t2a_NS, reg_t2b_NS, reg_t12_NS, reg_t12a_NS, reg_t12b_NS, reg_all_NS, type = "text", se = rob_se_NS)
 
 
-
-# Make 270 value as missing (NA - Corrected already)
 # put all variables in one regression -----------------------------------------------
 
 
