@@ -62,246 +62,276 @@ dimdesc(res.MFA)
 
 # Total Cognitive Test (tot_score_CT) Score as Outcome Variable -----------------------------------------------
 
-reg_educ_CT1 = lm(tot_score_CT ~ high_educ, data = hip_analysis_pool)
-summary(reg_educ_CT1)
-coeftest(reg_educ_CT1, vcov = vcovHC(reg_educ_CT1 , type="HC1"))
-plot(reg_educ_CT1)
+reg_educ_CT = lm(tot_score_CT ~ high_educ, data = hip_analysis_pool)
+summary(reg_educ_CT)
+coeftest(reg_educ_CT, vcov = vcovHC(reg_educ_CT , type="HC1"))
+plot(reg_educ_CT)
 
-reg_job_CT2 = lm(tot_score_CT ~ first_job, data = hip_analysis_pool)
-summary(reg_job_CT2)
-coeftest(reg_job_CT2, vcov = vcovHC(reg_job_CT2 , type="HC1"))
-plot(reg_job_CT2)
+reg_job_CT = lm(tot_score_CT ~ first_job, data = hip_analysis_pool)
+summary(reg_job_CT)
+coeftest(reg_job_CT, vcov = vcovHC(reg_job_CT , type="HC1"))
+plot(reg_job_CT)
 
-reg_t1_CT3 = lm(tot_score_CT ~ treat1, data = hip_analysis_pool)
-summary(reg_t1_CT3)
-coeftest(reg_t1_CT3, vcov = vcovHC(reg_t1_CT3 , type="HC1"))
-plot(reg_t1_CT3)
+reg_t1_CT = lm(tot_score_CT ~ treat1, data = hip_analysis_pool)
+summary(reg_t1_CT)
+coeftest(reg_t1_CT, vcov = vcovHC(reg_t1_CT , type="HC1"))
+plot(reg_t1_CT)
 
-reg_t2_CT4 =  lm(tot_score_CT ~ treat2, data = hip_analysis_pool)
-summary(reg_t2_CT4)
-coeftest(reg_t2_CT4, vcov = vcovHC(reg_t2_CT4 , type="HC1"))
-plot(reg_t2_CT4)
+reg_t2_CT =  lm(tot_score_CT ~ treat2, data = hip_analysis_pool)
+summary(reg_t2_CT)
+coeftest(reg_t2_CT, vcov = vcovHC(reg_t2_CT , type="HC1"))
+plot(reg_t2_CT)
 
-reg_t2a_CT5 =  lm(tot_score_CT ~ treat2a, data = hip_analysis_pool)
-summary(reg_t2a_CT5)
-coeftest(reg_t2a_CT5, vcov = vcovHC(reg_t2a_CT5 , type="HC1"))
-plot(reg_t2a_CT5)
+reg_t2a_CT =  lm(tot_score_CT ~ treat2a, data = hip_analysis_pool)
+summary(reg_t2a_CT)
+coeftest(reg_t2a_CT, vcov = vcovHC(reg_t2a_CT , type="HC1"))
+plot(reg_t2a_CT)
 
-reg_t2b_CT6 =  lm(tot_score_CT ~ treat2b, data = hip_analysis_pool)
-summary(reg_t2b_CT6)
-coeftest(reg_t2b_CT6, vcov = vcovHC(reg_t2b_CT6 , type="HC1"))
-plot(reg_t2b_CT6)
+reg_t2b_CT =  lm(tot_score_CT ~ treat2b, data = hip_analysis_pool)
+summary(reg_t2b_CT)
+coeftest(reg_t2b_CT, vcov = vcovHC(reg_t2b_CT , type="HC1"))
+plot(reg_t2b_CT)
 
-reg_t12_CT7 =  lm(tot_score_CT ~ treat1*treat2, data = hip_analysis_pool)
-summary(reg_t12_CT7)
-coeftest(reg_t12_CT7, vcov = vcovHC(reg_t12_CT7 , type="HC1"))
-plot(reg_t12_CT7)
+reg_t12_CT =  lm(tot_score_CT ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12_CT)
+coeftest(reg_t12_CT, vcov = vcovHC(reg_t12_CT , type="HC1"))
+plot(reg_t12_CT)
 
-reg_all_CT8 = lm(tot_score_CT ~ treat1*treat2 + treat1 + treat2 + first_job +high_educ, data = hip_analysis_pool)
-summary(reg_all_CT8)
-coeftest(reg_all_CT8, vcov = vcovHC(reg_all_CT8 , type="HC1"))
-plot(reg_all_CT8)
+reg_t12a_CT =  lm(tot_score_CT ~ treat1*treat2a, data = hip_analysis_pool)
+summary(reg_t12a_CT)
+coeftest(reg_t12a_CT, vcov = vcovHC(reg_t12a_CT , type="HC1"))
+plot(reg_t12a_CT)
 
-stargazer(reg_educ_CT1, reg_job_CT2, reg_t1_CT3, reg_t2_CT4, reg_t2a_CT5, reg_t2b_CT6, reg_t12_CT7, reg_all_CT8, type = 'text')
+reg_t12b_CT =  lm(tot_score_CT ~ treat1*treat2b, data = hip_analysis_pool)
+summary(reg_t12b_CT)
+coeftest(reg_t12b_CT, vcov = vcovHC(reg_t12b_CT , type="HC1"))
+plot(reg_t12b_CT)
 
-rob_se_CT <- list(sqrt(diag(vcovHC(reg_educ_CT1, type = "HC1"))),
-               sqrt(diag(vcovHC(reg_job_CT2, type = "HC1"))),
-               sqrt(diag(vcovHC(reg_t1_CT3, type = "HC1"))),
-               sqrt(diag(vcovHC(reg_t2_CT4, type = "HC1"))),
-               sqrt(diag(vcovHC(reg_t2a_CT5, type = "HC1"))),
-               sqrt(diag(vcovHC(reg_t2b_CT6, type = "HC1"))),
-               sqrt(diag(vcovHC(reg_t12_CT7, type = "HC1"))),
-               sqrt(diag(vcovHC(reg_all_CT8, type = "HC1"))))
+reg_all_CT = lm(tot_score_CT ~ treat1*treat2 + normalize_WM + card_score +needle_score + first_job +high_educ, data = hip_analysis_pool)
+summary(reg_all_CT)
+coeftest(reg_all_CT, vcov = vcovHC(reg_all_CT , type="HC1"))
+plot(reg_all_CT)
 
-stargazer(reg_educ_CT1, reg_job_CT2, reg_t1_CT3, reg_t2_CT4, reg_t2a_CT5, reg_t2b_CT6, reg_t12_CT7, reg_all_CT8, type = "text", se = rob_se_CT)
+stargazer(reg_educ_CT, reg_job_CT, reg_t1_CT, reg_t2_CT, reg_t2a_CT, reg_t2b_CT, reg_t12_CT, reg_t12a_CT, reg_t12b_CT, reg_all_CT, type = 'text')
+
+rob_se_CT <- list(sqrt(diag(vcovHC(reg_educ_CT, type = "HC1"))),
+               sqrt(diag(vcovHC(reg_job_CT, type = "HC1"))),
+               sqrt(diag(vcovHC(reg_t1_CT, type = "HC1"))),
+               sqrt(diag(vcovHC(reg_t2_CT, type = "HC1"))),
+               sqrt(diag(vcovHC(reg_t2a_CT, type = "HC1"))),
+               sqrt(diag(vcovHC(reg_t2b_CT, type = "HC1"))),
+               sqrt(diag(vcovHC(reg_t12_CT, type = "HC1"))),
+               sqrt(diag(vcovHC(reg_t12a_CT, type = "HC1"))),
+               sqrt(diag(vcovHC(reg_t12b_CT, type = "HC1"))),
+               sqrt(diag(vcovHC(reg_all_CT, type = "HC1"))))
+
+stargazer(reg_educ_CT, reg_job_CT, reg_t1_CT, reg_t2_CT, reg_t2a_CT, reg_t2b_CT, reg_t12_CT, reg_t12a_CT, reg_t12b_CT, reg_all_CT, type = "text", se = rob_se_CT)
 
 # Normalize Working Memory (normalize_WM) Score as Outcome Variable -----------------------------------------------
 
-reg_educ_WM1 = lm(normalize_WM ~ high_educ, data = hip_analysis_pool)
-summary(reg_educ_WM1)
-coeftest(reg_educ_WM1, vcov = vcovHC(reg_educ_WM1 , type="HC1"))
-plot(reg_educ_WM1)
+reg_educ_WM = lm(normalize_WM ~ high_educ, data = hip_analysis_pool)
+summary(reg_educ_WM)
+coeftest(reg_educ_WM, vcov = vcovHC(reg_educ_WM , type="HC1"))
+plot(reg_educ_WM)
 
-reg_job_WM2 = lm(normalize_WM ~ first_job, data = hip_analysis_pool)
-summary(reg_job_WM2)
-coeftest(reg_job_WM2, vcov = vcovHC(reg_job_WM2 , type="HC1"))
-plot(reg_job_WM2)
+reg_job_WM = lm(normalize_WM ~ first_job, data = hip_analysis_pool)
+summary(reg_job_WM)
+coeftest(reg_job_WM, vcov = vcovHC(reg_job_WM , type="HC1"))
+plot(reg_job_WM)
 
-reg_t1_WM3 = lm(normalize_WM ~ treat1, data = hip_analysis_pool)
-summary(reg_t1_WM3)
-coeftest(reg_t1_WM3, vcov = vcovHC(reg_t1_WM3 , type="HC1"))
-plot(reg_t1_WM3)
+reg_t1_WM = lm(normalize_WM ~ treat1, data = hip_analysis_pool)
+summary(reg_t1_WM)
+coeftest(reg_t1_WM, vcov = vcovHC(reg_t1_WM , type="HC1"))
+plot(reg_t1_WM)
 
-reg_t2_WM4 =  lm(normalize_WM ~ treat2, data = hip_analysis_pool)
-summary(reg_t2_WM4)
-coeftest(reg_t2_WM4, vcov = vcovHC(reg_t2_WM4 , type="HC1"))
-plot(reg_t2_WM4)
+reg_t2_WM =  lm(normalize_WM ~ treat2, data = hip_analysis_pool)
+summary(reg_t2_WM)
+coeftest(reg_t2_WM, vcov = vcovHC(reg_t2_WM , type="HC1"))
+plot(reg_t2_WM)
 
-reg_t2a_WM5 =  lm(normalize_WM ~ treat2a, data = hip_analysis_pool)
-summary(reg_t2a_WM5)
-coeftest(reg_t2a_WM5, vcov = vcovHC(reg_t2a_WM5 , type="HC1"))
-plot(reg_t2a_WM5)
+reg_t2a_WM =  lm(normalize_WM ~ treat2a, data = hip_analysis_pool)
+summary(reg_t2a_WM)
+coeftest(reg_t2a_WM, vcov = vcovHC(reg_t2a_WM , type="HC1"))
+plot(reg_t2a_WM)
 
-reg_t2b_WM6 =  lm(normalize_WM ~ treat2b, data = hip_analysis_pool)
-summary(reg_t2b_WM6)
-coeftest(reg_t2b_WM6, vcov = vcovHC(reg_t2b_WM6 , type="HC1"))
-plot(reg_t2b_WM6)
+reg_t2b_WM =  lm(normalize_WM ~ treat2b, data = hip_analysis_pool)
+summary(reg_t2b_WM)
+coeftest(reg_t2b_WM, vcov = vcovHC(reg_t2b_WM , type="HC1"))
+plot(reg_t2b_WM)
 
-reg_t12_WM7 =  lm(normalize_WM ~ treat1*treat2, data = hip_analysis_pool)
-summary(reg_t12_WM7)
-coeftest(reg_t12_WM7, vcov = vcovHC(reg_t12_WM7, type="HC1"))
-plot(reg_t12_WM7)
+reg_t12_WM =  lm(normalize_WM ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12_WM)
+coeftest(reg_t12_WM, vcov = vcovHC(reg_t12_WM, type="HC1"))
+plot(reg_t12_WM)
 
-reg_t12b_WM8 =  lm(normalize_WM ~ treat1*treat2b, data = hip_analysis_pool)
-summary(reg_t12b_WM8)
-coeftest(reg_t12b_WM8, vcov = vcovHC(reg_t12b_WM8 , type="HC1"))
-plot(reg_t12b_WM8)
+reg_t12a_WM =  lm(normalize_WM ~ treat1*treat2a, data = hip_analysis_pool)
+summary(reg_t12a_WM)
+coeftest(reg_t12_WM, vcov = vcovHC(reg_t12a_WM, type="HC1"))
+plot(reg_t12a_WM)
 
-reg_all_WM9 = lm(normalize_WM ~ treat1*treat2 + treat1 + treat2 + first_job +high_educ, data = hip_analysis_pool)
-summary(reg_all_WM9)
-coeftest(reg_all_WM9, vcov = vcovHC(reg_all_WM9 , type="HC1"))
-plot(reg_all_WM9)
+reg_t12b_WM =  lm(normalize_WM ~ treat1*treat2b, data = hip_analysis_pool)
+summary(reg_t12b_WM)
+coeftest(reg_t12b_WM, vcov = vcovHC(reg_t12b_WM , type="HC1"))
+plot(reg_t12b_WM)
 
-stargazer(reg_educ_WM1, reg_job_WM2, reg_t1_WM3, reg_t2_WM4, reg_t2a_WM5, reg_t2b_WM6, reg_t12_WM7, reg_t12b_WM8, reg_all_WM9, type = 'text')
+reg_all_WM = lm(normalize_WM ~ treat1*treat2 + tot_score_CT + card_score +needle_score + first_job +high_educ, data = hip_analysis_pool)
+summary(reg_all_WM)
+coeftest(reg_all_WM, vcov = vcovHC(reg_all_WM , type="HC1"))
+plot(reg_all_WM)
 
-rob_se_WM <- list(sqrt(diag(vcovHC(reg_educ_WM1, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_job_WM2, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t1_WM3, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2_WM4, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2a_WM5, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2b_WM6, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t12_WM7, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t12b_WM8, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_all_WM9, type = "HC1"))))
+stargazer(reg_educ_WM, reg_job_WM, reg_t1_WM, reg_t2_WM, reg_t2a_WM, reg_t2b_WM, reg_t12_WM, reg_t12a_WM, reg_t12b_WM, reg_all_WM, type = 'text')
 
-stargazer(reg_educ_WM1, reg_job_WM2, reg_t1_WM3, reg_t2_WM4, reg_t2a_WM5, reg_t2b_WM6, reg_t12_WM7, reg_t12b_WM8, reg_all_WM9, type = "text", se = rob_se_WM)
+rob_se_WM <- list(sqrt(diag(vcovHC(reg_educ_WM, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_job_WM, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t1_WM, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t2_WM, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t2a_WM, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t2b_WM, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t12_WM, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t12a_WM, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t12b_WM, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_all_WM, type = "HC1"))))
+
+stargazer(reg_educ_WM, reg_job_WM, reg_t1_WM, reg_t2_WM, reg_t2a_WM, reg_t2b_WM, reg_t12_WM, reg_t12a_WM, reg_t12b_WM, reg_all_WM, type = "text", se = rob_se_WM)
 
 
 # Card Score (card_score) as Outcome Variable -----------------------------------------------
 
 
-reg_educ_CS1 = lm(card_score ~ high_educ, data = hip_analysis_pool)
-summary(reg_educ_CS1)
-coeftest(reg_educ_CS1, vcov = vcovHC(reg_educ_CS1 , type="HC1"))
-plot(reg_educ_CS1)
+reg_educ_CS = lm(card_score ~ high_educ, data = hip_analysis_pool)
+summary(reg_educ_CS)
+coeftest(reg_educ_CS, vcov = vcovHC(reg_educ_CS , type="HC1"))
+plot(reg_educ_CS)
 
-reg_job_CS2 = lm(card_score  ~ first_job, data = hip_analysis_pool)
-summary(reg_job_CS2)
-coeftest(reg_job_CS2, vcov = vcovHC(reg_job_CS2 , type="HC1"))
-plot(reg_job_CS2)
+reg_job_CS = lm(card_score  ~ first_job, data = hip_analysis_pool)
+summary(reg_job_CS)
+coeftest(reg_job_CS, vcov = vcovHC(reg_job_CS , type="HC1"))
+plot(reg_job_CS)
 
-reg_t1_CS3 = lm(card_score  ~ treat1, data = hip_analysis_pool)
-summary(reg_t1_CS3)
-coeftest(reg_t1_CS3, vcov = vcovHC(reg_t1_CS3 , type="HC1"))
-plot(reg_t1_CS3)
+reg_t1_CS = lm(card_score  ~ treat1, data = hip_analysis_pool)
+summary(reg_t1_CS)
+coeftest(reg_t1_CS, vcov = vcovHC(reg_t1_CS , type="HC1"))
+plot(reg_t1_CS)
 
-reg_t2_CS4 =  lm(card_score ~ treat2, data = hip_analysis_pool)
-summary(reg_t2_CS4)
-coeftest(reg_t2_CS4, vcov = vcovHC(reg_t2_CS4 , type="HC1"))
-plot(reg_t2_CS4)
+reg_t2_CS =  lm(card_score ~ treat2, data = hip_analysis_pool)
+summary(reg_t2_CS)
+coeftest(reg_t2_CS, vcov = vcovHC(reg_t2_CS , type="HC1"))
+plot(reg_t2_CS)
 
-reg_t2a_CS5 =  lm(card_score ~ treat2a, data = hip_analysis_pool)
-summary(reg_t2a_CS5)
-coeftest(reg_t2a_CS5, vcov = vcovHC(reg_t2a_CS5 , type="HC1"))
-plot(reg_t2a_CS5)
+reg_t2a_CS =  lm(card_score ~ treat2a, data = hip_analysis_pool)
+summary(reg_t2a_CS)
+coeftest(reg_t2a_CS, vcov = vcovHC(reg_t2a_CS , type="HC1"))
+plot(reg_t2a_CS)
 
-reg_t2b_CS6 =  lm(card_score ~ treat2b, data = hip_analysis_pool)
-summary(reg_t2b_CS6)
-coeftest(reg_t2b_CS6, vcov = vcovHC(reg_t2b_CS6 , type="HC1"))
-plot(reg_t2b_CS6)
+reg_t2b_CS =  lm(card_score ~ treat2b, data = hip_analysis_pool)
+summary(reg_t2b_CS)
+coeftest(reg_t2b_CS, vcov = vcovHC(reg_t2b_CS , type="HC1"))
+plot(reg_t2b_CS)
 
-reg_t12_CS7 =  lm(card_score ~ treat1*treat2, data = hip_analysis_pool)
-summary(reg_t12_CS7)
-coeftest(reg_t12_CS7, vcov = vcovHC(reg_t12_CS7 , type="HC1"))
-plot(reg_t12_CS7)
+reg_t12_CS =  lm(card_score ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12_CS)
+coeftest(reg_t12_CS, vcov = vcovHC(reg_t12_CS , type="HC1"))
+plot(reg_t12_CS)
 
-reg_t12b_CS8 =  lm(card_score ~ treat1*treat2b, data = hip_analysis_pool)
-summary(reg_t12b_CS8)
-coeftest(reg_t12b_CS8, vcov = vcovHC(reg_t12b_CS8 , type="HC1"))
-plot(reg_t12b_CS8)
+reg_t12a_CS =  lm(card_score ~ treat1*treat2a, data = hip_analysis_pool)
+summary(reg_t12a_CS)
+coeftest(reg_t12_CS, vcov = vcovHC(reg_t12a_CS , type="HC1"))
+plot(reg_t12a_CS)
 
-reg_all_CS9 = lm(card_score ~ treat1*treat2 + treat1 + treat2 + first_job +high_educ, data = hip_analysis_pool)
-summary(reg_all_CS9)
-coeftest(reg_all_CS9, vcov = vcovHC(reg_all_CS9 , type="HC1"))
-plot(reg_all_CS9)
+reg_t12b_CS =  lm(card_score ~ treat1*treat2b, data = hip_analysis_pool)
+summary(reg_t12b_CS)
+coeftest(reg_t12b_CS, vcov = vcovHC(reg_t12b_CS , type="HC1"))
+plot(reg_t12b_CS)
 
-stargazer(reg_educ_CS1, reg_job_CS2, reg_t1_CS3, reg_t2_CS4, reg_t2a_CS5, reg_t2b_CS6, reg_t12_CS7, reg_t12b_CS8, reg_all_CS9, type = 'text')
+reg_all_CS = lm(card_score ~ treat1*treat2 + tot_score_CT + normalize_WM + needle_score + first_job +high_educ, data = hip_analysis_pool)
+summary(reg_all_CS)
+coeftest(reg_all_CS, vcov = vcovHC(reg_all_CS , type="HC1"))
+plot(reg_all_CS)
 
-rob_se_CS <- list(sqrt(diag(vcovHC(reg_educ_CS1, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_job_CS2, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t1_CS3, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2_CS4, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2a_CS5, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2b_CS6, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t12_CS7, type = "HC1"))),
+stargazer(reg_educ_CS, reg_job_CS, reg_t1_CS, reg_t2_CS, reg_t2a_CS, reg_t2b_CS, reg_t12_CS, reg_t12a_CS, reg_t12b_CS, reg_all_CS9, type = 'text')
+
+rob_se_CS <- list(sqrt(diag(vcovHC(reg_educ_CS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_job_CS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t1_CS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t2_CS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t2a_CS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t2b_CS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t12_CS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t12a_CS, type = "HC1"))),
                   sqrt(diag(vcovHC(reg_t12b_CS8, type = "HC1"))),
                   sqrt(diag(vcovHC(reg_all_CS9, type = "HC1"))))
 
-stargazer(reg_educ_CS1, reg_job_CS2, reg_t1_CS3, reg_t2_CS4, reg_t2a_CS5, reg_t2b_CS6, reg_t12_CS7, reg_t12b_CS8, reg_all_CS9, type = "text", se = rob_se_CS)
+stargazer(reg_educ_CS, reg_job_CS, reg_t1_CS, reg_t2_CS, reg_t2a_CS, reg_t2b_CS, reg_t12_CS, reg_t12a_CS, reg_t12b_CS, reg_all_CS9, type = "text", se = rob_se_CS)
 
 
 
 # Needle Score (needle_score) as Outcome Variable -----------------------------------------------
 
 
-reg_educ_NS1 = lm(needle_score ~ high_educ, data = hip_analysis_pool)
-summary(reg_educ_NS1)
-coeftest(reg_educ_NS1, vcov = vcovHC(reg_educ_NS1 , type="HC1"))
-plot(reg_educ_NS1)
+reg_educ_NS = lm(needle_score ~ high_educ, data = hip_analysis_pool)
+summary(reg_educ_NS)
+coeftest(reg_educ_NS, vcov = vcovHC(reg_educ_NS , type="HC1"))
+plot(reg_educ_NS)
 
-reg_job_NS2 = lm(needle_score ~ first_job, data = hip_analysis_pool)
-summary(reg_job_NS2)
-coeftest(reg_job_NS2, vcov = vcovHC(reg_job_NS2 , type="HC1"))
-plot(reg_job_NS2)
+reg_job_NS = lm(needle_score ~ first_job, data = hip_analysis_pool)
+summary(reg_job_NS)
+coeftest(reg_job_NS, vcov = vcovHC(reg_job_NS , type="HC1"))
+plot(reg_job_NS)
 
-reg_t1_NS3 = lm(needle_score ~ treat1, data = hip_analysis_pool)
-summary(reg_t1_NS3)
-coeftest(reg_t1_NS3, vcov = vcovHC(reg_t1_NS3 , type="HC1"))
-plot(reg_t1_NS3)
+reg_t1_NS = lm(needle_score ~ treat1, data = hip_analysis_pool)
+summary(reg_t1_NS)
+coeftest(reg_t1_NS, vcov = vcovHC(reg_t1_NS , type="HC1"))
+plot(reg_t1_NS)
 
-reg_t2_NS4 =  lm(needle_score ~ treat2, data = hip_analysis_pool)
-summary(reg_t2_NS4)
-coeftest(reg_t2_NS4, vcov = vcovHC(reg_t2_NS4 , type="HC1"))
-plot(reg_t2_NS4)
+reg_t2_NS =  lm(needle_score ~ treat2, data = hip_analysis_pool)
+summary(reg_t2_NS)
+coeftest(reg_t2_NS, vcov = vcovHC(reg_t2_NS , type="HC1"))
+plot(reg_t2_NS)
 
-reg_t2a_NS5 =  lm(needle_score ~ treat2a, data = hip_analysis_pool)
-summary(reg_t2a_NS5)
-coeftest(reg_t2a_NS5, vcov = vcovHC(reg_t2a_NS5 , type="HC1"))
-plot(reg_t2a_NS5)
+reg_t2a_NS =  lm(needle_score ~ treat2a, data = hip_analysis_pool)
+summary(reg_t2a_NS)
+coeftest(reg_t2a_NS, vcov = vcovHC(reg_t2a_NS , type="HC1"))
+plot(reg_t2a_NS)
 
-reg_t2b_NS6 =  lm(needle_score ~ treat2b, data = hip_analysis_pool)
-summary(reg_t2b_NS6)
-coeftest(reg_t2b_NS6, vcov = vcovHC(reg_t2b_NS6 , type="HC1"))
-plot(reg_t2b_NS6)
+reg_t2b_NS =  lm(needle_score ~ treat2b, data = hip_analysis_pool)
+summary(reg_t2b_NS)
+coeftest(reg_t2b_NS, vcov = vcovHC(reg_t2b_NS , type="HC1"))
+plot(reg_t2b_NS)
 
-reg_t12_NS7 =  lm(needle_score ~ treat1*treat2, data = hip_analysis_pool)
-summary(reg_t12_NS7)
-coeftest(reg_t12_NS7, vcov = vcovHC(reg_t12_NS7 , type="HC1"))
-plot(reg_t12_NS7)
+reg_t12_NS =  lm(needle_score ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12_NS)
+coeftest(reg_t12_NS, vcov = vcovHC(reg_t12_NS , type="HC1"))
+plot(reg_t12_NS)
 
-reg_t12b_NS8 =  lm(needle_score ~ treat1*treat2b, data = hip_analysis_pool)
-summary(reg_t12b_NS8)
-coeftest(reg_t12b_NS8, vcov = vcovHC(reg_t12b_NS8 , type="HC1"))
-plot(reg_t12b_NS8)
+reg_t12a_NS =  lm(needle_score ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12a_NS)
+coeftest(reg_t12a_NS, vcov = vcovHC(reg_t12a_NS , type="HC1"))
+plot(reg_t12a_NS)
 
-reg_all_NS9 = lm(needle_score ~ treat1*treat2 + treat1 + treat2 + first_job +high_educ, data = hip_analysis_pool)
-summary(reg_all_NS9)
-coeftest(reg_all_NS9, vcov = vcovHC(reg_all_NS9 , type="HC1"))
-plot(reg_all_NS9)
+reg_t12b_NS =  lm(needle_score ~ treat1*treat2b, data = hip_analysis_pool)
+summary(reg_t12b_NS)
+coeftest(reg_t12b_NS, vcov = vcovHC(reg_t12b_NS , type="HC1"))
+plot(reg_t12b_NS)
 
-stargazer(reg_educ_NS1, reg_job_NS2, reg_t1_NS3, reg_t2_NS4, reg_t2a_NS5, reg_t2b_NS6, reg_t12_NS7, reg_t12b_NS8, reg_all_NS9, type = 'text')
+reg_all_NS = lm(needle_score ~ treat1*treat2 + tot_score_CT + card_score + normalize_WM + first_job +high_educ, data = hip_analysis_pool)
+summary(reg_all_NS)
+coeftest(reg_all_NS, vcov = vcovHC(reg_all_NS , type="HC1"))
+plot(reg_all_NS)
 
-rob_se_NS <- list(sqrt(diag(vcovHC(reg_educ_NS1, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_job_NS2, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t1_NS3, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2_NS4, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2a_NS5, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2b_NS6, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t12_NS7, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t12b_NS8, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_all_NS9, type = "HC1"))))
+stargazer(reg_educ_NS, reg_job_NS, reg_t1_NS, reg_t2_NS, reg_t2a_NS, reg_t2b_NS, reg_t12_NS, reg_t12a_NS, reg_t12b_NS, reg_all_NS, type = 'text')
 
-stargazer(reg_educ_NS1, reg_job_NS2, reg_t1_NS3, reg_t2_NS4, reg_t2a_NS5, reg_t2b_NS6, reg_t12_NS7, reg_t12b_NS8, reg_all_NS9, type = "text", se = rob_se_NS)
+rob_se_NS <- list(sqrt(diag(vcovHC(reg_educ_NS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_job_NS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t1_NS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t2_NS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t2a_NS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t2b_NS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t12_NS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t12a_NS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_t12b_NS, type = "HC1"))),
+                  sqrt(diag(vcovHC(reg_all_NS, type = "HC1"))))
+
+stargazer(reg_educ_NS, reg_job_NS, reg_t1_NS, reg_t2_NS, reg_t2a_NS, reg_t2b_NS, reg_t12_NS, reg_t12a_NS, reg_t12b_NS, reg_all_NS, type = "text", se = rob_se_NS)
 
 
 
