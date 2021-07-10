@@ -15,6 +15,29 @@ source('code/merge.R')
 
 # Multifactor Analysis Start ----------------------------------------
 
+hip_analysis <- hip %>%
+  select(c('wid', 'treat1', 'treat2a', 'treat2b')) %>%
+  cbind(hip_IC[c(1:4, 6:9, 14:17)]) %>%
+  cbind(hip_w_IC[c(1:4, 6:9, 14:17)]) %>%
+  cbind(hip_ID[c(5:8, 10:13, 17:20)]) %>%
+  cbind(hip_w_ID[c(5:8, 10:13, 17:20)]) %>%
+  cbind(data_DMm) %>%
+  cbind(data_DMe) %>%
+  cbind(data_WF) %>%
+  cbind(data_AT) %>%
+  cbind(data_JA) %>%
+  cbind(data_TR) %>%
+  cbind(data_JH) %>%
+  cbind(data_TS_WM) %>%
+  cbind(data_CT) %>%
+  cbind(data_DX)
+
+
+hip_analysis_pool <- hip_analysis %>%
+  mutate(treat2 = ifelse(treat2a == 1 | treat2b == 1, 1, 0),
+         .after = treat2b) %>%
+  mutate(treat12 = treat1 * treat2)
+
 
 data_analysis <- data %>%
   select(c('wid', 'treat1', 'treat2a', 'treat2b')) %>%
