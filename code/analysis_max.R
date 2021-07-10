@@ -4,6 +4,7 @@
 
 library(stargazer)
 library(reshape2)
+library(lfe)
 
 source('code/merge.R')
 
@@ -213,6 +214,20 @@ for (i in 1:6) {
 
 ### Regression ------------------------------------------------------------
 
+reg_fe <- felm(w_guess_entry_salary_raw ~
+                 treat1 + treat2a + treat2b + guess_entry_salary_raw |
+                 firm + today_day |
+                 0 |
+                 firm + today_day,
+               data = hip_analysis_sep)
 
+reg_fe1 <- felm(w_guess_entry_salary_raw ~
+                 treat1 + treat2a + treat2b + guess_entry_salary_raw |
+                 firm + today_day |
+                 0 |
+                 0,
+               data = hip_analysis_sep)
 
+stargazer(reg_fe, type = 'text')
 
+stargazer(reg_fe1, type = 'text')
