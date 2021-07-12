@@ -600,6 +600,9 @@ data_HA <- merge(data_ha_var, hip_analysis_pool, by = "number", all = TRUE)
 
 # Heterogeneity Analysis Regressions Start  -------------------------------------------------------------------------
 
+hip_analysis_pool$tot_score_CT_dummy = ifelse(hip_analysis_pool$tot_score_CT>5, "1", "0")
+
+
 # Total Cognitive Test for Low and High (tot_score_CT_lh) Score as Outcome Variable -----------------------------------------------
 
 
@@ -813,3 +816,36 @@ reg_all_NS_lh = lm(cbind(needle_score_low, needle_score_high) ~ treat1*treat2 + 
 summary(reg_all_NS_lh)
 coeftest(reg_all_NS_lh, vcov = vcovHC(reg_all_NS_lh , type="HC1"))
 plot(reg_all_NS_lh)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# The most important regression
+
+
+reg_CT_GSA = lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ tot_score_CT_dummy*treat12, data = hip_analysis_pool)
+summary(reg_CT_GSA)
+coeftest(reg_CT_GSA, vcov = vcovHC(reg_CT_GSA , type="HC1"))
+plot(reg_educ_GSA)
+
