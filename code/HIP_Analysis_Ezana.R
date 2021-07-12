@@ -12,8 +12,9 @@ source('code/DM_WF_JH_E.R')
 source('code/Type_AT_WM_M.R')
 source('code/Grading_BT_CT_DX.R')
 source('code/merge.R')
+source('code/analysis_max.R')
 
-# Multifactor Analysis Start ----------------------------------------
+# HIP Analysis Start ---------------------------------------------------
 
 hip_analysis <- hip %>%
   select(c('wid', 'treat1', 'treat2a', 'treat2b')) %>%
@@ -47,6 +48,10 @@ data_analysis <- data %>%
   cbind(data_CT) %>%
   cbind(data_DX)
 
+
+# Multifactor Analysis Start ----------------------------------------
+
+
 MFA = c('high_educ',
         'first_job',
         'normalize_WM',
@@ -57,7 +62,7 @@ MFA = c('high_educ',
 data_MFA = data_analysis %>%
   select(all_of(MFA))%>%
   mutate(across(MFA[c(1, 2)], as.factor)) %>%
-  mutate(across(MFA[c(3, 4, 5, 6)], as.integer))
+  mutate(across(MFA[c(3, 4, 5, 6)], as.numeric))
 
 result = Factoshiny(data_MFA)
 
@@ -78,9 +83,6 @@ summary(res.MFA)
 newDF <- data_MFA[,c("normalize_WM","tot_score_CT","card_score","needle_score","high_educ","first_job")]
 res.MFA<-MFA(newDF,group=c(4,2), type=c("s","n"),name.group=c("Gr 1","Gr 2"),graph=FALSE)
 dimdesc(res.MFA)
-
-
-# HIP Analysis Start ---------------------------------------------------
 
 
 # Total Cognitive Test (tot_score_CT) Score as Outcome Variable -----------------------------------------------
@@ -357,9 +359,6 @@ rob_se_NS <- list(sqrt(diag(vcovHC(reg_educ_NS, type = "HC1"))),
 stargazer(reg_educ_NS, reg_job_NS, reg_t1_NS, reg_t2_NS, reg_t2a_NS, reg_t2b_NS, reg_t12_NS, reg_t12a_NS, reg_t12b_NS, reg_all_NS, type = "text", se = rob_se_NS)
 
 
-# put all variables in one regression -----------------------------------------------
-
-
 # VGAM on high_educ and first_job  -----------------------------------------------
 
 reg_heduc_fjob  =  glm(first_job ~ high_educ, data = hip_analysis_pool)
@@ -420,14 +419,397 @@ coeftest(reg_t12b_MFA, vcov = vcovHC(reg_t12b_MFA, type="HC1"))
 plot(reg_t12b_MFA)
 
 
-stargazer(reg_t1_MFA, reg_t2_MFA, reg_t2a_MFA, reg_t2b_MFA, reg_t12_MFA, reg_t12a_MFA, reg_t12b_MFA, type = 'text')
+# Guess Salary Bias (Entry, Medium, SP) as Outcome Variable -----------------------------------------------
 
-rob_se_MFA <- list(sqrt(diag(vcovHC(reg_t1_MFA, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2_MFA, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2a_MFA, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t2b_MFA, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t12_MFA, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t12a_MFA, type = "HC1"))),
-                  sqrt(diag(vcovHC(reg_t12b_MFA, type = "HC1"))))
+reg_educ_GSB = lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ high_educ, data = hip_analysis_pool)
+summary(reg_educ_GSB)
+coeftest(reg_educ_GSB, vcov = vcovHC(reg_educ_GSB , type="HC1"))
+plot(reg_educ_GSB)
 
-stargazer(reg_t1_MFA, reg_t2_MFA, reg_t2a_MFA, reg_t2b_MFA, reg_t12_MFA, reg_t12a_MFA, reg_t12b_MFA, type = "text", se = rob_se_MFA)
+reg_job_GSB = lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ first_job, data = hip_analysis_pool)
+summary(reg_job_GSB)
+coeftest(reg_job_GSB, vcov = vcovHC(reg_job_GSB , type="HC1"))
+plot(reg_job_GSB)
+
+reg_t1_GSB = lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ treat1, data = hip_analysis_pool)
+summary(reg_t1_GSB)
+coeftest(reg_t1_GSB, vcov = vcovHC(reg_t1_GSB , type="HC1"))
+plot(reg_t1_GSB)
+
+reg_t2_GSB =  lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ treat2, data = hip_analysis_pool)
+summary(reg_t2_GSB)
+coeftest(reg_t2_GSB, vcov = vcovHC(reg_t2_GSB , type="HC1"))
+plot(reg_t2_GSB)
+
+reg_t2a_GSB =  lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ treat2a, data = hip_analysis_pool)
+summary(reg_t2a_GSB)
+coeftest(reg_t2a_GSB, vcov = vcovHC(reg_t2a_GSB , type="HC1"))
+plot(reg_t2a_GSB)
+
+reg_t2b_GSB =  lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ treat2b, data = hip_analysis_pool)
+summary(reg_t2b_GSB)
+coeftest(reg_t2b_GSB, vcov = vcovHC(reg_t2b_GSB , type="HC1"))
+plot(reg_t2b_GSB)
+
+reg_t12_GSB =  lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12_GSB)
+coeftest(reg_t12_GSB, vcov = vcovHC(reg_t12_GSB , type="HC1"))
+plot(reg_t12_GSB)
+
+reg_t12a_GSB =  lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12a_GSB)
+coeftest(reg_t12a_GSB, vcov = vcovHC(reg_t12a_GSB , type="HC1"))
+plot(reg_t12a_GSB)
+
+reg_t12b_GSB =  lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias) ~ treat1*treat2b, data = hip_analysis_pool)
+summary(reg_t12b_GSB)
+coeftest(reg_t12b_GSB, vcov = vcovHC(reg_t12b_GSB , type="HC1"))
+plot(reg_t12b_GSB)
+
+reg_all_GSB = lm(cbind(guess_entry_salary_bias, guess_salary_medium_bias, guess_salary_sp_bias)~ treat1*treat2 + tot_score_CT + card_score + normalize_WM + first_job +high_educ, data = hip_analysis_pool)
+summary(reg_all_GSB)
+coeftest(reg_all_GSB, vcov = vcovHC(reg_all_GSB , type="HC1"))
+plot(reg_all_GSB)
+
+# Guess Salary Raw (Entry, Medium, SP) as Outcome Variable -----------------------------------------------
+
+reg_educ_GSR = lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ high_educ, data = hip_analysis_pool)
+summary(reg_educ_GSR)
+coeftest(reg_educ_GSR, vcov = vcovHC(reg_educ_GSR , type="HC1"))
+plot(reg_educ_GSR)
+
+reg_job_GSR = lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ first_job, data = hip_analysis_pool)
+summary(reg_job_GSR)
+coeftest(reg_job_GSR, vcov = vcovHC(reg_job_GSB , type="HC1"))
+plot(reg_job_GSR)
+
+reg_t1_GSR = lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ treat1, data = hip_analysis_pool)
+summary(reg_t1_GSR)
+coeftest(reg_t1_GSR, vcov = vcovHC(reg_t1_GSR , type="HC1"))
+plot(reg_t1_GSR)
+
+reg_t2_GSR =  lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ treat2, data = hip_analysis_pool)
+summary(reg_t2_GSR)
+coeftest(reg_t2_GSR, vcov = vcovHC(reg_t2_GSR , type="HC1"))
+plot(reg_t2_GSR)
+
+reg_t2a_GSR =  lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ treat2a, data = hip_analysis_pool)
+summary(reg_t2a_GSR)
+coeftest(reg_t2a_GSR, vcov = vcovHC(reg_t2a_GSR , type="HC1"))
+plot(reg_t2a_GSR)
+
+reg_t2b_GSR =  lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ treat2b, data = hip_analysis_pool)
+summary(reg_t2b_GSR)
+coeftest(reg_t2b_GSR, vcov = vcovHC(reg_t2b_GSR , type="HC1"))
+plot(reg_t2b_GSR)
+
+reg_t12_GSR =  lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12_GSR)
+coeftest(reg_t12_GSR, vcov = vcovHC(reg_t12_GSR , type="HC1"))
+plot(reg_t12_GSR)
+
+reg_t12a_GSR =  lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12a_GSR)
+coeftest(reg_t12a_GSR, vcov = vcovHC(reg_t12a_GSR , type="HC1"))
+plot(reg_t12a_GSR)
+
+reg_t12b_GSR =  lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ treat1*treat2b, data = hip_analysis_pool)
+summary(reg_t12b_GSR)
+coeftest(reg_t12b_GSR, vcov = vcovHC(reg_t12b_GSR , type="HC1"))
+plot(reg_t12b_GSR)
+
+reg_all_GSR = lm(cbind(guess_entry_salary_raw, guess_salary_medium_raw, guess_salary_sp_raw) ~ treat1*treat2 + tot_score_CT + card_score + normalize_WM + first_job +high_educ, data = hip_analysis_pool)
+summary(reg_all_GSR)
+coeftest(reg_all_GSR, vcov = vcovHC(reg_all_GSR , type="HC1"))
+plot(reg_all_GSR)
+
+
+# Guess Salary Abs (Entry, Medium, SP) as Outcome Variable -----------------------------------------------
+
+reg_educ_GSA = lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ high_educ, data = hip_analysis_pool)
+summary(reg_educ_GSA)
+coeftest(reg_educ_GSA, vcov = vcovHC(reg_educ_GSA , type="HC1"))
+plot(reg_educ_GSA)
+
+reg_job_GSA = lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ first_job, data = hip_analysis_pool)
+summary(reg_job_GSA)
+coeftest(reg_job_GSA, vcov = vcovHC(reg_job_GSA , type="HC1"))
+plot(reg_job_GSA)
+
+reg_t1_GSA = lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ treat1, data = hip_analysis_pool)
+summary(reg_t1_GSA)
+coeftest(reg_t1_GSA, vcov = vcovHC(reg_t1_GSA , type="HC1"))
+plot(reg_t1_GSA)
+
+reg_t2_GSA =  lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ treat2, data = hip_analysis_pool)
+summary(reg_t2_GSA)
+coeftest(reg_t2_GSA, vcov = vcovHC(reg_t2_GSA , type="HC1"))
+plot(reg_t2_GSA)
+
+reg_t2a_GSA =  lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ treat2a, data = hip_analysis_pool)
+summary(reg_t2a_GSA)
+coeftest(reg_t2a_GSA, vcov = vcovHC(reg_t2a_GSA , type="HC1"))
+plot(reg_t2a_GSA)
+
+reg_t2b_GSA =  lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ treat2b, data = hip_analysis_pool)
+summary(reg_t2b_GSA)
+coeftest(reg_t2b_GSA, vcov = vcovHC(reg_t2b_GSA , type="HC1"))
+plot(reg_t2b_GSR)
+
+reg_t12_GSA =  lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12_GSA)
+coeftest(reg_t12_GSA, vcov = vcovHC(reg_t12_GSA , type="HC1"))
+plot(reg_t12_GSA)
+
+reg_t12a_GSA =  lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ treat1*treat2, data = hip_analysis_pool)
+summary(reg_t12a_GSA)
+coeftest(reg_t12a_GSA, vcov = vcovHC(reg_t12a_GSA , type="HC1"))
+plot(reg_t12a_GSA)
+
+reg_t12b_GSA =  lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ treat1*treat2b, data = hip_analysis_pool)
+summary(reg_t12b_GSA)
+coeftest(reg_t12b_GSA, vcov = vcovHC(reg_t12b_GSA , type="HC1"))
+plot(reg_t12b_GSA)
+
+reg_all_GSA = lm(cbind(guess_entry_salary_abs, guess_salary_medium_abs, guess_salary_sp_abs) ~ treat1*treat2 + tot_score_CT + card_score + normalize_WM + first_job +high_educ, data = hip_analysis_pool)
+summary(reg_all_GSA)
+coeftest(reg_all_GSA, vcov = vcovHC(reg_all_GSA , type="HC1"))
+plot(reg_all_GSA)
+
+
+# Heterogeneity Analysis Create Variables  -------------------------------------------------------------------------
+
+normalize_WM_low = data_MFA$normalize_WM[1:round(length(data_MFA$normalize_WM)/2)]
+normalize_WM_high = data_MFA$normalize_WM[round((length(data_MFA$normalize_WM)/2)+1):length(data_MFA$normalize_WM)]
+
+tot_score_CT_low = data_MFA$tot_score_CT[1:round(length(data_MFA$tot_score_CT)/2)]
+tot_score_CT_high = data_MFA$tot_score_CT[round((length(data_MFA$tot_score_CT)/2)+1):length(data_MFA$tot_score_CT)]
+
+card_score_low = data_MFA$card_score[1:round(length(data_MFA$card_score)/2)]
+card_score_high = data_MFA$card_score[round((length(data_MFA$card_score)/2)+1):length(data_MFA$card_score)]
+
+needle_score_low = data_MFA$needle_score[1:round(length(data_MFA$needle_score)/2)]
+needle_score_high = data_MFA$needle_score[round((length(data_MFA$needle_score)/2)+1):length(data_MFA$needle_score)]
+
+data_ha_var = data.frame(normalize_WM_low, normalize_WM_high, tot_score_CT_low, tot_score_CT_high, card_score_low, card_score_high, needle_score_low, needle_score_high)
+
+data_ha_var$number <- row.names(data_ha_var)
+hip_analysis_pool$number <- row.names(hip_analysis_pool)
+
+data_HA <- merge(data_ha_var, hip_analysis_pool, by = "number", all = TRUE)
+
+# Heterogeneity Analysis Regressions Start  -------------------------------------------------------------------------
+
+# Total Cognitive Test for Low and High (tot_score_CT_lh) Score as Outcome Variable -----------------------------------------------
+
+
+reg_educ_CT_lh = lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ high_educ, data = data_HA)
+summary(reg_educ_CT_lh)
+coeftest(reg_educ_CT_lh, vcov = vcovHC(reg_educ_CT_lh , type="HC1"))
+plot(reg_educ_CT_lh)
+
+reg_job_CT_lh = lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ first_job, data = data_HA)
+summary(reg_job_CT_lh)
+coeftest(reg_job_CT_lh, vcov = vcovHC(reg_job_CT_lh , type="HC1"))
+plot(reg_job_CT_lh)
+
+reg_t1_CT_lh = lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ treat1, data = data_HA)
+summary(reg_t1_CT_lh)
+coeftest(reg_t1_CT_lh, vcov = vcovHC(reg_t1_CT_lh , type="HC1"))
+plot(reg_t1_CT_lh)
+
+reg_t2_CT_lh =  lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ treat2, data = data_HA)
+summary(reg_t2_CT_lh)
+coeftest(reg_t2_CT_lh, vcov = vcovHC(reg_t2_CT_lh , type="HC1"))
+plot(reg_t2_CT_lh)
+
+reg_t2a_CT_lh =  lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ treat2a, data = data_HA)
+summary(reg_t2a_CT_lh)
+coeftest(reg_t2a_CT_lh, vcov = vcovHC(reg_t2a_CT_lh , type="HC1"))
+plot(reg_t2a_CT_lh)
+
+reg_t2b_CT_lh =  lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ treat2b, data = data_HA)
+summary(reg_t2b_CT_lh)
+coeftest(reg_t2b_CT_lh, vcov = vcovHC(reg_t2b_CT_lh , type="HC1"))
+plot(reg_t2b_CT_lh)
+
+reg_t12_CT_lh =  lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ treat1*treat2, data = data_HA)
+summary(reg_t12_CT_lh)
+coeftest(reg_t12_CT_lh, vcov = vcovHC(reg_t12_CT_lh , type="HC1"))
+plot(reg_t12_CT_lh)
+
+reg_t12a_CT_lh =  lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ treat1*treat2a, data = data_HA)
+summary(reg_t12a_CT_lh)
+coeftest(reg_t12a_CT_lh, vcov = vcovHC(reg_t12a_CT_lh , type="HC1"))
+plot(reg_t12a_CT_lh)
+
+reg_t12b_CT_lh =  lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ treat1*treat2b, data = data_HA)
+summary(reg_t12b_CT_lh)
+coeftest(reg_t12b_CT_lh, vcov = vcovHC(reg_t12b_CT_lh , type="HC1"))
+plot(reg_t12b_CT_lh)
+
+reg_all_CT_lh = lm(cbind(tot_score_CT_low, tot_score_CT_high) ~ treat1*treat2 + normalize_WM + card_score +needle_score + first_job +high_educ, data = data_HA)
+summary(reg_all_CT_lh)
+coeftest(reg_all_CT_lh, vcov = vcovHC(reg_all_CT_lh , type="HC1"))
+plot(reg_all_CT_lh)
+
+
+# Normalize Working Memory for low and high (normalize_WM_lh) Score as Outcome Variable -----------------------------------------------
+
+reg_educ_WM_lh = lm(cbind(normalize_WM_low, normalize_WM_high) ~ high_educ, data = data_HA)
+summary(reg_educ_WM_lh)
+coeftest(reg_educ_WM_lh, vcov = vcovHC(reg_educ_WM_lh , type="HC1"))
+plot(reg_educ_WM_lh)
+
+reg_job_WM_lh = lm(cbind(normalize_WM_low, normalize_WM_high) ~ first_job, data = data_HA)
+summary(reg_job_WM_lh)
+coeftest(reg_job_WM_lh, vcov = vcovHC(reg_job_WM_lh , type="HC1"))
+plot(reg_job_WM_lh)
+
+reg_t1_WM_lh = lm(cbind(normalize_WM_low, normalize_WM_high) ~ treat1, data = data_HA)
+summary(reg_t1_WM_lh)
+coeftest(reg_t1_WM_lh, vcov = vcovHC(reg_t1_WM_lh , type="HC1"))
+plot(reg_t1_WM_lh)
+
+reg_t2_WM_lh =  lm(cbind(normalize_WM_low, normalize_WM_high) ~ treat2, data = data_HA)
+summary(reg_t2_WM_lh)
+coeftest(reg_t2_WM_lh, vcov = vcovHC(reg_t2_WM_lh , type="HC1"))
+plot(reg_t2_WM_lh)
+
+reg_t2a_WM_lh =  lm(cbind(normalize_WM_low, normalize_WM_high) ~ treat2a, data = data_HA)
+summary(reg_t2a_WM_lh)
+coeftest(reg_t2a_WM_lh, vcov = vcovHC(reg_t2a_WM_lh , type="HC1"))
+plot(reg_t2a_WM_lh)
+
+reg_t2b_WM_lh =  lm(cbind(normalize_WM_low, normalize_WM_high) ~ treat2b, data = data_HA)
+summary(reg_t2b_WM_lh)
+coeftest(reg_t2b_WM_lh, vcov = vcovHC(reg_t2b_WM_lh , type="HC1"))
+plot(reg_t2b_WM_lh)
+
+reg_t12_WM_lh =  lm(cbind(normalize_WM_low, normalize_WM_high) ~ treat1*treat2, data = data_HA)
+summary(reg_t12_WM_lh)
+coeftest(reg_t12_WM_lh, vcov = vcovHC(reg_t12_WM_lh, type="HC1"))
+plot(reg_t12_WM_lh)
+
+reg_t12a_WM_lh =  lm(cbind(normalize_WM_low, normalize_WM_high) ~ treat1*treat2a, data = data_HA)
+summary(reg_t12a_WM_lh)
+coeftest(reg_t12_WM_lh, vcov = vcovHC(reg_t12a_WM_lh, type="HC1"))
+plot(reg_t12a_WM_lh)
+
+reg_t12b_WM_lh =  lm(cbind(normalize_WM_low, normalize_WM_high) ~ treat1*treat2b, data = data_HA)
+summary(reg_t12b_WM_lh)
+coeftest(reg_t12b_WM_lh, vcov = vcovHC(reg_t12b_WM_lh , type="HC1"))
+plot(reg_t12b_WM_lh)
+
+reg_all_WM_lh = lm(cbind(normalize_WM_low, normalize_WM_high) ~ treat1*treat2 + tot_score_CT + card_score +needle_score + first_job +high_educ, data = data_HA)
+summary(reg_all_WM_lh)
+coeftest(reg_all_WM_lh, vcov = vcovHC(reg_all_WM_lh , type="HC1"))
+plot(reg_all_WM_lh)
+
+
+# Card Score for low and high (card_score_lh) as Outcome Variable -----------------------------------------------
+
+
+reg_educ_CS_lh = lm(cbind(card_score_low, card_score_high) ~ high_educ, data = data_HA)
+summary(reg_educ_CS_lh)
+coeftest(reg_educ_CS_lh, vcov = vcovHC(reg_educ_CS_lh , type="HC1"))
+plot(reg_educ_CS_lh)
+
+reg_job_CS_lh = lm(cbind(card_score_low, card_score_high)  ~ first_job, data = data_HA)
+summary(reg_job_CS_lh)
+coeftest(reg_job_CS_lh, vcov = vcovHC(reg_job_CS_lh , type="HC1"))
+plot(reg_job_CS_lh)
+
+reg_t1_CS_lh = lm(cbind(card_score_low, card_score_high)  ~ treat1, data = data_HA)
+summary(reg_t1_CS_lh)
+coeftest(reg_t1_CS_lh, vcov = vcovHC(reg_t1_CS_lh , type="HC1"))
+plot(reg_t1_CS_lh)
+
+reg_t2_CS_lh =  lm(cbind(card_score_low, card_score_high) ~ treat2, data = data_HA)
+summary(reg_t2_CS_lh)
+coeftest(reg_t2_CS_lh, vcov = vcovHC(reg_t2_CS_lh , type="HC1"))
+plot(reg_t2_CS_lh)
+
+reg_t2a_CS_lh =  lm(cbind(card_score_low, card_score_high) ~ treat2a, data = data_HA)
+summary(reg_t2a_CS_lh)
+coeftest(reg_t2a_CS_lh, vcov = vcovHC(reg_t2a_CS_lh , type="HC1"))
+plot(reg_t2a_CS_lh)
+
+reg_t2b_CS_lh =  lm(cbind(card_score_low, card_score_high) ~ treat2b, data = data_HA)
+summary(reg_t2b_CS_lh)
+coeftest(reg_t2b_CS_lh, vcov = vcovHC(reg_t2b_CS_lh , type="HC1"))
+plot(reg_t2b_CS_lh)
+
+reg_t12_CS_lh =  lm(cbind(card_score_low, card_score_high) ~ treat1*treat2, data = data_HA)
+summary(reg_t12_CS_lh)
+coeftest(reg_t12_CS_lh, vcov = vcovHC(reg_t12_CS_lh , type="HC1"))
+plot(reg_t12_CS_lh)
+
+reg_t12a_CS_lh =  lm(cbind(card_score_low, card_score_high) ~ treat1*treat2a, data = data_HA)
+summary(reg_t12a_CS_lh)
+coeftest(reg_t12_CS_lh, vcov = vcovHC(reg_t12a_CS_lh , type="HC1"))
+plot(reg_t12a_CS_lh)
+
+reg_t12b_CS_lh =  lm(cbind(card_score_low, card_score_high) ~ treat1*treat2b, data = data_HA)
+summary(reg_t12b_CS_lh)
+coeftest(reg_t12b_CS_lh, vcov = vcovHC(reg_t12b_CS_lh , type="HC1"))
+plot(reg_t12b_CS_lh)
+
+reg_all_CS_lh = lm(cbind(card_score_low, card_score_high) ~ treat1*treat2 + tot_score_CT + normalize_WM + needle_score + first_job +high_educ, data = data_HA)
+summary(reg_all_CS_lh)
+coeftest(reg_all_CS_lh, vcov = vcovHC(reg_all_CS_lh , type="HC1"))
+plot(reg_all_CS_lh)
+
+
+# Needle Score for low and high (needle_score) as Outcome Variable -----------------------------------------------
+
+
+reg_educ_NS_lh = lm(cbind(needle_score_low, needle_score_high) ~ high_educ, data = data_HA)
+summary(reg_educ_NS_lh)
+coeftest(reg_educ_NS_lh, vcov = vcovHC(reg_educ_NS_lh , type="HC1"))
+plot(reg_educ_NS_lh)
+
+reg_job_NS_lh = lm(cbind(needle_score_low, needle_score_high) ~ first_job, data = data_HA)
+summary(reg_job_NS_lh)
+coeftest(reg_job_NS_lh, vcov = vcovHC(reg_job_NS_lh , type="HC1"))
+plot(reg_job_NS_lh)
+
+reg_t1_NS_lh = lm(cbind(needle_score_low, needle_score_high) ~ treat1, data = data_HA)
+summary(reg_t1_NS_lh)
+coeftest(reg_t1_NS_lh, vcov = vcovHC(reg_t1_NS_lh , type="HC1"))
+plot(reg_t1_NS_lh)
+
+reg_t2_NS_lh =  lm(cbind(needle_score_low, needle_score_high) ~ treat2, data = data_HA)
+summary(reg_t2_NS_lh)
+coeftest(reg_t2_NS_lh, vcov = vcovHC(reg_t2_NS_lh , type="HC1"))
+plot(reg_t2_NS_lh)
+
+reg_t2a_NS_lh =  lm(cbind(needle_score_low, needle_score_high) ~ treat2a, data = data_HA)
+summary(reg_t2a_NS_lh)
+coeftest(reg_t2a_NS_lh, vcov = vcovHC(reg_t2a_NS_lh , type="HC1"))
+plot(reg_t2a_NS_lh)
+
+reg_t2b_NS_lh =  lm(cbind(needle_score_low, needle_score_high) ~ treat2b, data = data_HA)
+summary(reg_t2b_NS_lh)
+coeftest(reg_t2b_NS_lh, vcov = vcovHC(reg_t2b_NS_lh , type="HC1"))
+plot(reg_t2b_NS_lh)
+
+reg_t12_NS_lh =  lm(cbind(needle_score_low, needle_score_high) ~ treat1*treat2, data = data_HA)
+summary(reg_t12_NS_lh)
+coeftest(reg_t12_NS_lh, vcov = vcovHC(reg_t12_NS_lh , type="HC1"))
+plot(reg_t12_NS_lh)
+
+reg_t12a_NS_lh =  lm(cbind(needle_score_low, needle_score_high) ~ treat1*treat2, data = data_HA)
+summary(reg_t12a_NS_lh)
+coeftest(reg_t12a_NS_lh, vcov = vcovHC(reg_t12a_NS_lh , type="HC1"))
+plot(reg_t12a_NS_lh)
+
+reg_t12b_NS_lh =  lm(cbind(needle_score_low, needle_score_high) ~ treat1*treat2b, data = data_HA)
+summary(reg_t12b_NS_lh)
+coeftest(reg_t12b_NS_lh, vcov = vcovHC(reg_t12b_NS_lh , type="HC1"))
+plot(reg_t12b_NS_lh)
+
+reg_all_NS_lh = lm(cbind(needle_score_low, needle_score_high) ~ treat1*treat2 + tot_score_CT + card_score + normalize_WM + first_job +high_educ, data = data_HA)
+summary(reg_all_NS_lh)
+coeftest(reg_all_NS_lh, vcov = vcovHC(reg_all_NS_lh , type="HC1"))
+plot(reg_all_NS_lh)
