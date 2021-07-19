@@ -1,5 +1,4 @@
 
-
 # Setup -------------------------------------------------------------------
 
 library(stargazer)
@@ -8,112 +7,76 @@ library(lfe)
 
 source('code/merge.R')
 
+## Add interaction variable -----------------------------------------------
+
+hip_analysis <- hip_analysis %>%
+  mutate(treat2 = ifelse(treat2a == 1 | treat2b == 1, 1, 0),
+         .after = treat2b) %>%
+  mutate(treat12 = treat1 * treat2,
+         .after = treat2)
+
+## Vectors ----------------------------------------------------------------
+
+orig_names <- c('guess_entry_salary',
+                'guess_entry_salary_6m',
+                'guess_you_salary_1m',
+                'guess_salary_medium',
+                'guess_salary_sp',
+                'guess_you_salary_6m')
+
+orig_benchmarks <- c(750,
+                     1202,
+                     750,
+                     1707,
+                     2857,
+                     1202)
+
+raw_names <- c('guess_entry_salary_raw',
+               'guess_entry_salary_6m_raw',
+               'guess_you_salary_1m_raw',
+               'guess_salary_medium_raw',
+               'guess_salary_sp_raw',
+               'guess_you_salary_6m_raw')
+
+abs_names <- c('guess_entry_salary_abs',
+               'guess_entry_salary_6m_abs',
+               'guess_you_salary_1m_abs',
+               'guess_salary_medium_abs',
+               'guess_salary_sp_abs',
+               'guess_you_salary_6m_abs')
+
+bias_names <- c('guess_entry_salary_bias',
+                'guess_entry_salary_6m_bias',
+                'guess_you_salary_1m_bias',
+                'guess_salary_medium_bias',
+                'guess_salary_sp_bias',
+                'guess_you_salary_6m_bias')
+
 
 # Pooled ------------------------------------------------------------------
 
-hip_analysis_pool <- hip_analysis %>%
-  mutate(treat2 = ifelse(treat2a == 1 | treat2b == 1, 1, 0),
-         .after = treat2b) %>%
-  mutate(treat12 = treat1 * treat2)
-
-## No interaction ---------------------------------------------------------
-
-
-
 ## Interaction ------------------------------------------------------------
 
-gg_pooled <- function(variable, benchmark) {
-
-  plot <- ggplot(data = hip_analysis_pool) +
-    geom_density(aes(x = !!sym(variable)),
-                 size = 0.8) +
-    geom_density(aes(x = !!sym(paste0('w_', variable))),
-                 size = 0.8,
-                 color = 'cornflowerblue') +
-    geom_vline(aes(xintercept = benchmark),
-               color = 'red') +
-    facet_grid(treat2 ~ treat1, labeller = 'label_both') +
-    labs(title = variable,
-         subtitle = 'Black is morning, blue is weekend',
-         x = '') +
-    theme_minimal()
-
-  ggsave(plot = plot, file = paste0('figures/treatment_bias/pool_', variable, '.png'))
-}
-
-gg_pooled_bar <- function(vari) {
-
-  data <- hip_analysis_pool %>%
-    select(c('wid', all_of(vari), paste0('w_', vari))) %>%
-    melt(id.vars = 'wid')
-
-  plot <- ggplot(data = data) +
-    geom_bar(aes(x = value, fill = variable), position = 'dodge') +
-    #    facet_wrap(~treat2, labeller = 'label_both') +
-    labs(title = vari,
-         x = 'sign') +
-    scale_fill_discrete(name = 'Survey',
-                        labels = c('morning', 'weekend'))
-  ggsave(plot = plot, file = paste0('figures/treatment_bias/pool_', vari, '.png'))
-}
-
-### Original --------------------------------------------------------------
-
-pool_names_orig <- c('guess_entry_salary',
-                     'guess_entry_salary_6m',
-                     'guess_you_salary_1m',
-                     'guess_salary_medium',
-                     'guess_salary_sp',
-                     'guess_you_salary_6m')
-
-pool_benchmarks_orig <- c(750,
-                          1202,
-                          750,
-                          1707,
-                          2857,
-                          1202)
+### Figures ---------------------------------------------------------------
 
 for (i in 1:6) {
-  gg_pooled(pool_names_orig[i], pool_benchmarks_orig[i])
+  gen_density(variable = orig_names[i], benchmark = orig_benchmarks[i], pooled = TRUE)
+  ggsave(file = paste0('figures/treatment_bias/pool_', orig_names[i], '.png'))
 }
 
-### Raw -------------------------------------------------------------------
-
-pool_names_raw <- c('guess_entry_salary_raw',
-                    'guess_entry_salary_6m_raw',
-                    'guess_you_salary_1m_raw',
-                    'guess_salary_medium_raw',
-                    'guess_salary_sp_raw',
-                    'guess_you_salary_6m_raw')
-
-for (i in 1:6) {
-  gg_pooled(pool_names_raw[i],0)
+for (i in 1:6) {   # identical to 'orig' except shifted
+  gen_density(variable = raw_names[i], benchmark = 0, pooled = TRUE)
+  ggsave(file = paste0('figures/treatment_bias/pool_', raw_names[i], '.png'))
 }
 
-### Absolute --------------------------------------------------------------
-
-pool_names_abs <- c('guess_entry_salary_abs',
-                    'guess_entry_salary_6m_abs',
-                    'guess_you_salary_1m_abs',
-                    'guess_salary_medium_abs',
-                    'guess_salary_sp_abs',
-                    'guess_you_salary_6m_abs')
-
 for (i in 1:6) {
-  gg_pooled(pool_names_abs[i],0)
+  gen_density(variable = abs_names[i], benchmark = 0, pooled = TRUE)
+  ggsave(file = paste0('figures/treatment_bias/pool_', abs_names[i], '.png'))
 }
 
-### Bias sign -------------------------------------------------------------
-
-pool_names_sign <- c('guess_entry_salary_bias',
-                     'guess_entry_salary_6m_bias',
-                     'guess_you_salary_1m_bias',
-                     'guess_salary_medium_bias',
-                     'guess_salary_sp_bias',
-                     'guess_you_salary_6m_bias')
-
 for (i in 1:6) {
-  gg_pooled_bar(pool_names_sign[i])
+  gen_bar(variable = bias_names[i], pooled = TRUE)
+  ggsave(file = paste0('figures/treatment_bias/pool_', bias_names[i], '.png'))
 }
 
 ### Regression ------------------------------------------------------------
@@ -132,83 +95,39 @@ stargazer(reg1, type = 'text')
 
 stargazer(reg2, type = 'text')
 
-
-# Separated ---------------------------------------------------------------
-
 ## No interaction ---------------------------------------------------------
 
 
 
+
+# Separated ---------------------------------------------------------------
+
 ## Interaction ------------------------------------------------------------
 
-hip_analysis_sep <- hip_analysis
-
-gg_sep <- function(variable, benchmark) {
-
-  plot <- ggplot(data = hip_analysis_sep) +
-    geom_density(aes(x = !!sym(variable)),
-                 size = 0.8) +
-    geom_density(aes(x = !!sym(paste0('w_', variable))),
-                 size = 0.8,
-                 color = 'cornflowerblue') +
-    geom_vline(aes(xintercept = benchmark),
-               color = 'red') +
-    facet_wrap(~treat1 + treat2a + treat2b, labeller = 'label_both') +
-    labs(title = variable,
-         subtitle = 'Black is morning, blue is weekend',
-         x = '') +
-    theme_minimal()
-
-  ggsave(plot = plot, file = paste0('figures/treatment_bias/sep_', variable, '.png'))
-}
-
-### Original --------------------------------------------------------------
-
-sep_names_orig <- c('guess_entry_salary',
-                    'guess_entry_salary_6m',
-                    'guess_you_salary_1m',
-                    'guess_salary_medium',
-                    'guess_salary_sp',
-                    'guess_you_salary_6m')
-
-sep_benchmarks_orig <- c(750,
-                         1202,
-                         750,
-                         1707,
-                         2857,
-                         1202)
+### Figures ---------------------------------------------------------------
 
 for (i in 1:6) {
-  gg_sep(sep_names_orig[i], sep_benchmarks_orig[i])
+  gen_density(variable = orig_names[i], benchmark = orig_benchmarks[i], pooled = FALSE)
+  ggsave(file = paste0('figures/treatment_bias/sep_', orig_names[i], '.png'))
 }
 
-### Raw -------------------------------------------------------------------
-
-sep_names_raw <- c('guess_entry_salary_raw',
-                   'guess_entry_salary_6m_raw',
-                   'guess_you_salary_1m_raw',
-                   'guess_salary_medium_raw',
-                   'guess_salary_sp_raw',
-                   'guess_you_salary_6m_raw')
+for (i in 1:6) {   # identical to 'orig' except shifted
+  gen_density(variable = raw_names[i], benchmark = 0, pooled = FALSE)
+  ggsave(file = paste0('figures/treatment_bias/sep_', raw_names[i], '.png'))
+}
 
 for (i in 1:6) {
-  gg_sep(sep_names_raw[i], 0)
+  gen_density(variable = abs_names[i], benchmark = 0, pooled = FALSE)
+  ggsave(file = paste0('figures/treatment_bias/sep_', abs_names[i], '.png'))
 }
-
-### Absolute --------------------------------------------------------------
-
-sep_names_abs <- c('guess_entry_salary_abs',
-                   'guess_entry_salary_6m_abs',
-                   'guess_you_salary_1m_abs',
-                   'guess_salary_medium_abs',
-                   'guess_salary_sp_abs',
-                   'guess_you_salary_6m_abs')
 
 for (i in 1:6) {
-  gg_sep(sep_names_abs[i], 0)
+  gen_bar(variable = bias_names[i], pooled = FALSE)
+  ggsave(file = paste0('figures/treatment_bias/sep_', bias_names[i], '.png'))
 }
 
-### Bias sign -------------------------------------------------------------
+
+## No interaction ---------------------------------------------------------
 
 
 
