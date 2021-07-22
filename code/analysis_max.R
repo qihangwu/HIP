@@ -7,13 +7,11 @@ library(lfe)
 
 source('code/merge.R')
 
-## Add interaction variable -----------------------------------------------
+## Add pooled variable ----------------------------------------------------
 
 hip_analysis <- hip_analysis %>%
   mutate(treat2 = ifelse(treat2a == 1 | treat2b == 1, 1, 0),
-         .after = treat2b) %>%
-  mutate(treat12 = treat1 * treat2,
-         .after = treat2)
+         .after = treat2b)
 
 ## Vectors ----------------------------------------------------------------
 
@@ -81,19 +79,31 @@ for (i in 1:6) {
 
 ### Regression ------------------------------------------------------------
 
-hip_analysis_pool <- hip_analysis_pool %>%
-  mutate(guess_entry_salary_diff = w_guess_entry_salary - guess_entry_salary,
-         .after = guess_entry_salary_bias) %>%
-  mutate(guess_salary_medium_diff = w_guess_salary_medium - guess_salary_medium,
-         .after = guess_salary_medium_bias)
+formula_pool <- paste0('w_',
+                       orig_names,
+                       ' ~ ',
+                       'treat1 + treat2 + ',
+                       orig_names,
+                       ' | firm + today_day | 0 | firm + today_day')
 
-reg1 <- lm(w_guess_salary_medium_bias ~ treat1 + treat2 + treat12 + guess_salary_medium_bias, data = hip_analysis_pool)
+formula_pool_int <- paste0('w_',
+                           orig_names,
+                           ' ~ ',
+                           'treat1 * treat2 + ',
+                           orig_names,
+                           ' | firm + today_day | 0 | firm + today_day')
 
-reg2 <- lm(guess_salary_medium_diff ~ treat1 + treat2, data = hip_analysis_pool)
+reg_pool <- vector(mode = 'list', length = 6)
 
-stargazer(reg1, type = 'text')
+for (i in 1:6) {
+  reg_pool[[i]] <- felm(as.formula(formula_pool[i]), data = hip_analysis)
+}
 
-stargazer(reg2, type = 'text')
+reg_pool_int <- vector(mode = 'list', length = 6)
+
+for (i in 1:6) {
+  reg_pool_int[[i]] <- felm(as.formula(formula_pool_int[i]), data = hip_analysis)
+}
 
 ## No interaction ---------------------------------------------------------
 
@@ -126,27 +136,34 @@ for (i in 1:6) {
   ggsave(file = paste0('figures/treatment_bias/sep_', bias_names[i], '.png'))
 }
 
+### Regression ------------------------------------------------------------
+
+formula_sep <- paste0('w_',
+                       orig_names,
+                       ' ~ ',
+                       'treat1 + treat2a + treat2b + ',
+                       orig_names,
+                       ' | firm + today_day | 0 | firm + today_day')
+
+formula_sep_int <- paste0('w_',
+                           orig_names,
+                           ' ~ ',
+                           'treat1 * (treat2a + treat2b) + ',
+                           orig_names,
+                           ' | firm + today_day | 0 | firm + today_day')
+
+reg_sep <- vector(mode = 'list', length = 6)
+
+for (i in 1:6) {
+  reg_sep[[i]] <- felm(as.formula(formula_sep[i]), data = hip_analysis)
+}
+
+reg_sep_int <- vector(mode = 'list', length = 6)
+
+for (i in 1:6) {
+  reg_sep_int[[i]] <- felm(as.formula(formula_sep_int[i]), data = hip_analysis)
+}
 
 ## No interaction ---------------------------------------------------------
 
 
-
-### Regression ------------------------------------------------------------
-
-reg_fe <- felm(w_guess_entry_salary_raw ~
-                 treat1 + treat2a + treat2b + guess_entry_salary_raw |
-                 firm + today_day |
-                 0 |
-                 firm + today_day,
-               data = hip_analysis_sep)
-
-reg_fe1 <- felm(w_guess_entry_salary_raw ~
-                 treat1 + treat2a + treat2b + guess_entry_salary_raw |
-                 firm + today_day |
-                 0 |
-                 0,
-               data = hip_analysis_sep)
-
-stargazer(reg_fe, type = 'text')
-
-stargazer(reg_fe1, type = 'text')
