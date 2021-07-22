@@ -1,0 +1,195 @@
+---
+title: 'Do different treatments affect bias update?'
+author: ''
+date: ''
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(stargazer)
+library(reshape2)
+library(lfe)
+
+source('code/merge.R')
+```
+
+
+```{r}
+# add treat2
+hip_analysis <- hip_analysis %>%
+  mutate(treat2 = ifelse(treat2a == 1 | treat2b == 1, 1, 0),
+         .after = treat2b)
+
+# all salary variables
+orig_names <- c('guess_entry_salary',
+                'guess_entry_salary_6m',
+                'guess_you_salary_1m',
+                'guess_salary_medium',
+                'guess_salary_sp',
+                'guess_you_salary_6m')
+
+orig_benchmarks <- c(750,
+                     1202,
+                     750,
+                     1707,
+                     2857,
+                     1202)
+
+# pooled
+formula_pool <- paste0('w_',
+                       orig_names,
+                       ' ~ ',
+                       'treat1 + treat2 + ',
+                       orig_names,
+                       ' | firm + today_day | 0 | firm + today_day')
+
+formula_pool_int <- paste0('w_',
+                           orig_names,
+                           ' ~ ',
+                           'treat1 * treat2 + ',
+                           orig_names,
+                           ' | firm + today_day | 0 | firm + today_day')
+
+reg_pool <- vector(mode = 'list', length = 6)
+
+for (i in 1:6) {
+  reg_pool[[i]] <- felm(as.formula(formula_pool[i]), data = hip_analysis)
+}
+
+reg_pool_int <- vector(mode = 'list', length = 6)
+
+for (i in 1:6) {
+  reg_pool_int[[i]] <- felm(as.formula(formula_pool_int[i]), data = hip_analysis)
+}
+
+# separated
+formula_sep <- paste0('w_',
+                       orig_names,
+                       ' ~ ',
+                       'treat1 + treat2a + treat2b + ',
+                       orig_names,
+                       ' | firm + today_day | 0 | firm + today_day')
+
+formula_sep_int <- paste0('w_',
+                           orig_names,
+                           ' ~ ',
+                           'treat1 * (treat2a + treat2b) + ',
+                           orig_names,
+                           ' | firm + today_day | 0 | firm + today_day')
+
+reg_sep <- vector(mode = 'list', length = 6)
+
+for (i in 1:6) {
+  reg_sep[[i]] <- felm(as.formula(formula_sep[i]), data = hip_analysis)
+}
+
+reg_sep_int <- vector(mode = 'list', length = 6)
+
+for (i in 1:6) {
+  reg_sep_int[[i]] <- felm(as.formula(formula_sep_int[i]), data = hip_analysis)
+}
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[1], benchmark = orig_benchmarks[1], pooled = TRUE)
+
+stargazer(reg_pool[1], reg_pool_int[1], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[2], benchmark = orig_benchmarks[2], pooled = TRUE)
+
+stargazer(reg_pool[2], reg_pool_int[2], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[3], benchmark = orig_benchmarks[3], pooled = TRUE)
+
+stargazer(reg_pool[3], reg_pool_int[3], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[4], benchmark = orig_benchmarks[4], pooled = TRUE)
+
+stargazer(reg_pool[4], reg_pool_int[4], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[5], benchmark = orig_benchmarks[5], pooled = TRUE)
+
+stargazer(reg_pool[5], reg_pool_int[5], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[6], benchmark = orig_benchmarks[6], pooled = TRUE)
+
+stargazer(reg_pool[6], reg_pool_int[6], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[1], benchmark = orig_benchmarks[1], pooled = FALSE)
+
+stargazer(reg_sep[1], reg_sep_int[1], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[2], benchmark = orig_benchmarks[2], pooled = FALSE)
+
+stargazer(reg_sep[2], reg_sep_int[2], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[3], benchmark = orig_benchmarks[3], pooled = FALSE)
+
+stargazer(reg_sep[3], reg_sep_int[3], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[4], benchmark = orig_benchmarks[4], pooled = FALSE)
+
+stargazer(reg_sep[4], reg_sep_int[4], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[5], benchmark = orig_benchmarks[5], pooled = FALSE)
+
+stargazer(reg_sep[5], reg_sep_int[5], type = 'latex')
+```
+
+\newpage
+
+```{r results='asis'}
+gen_density(variable = orig_names[6], benchmark = orig_benchmarks[6], pooled = FALSE)
+
+stargazer(reg_sep[6], reg_sep_int[6], type = 'latex')
+```
+
+
+
+
+
+
